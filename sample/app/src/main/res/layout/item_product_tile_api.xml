@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021-present Google LLC. All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/padding_35dp"
+    android:paddingStart="@dimen/padding_15dp"
+    android:paddingEnd="@dimen/padding_20dp"
+    android:paddingBottom="@dimen/padding_15dp">
+
+  <TextView
+      style="@style/home_tile_title_enabled"
+      android:id="@+id/tileTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/tile_gesture_title" />
+
+  <TextView
+      style="@style/home_tile_subtitle_enabled"
+      android:id="@+id/tileSubTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/tileTitle"
+      android:text="@string/tile_gesture_subtitle"
+      android:layout_marginTop="@dimen/margin_5dp"/>
+</RelativeLayout>

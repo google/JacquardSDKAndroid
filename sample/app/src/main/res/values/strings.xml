@@ -1,0 +1,129 @@
+<resources>
+  <string name="app_name">Jacquard SDK Sample App</string>
+  <string name="preference_file_key">com.google.android.jacquard.sample.preferences</string>
+  <string name="scan_adapter_section_title_previously_connected_tags">Previously connected tags</string>
+  <string name="musical_threads_subtitle">Touch the threads to hear different sounds</string>
+  <string name="musical_threads_title">Musical Threads</string>
+  <string name="musical_threads_speaker_icon_description">Speaker icon</string>
+
+  <string name="thread_visualizer_title">Capacitive Visualizer</string>
+  <string name="thread_visualizer_description">View the capacitive values of each touch sensor line</string>
+  <string name="tag_name_save_button_txt">Save</string>
+
+  <string name="gesture_feed_title">Feed</string>
+  <string name="gesture_info_tooltip">Learn more about gestures</string>
+  <string name="gesture_title">Gestures</string>
+  <string name="gesture_item_body">%s logged</string>
+
+  <string name="gesture_info_brush_in_title">Brush In/Up</string>
+  <string name="gesture_info_brush_in_subtitle">Brush inwards or upwards</string>
+  <string name="gesture_info_brush_out_title">Brush Out/Down</string>
+  <string name="gesture_info_brush_out_subtitle">Brush outwards or downwards</string>
+  <string name="gesture_info_double_tap_title">Double Tap</string>
+  <string name="gesture_info_double_tap_subtitle">Tap twice on the touch area</string>
+  <string name="gesture_info_cover_title">Cover</string>
+  <string name="gesture_info_cover_subtitle">Cover the touch area </string>
+
+  <!-- Scan Module -->
+  <string name="scan_adapter_section_title_nearby_tags">TAGS</string>
+  <string name="scan_page_scanning_button">Scanning...</string>
+  <string name="scan_page_stop_scanning_button">Stop Scanning</string>
+  <string name="scan_page_title">Scan and Pair Tag</string>
+  <string name="scan_page_charge_your_tag_desc">Charge your Tag until the LED is pulsing white. Then, press and hold the power button on your Tag for 3 seconds to pair.</string>
+  <string name="scan_page_match_last_four_digits_desc">Match the last 4 digits with the serial number on the back of your Tag.</string>
+  <string name="scan_page_scan_button">Scan</string>
+  <string name="scan_page_pair_button">Pair</string>
+  <string name="scan_page_pairing_progress">Pairing</string>
+  <string name="scan_page_paired_button">Paired</string>
+    <string name="scan_page_nearby_tags_header">Nearby tags</string>
+
+  <!-- Home Page Tile-->
+  <string description="Title of the section" name="section_api">APIs</string>
+  <string description="Title of the section" name="section_sample_use_cases">Samples</string>
+  <string description="Title of the Tile from recyclerview" name="tile_common_subtitle">Make something for your Jacquard product.</string>
+  <string description="Title of the Tile from recyclerview" name="tile_gesture_title">Gesture</string>
+  <string description="Subtitle of the Tile from recyclerview" name="tile_gesture_subtitle">Learn how to perform gestures with your product</string>
+  <string description="Title of the Tile from recyclerview" name="tile_haptics_title">Haptics</string>
+  <string description="Subtitle of the Tile from recyclerview" name="tile_haptics_subtitle">Choose individual vibrations or create patterns</string>
+  <string description="Title of the Tile from recyclerview" name="tile_leds_title">LEDs</string>
+  <string description="Subtitle of the Tile from recyclerview" name="tile_leds_subtitle">Select different colors or create patterns</string>
+  <string description="Title of the Tile from recyclerview" name="tile_tagmanager_title">Tag Manager</string>
+  <string description="Subtitle of the Tile from recyclerview" name="tile_tagmanager_subtitle">Add, remove, or manage your Jacquard tags</string>
+  <string description="Title of the Tile from recyclerview" name="tile_cap_visualizer_title">Cap. Visualizer</string>
+  <string name="tile_cap_visualizer_subtitle">View capacitive values of touch sensor lines</string>
+  <string name="tile_rename_tag_title">Rename Tag</string>
+  <string name="tile_rename_tag_subtitle">Give the current active tag a custom name</string>
+  <string description="Title of the Tile from recyclerview" name="tile_ping_phone_title">Ping Phone</string>
+  <string description="Title of the Tile from recyclerview" name="tile_timer_title">Timer</string>
+  <string description="Title of the Tile from recyclerview" name="tile_musical_threads_title">Musical Threads</string>
+  <string description="Title of the Tile from recyclerview" name="tile_notifications_title">Notifications</string>
+  <string description="Title of the Tile from recyclerview" name="tile_others_title">Other</string>
+
+  <!-- Home Page-->
+  <string description="Not attached state text" name="state_not_attached">Not attached</string>
+  <string name="tag_name" translatable="false">Jacquard Tag</string>
+  <string description="Disconnected state text" name="state_disconnected">Disconnected</string>
+  <string description="Attached state text" name="state_attached">Attached</string>
+  <string description="Battery Info" name="home_page_battery_info">Battery: %s%%, %s</string>
+  <string description="Battery Charge info" name="home_page_battery_charge_state_charging">Charging</string>
+  <string description="Battery Charge info" name="home_page_battery_charge_state_not_charging">Not Charging</string>
+
+  <!-- Rename Tag Module -->
+  <string name="rename_tag_tag_name_title">Tag Name</string>
+  <string name="rename_tag_action_text">Rename this Tag</string>
+  <string description="Battery Info" name="tag_details_battery_info">%s%%, %s</string>
+  <string description="Gear Info" name="tag_details_tag_attached">Yes, %s</string>
+  <string description="Tag removed message" name="tag_details_tag_removed">%s Removed</string>
+  <string description="Tag selected message" name="tag_details_tag_selected">%s Selected As Current Tag</string>
+  <string description="Tag firmware version" name="firmware_version_format">%d.%d</string>
+
+  <string name="app_version">App version : %s(%d)</string>
+
+  <!--  Error messages-->
+  <string description="Error message for tag not set as current tag" name="tag_details_tag_not_current">All details can\'t be shown as the tag is not set as the current tag.</string>
+  <string description="Error message for unsupported gear for LED" name="gear_led_not_supported">Component does not support the LED capability.</string>
+  <string description="Error message tag not connected" name="tag_not_connected">Tag is disconnected.</string>
+  <string description="Error message gear not attached" name="gear_detached">Tag is detached from the gear.</string>
+
+  <!-- Haptics -->
+  <string name="haptics_gear_detached">Tag is not attached to the gear.</string>
+  <string name="haptics_fragment_title">Haptics</string>
+  <string name="haptics_fragment_subtitle">Your Jacquard product has haptic feedback</string>
+
+  <!-- LED -->
+  <string name="led_fragment_title" description="Title of the LED fragment">LED</string>
+  <string name="led_fragment_subtitle" description="Subtitle of the LED fragment">Choose Tag LED, Garment LED, or both. LEDs can be played differently based on the API.</string>
+  <string name="led_fragment_button_tag_led" description="Button switch to enable Tag LED">Tag LED</string>
+  <string name="led_fragment_button_garment_led" description="Button switch to enable Garment LED">Garment LED</string>
+
+  <!-- Tag Manager -->
+  <string name="tag_manager_fragment_subtitle" description="Subtitle for the tag manager">TAGS</string>
+  <string name="tag_manager" description="Title for the tag manager">Tag Manager</string>
+  <string name="selected_as_current_tag">Tag %s Selected As Current Tag</string>
+
+  <!-- Tag Detail -->
+  <string name="tag_detail_serial_number" description="Text for Serial Number Label">Serial Number</string>
+  <string name="tag_detail_version" description="Text for Version Label">Version</string>
+  <string name="tag_detail_battery" description="Text for Battery Label">Battery</string>
+  <string name="tag_detail_attached" description="Text for Attached Label">Attached</string>
+  <string name="tag_detail_tag_disconnected" description="Text for Tag Disconnected Label">Tag Disconnected</string>
+  <string name="tag_detail_select_as_current_tag" description="Text for select Label">Select As Current Tag</string>
+  <string name="tag_detail_forget_tag" description="Text for forget tag Label">Forget This Tag</string>
+
+  <!-- Battery View -->
+  <string name="battery_view_charging_text" description="Battery charging text">CHARGING</string>
+  <string name="battery_view_percentage_text" description="Battery percentage text">70%</string>
+
+  <!-- Fragment Splash-->
+  <string name="fragment_splash_title" description="Splash screen title">Jacquard SDK</string>
+
+  <!-- Gesture overlay-->
+  <string name="gesture_overlay_brush_out" description="Gesture overlay text">Brush out</string>
+
+  <!-- Haptic Item -->
+  <string name="haptic_item_gesture_pattern" description="Title for Haptic Item">Gesture Pattern</string>
+
+  <!-- Snack_bar -->
+  <string name="snack_bar_message_device_disconnected">Tag disconnected.</string>
+  <string name="snack_bar_message_device_connected">Tag connected.</string>
+</resources>

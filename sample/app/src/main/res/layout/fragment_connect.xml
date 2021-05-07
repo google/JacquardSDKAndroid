@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+
+  <Button
+    android:id="@+id/connect_led_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Play LED Pattern"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/gear_state" />
+
+  <Button
+    android:id="@+id/connect_update_battery_level_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Update Battery Level"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/connect_led_button" />
+
+  <Button
+    android:id="@+id/get_touch_data_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Get Touch Data"
+    android:visibility="visible"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/connect_update_battery_level_button" />
+
+  <Button
+    android:id="@+id/musical_threads_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Musical Threads"
+    android:visibility="visible"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/get_touch_data_button" />
+
+  <Button
+    android:id="@+id/connect_gestures_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Gestures"
+    android:visibility="visible"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/musical_threads_button" />
+
+  <Button
+    android:id="@+id/play_haptics_pattern"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Play haptics pattern"
+    android:visibility="visible"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/connect_gestures_button" />
+
+  <Button
+    android:id="@+id/led_patterns_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="LED Patterns"
+    android:visibility="visible"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/play_haptics_pattern" />
+
+  <Button
+    android:id="@+id/tag_manager_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Tag Manager"
+    android:visibility="visible"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/led_patterns_button" />
+
+  <TextView
+    android:id="@+id/gear_state"
+    style="@style/TextAppearance.AppCompat.Medium"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/connect_battery_view"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/connect_state" />
+
+  <EditText
+    android:id="@+id/connect_title"
+    style="@style/TextAppearance.AppCompat.Title"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="Connected to.."
+    app:layout_constraintEnd_toStartOf="@id/save_button"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <Button
+    android:id="@+id/save_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="5dp"
+    android:enabled="false"
+    android:text="@string/tag_name_save_button_txt"
+    app:layout_constraintEnd_toStartOf="@id/connect_battery_view"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+    android:id="@+id/connect_state"
+    style="@style/TextAppearance.AppCompat.Medium"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/connect_battery_view"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/connect_title" />
+
+  <com.google.android.jacquard.sample.connect.BatteryView
+    android:id="@+id/connect_battery_view"
+    android:layout_width="80dp"
+    android:layout_height="360dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

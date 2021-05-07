@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.RelativeLayout">
+
+  <View
+      android:id="@+id/battery_indicator"
+      android:layout_width="match_parent"
+      android:layout_height="400dp"
+      android:layout_alignParentBottom="true"
+      android:background="@color/battery_foreground" />
+
+  <TextView
+      android:id="@+id/battery_percentage_text"
+      style="@style/TextAppearance.AppCompat.Large"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:gravity="center"
+      tools:text="@string/battery_view_percentage_text" />
+
+  <TextView
+      android:id="@+id/battery_charging_text"
+      style="@style/TextAppearance.AppCompat.Medium"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/battery_percentage_text"
+      android:gravity="center"
+      tools:text="@string/battery_view_charging_text" />
+
+</merge>

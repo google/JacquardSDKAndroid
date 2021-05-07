@@ -1,0 +1,30 @@
+<!--
+  ~ Copyright 2021 Google LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M12,24C18.6274,24 24,18.6274 24,12C24,5.3726 18.6274,0 12,0C5.3726,0 0,5.3726 0,12C0,18.6274 5.3726,24 12,24Z"
+      android:fillColor="#D8D8D8"
+      android:fillType="evenOdd"/>
+  <path
+      android:pathData="M16.2426,7.7573C15.8521,7.3668 15.219,7.3668 14.8284,7.7573L12,10.5857L9.1716,7.7573C8.781,7.3668 8.1479,7.3668 7.7574,7.7573C7.3668,8.1478 7.3668,8.781 7.7574,9.1715L10.5858,11.9999L7.7574,14.8284C7.3668,15.2189 7.3668,15.852 7.7574,16.2426C8.1479,16.6331 8.781,16.6331 9.1716,16.2426L12,13.4141L14.8284,16.2426C15.219,16.6331 15.8521,16.6331 16.2426,16.2426C16.6332,15.852 16.6332,15.2189 16.2426,14.8284L13.4142,11.9999L16.2426,9.1715C16.6332,8.781 16.6332,8.1478 16.2426,7.7573Z"
+      android:fillColor="#646464"
+      android:fillType="evenOdd"/>
+</vector>

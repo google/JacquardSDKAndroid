@@ -1,0 +1,55 @@
+<!--
+  ~ Copyright 2021 Google LLC. All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="M20,0L20,0A20,20 0,0 1,40 20L40,20A20,20 0,0 1,20 40L20,40A20,20 0,0 1,0 20L0,20A20,20 0,0 1,20 0z"
+      android:strokeAlpha="0.7"
+      android:fillAlpha="0.7">
+    <aapt:attr name="android:fillColor">
+      <gradient 
+          android:gradientRadius="58.8095"
+          android:centerX="20"
+          android:centerY="20"
+          android:type="radial">
+        <item android:offset="0" android:color="#FF3BEE42"/>
+        <item android:offset="1" android:color="#FF04CE00"/>
+      </gradient>
+    </aapt:attr>
+  </path>
+  <path
+      android:pathData="M34.0191,28.0939C29.5489,35.8364 19.6487,38.4892 11.9062,34.0191C4.1637,29.5489 1.5109,19.6487 5.981,11.9062C10.4512,4.1637 20.3514,1.5109 28.0939,5.981C35.8364,10.4512 38.4892,20.3514 34.0191,28.0939Z"
+      android:strokeAlpha="0.3"
+      android:fillColor="#ffffff"
+      android:fillType="evenOdd"
+      android:fillAlpha="0.3"/>
+  <path
+      android:pathData="M28.6588,24.9992C25.8978,29.7813 19.783,31.4198 15.0008,28.6588C10.2187,25.8978 8.5802,19.783 11.3412,15.0008C14.1022,10.2187 20.217,8.5802 24.9992,11.3412C29.7813,14.1022 31.4198,20.217 28.6588,24.9992Z"
+      android:strokeAlpha="0.3"
+      android:fillColor="#ffffff"
+      android:fillType="evenOdd"
+      android:fillAlpha="0.3"/>
+  <path
+      android:pathData="M24.1234,22.3807C22.8087,24.6579 19.8968,25.4382 17.6196,24.1234C15.3424,22.8087 14.5622,19.8968 15.8769,17.6196C17.1917,15.3424 20.1035,14.5622 22.3807,15.8769C24.6579,17.1917 25.4382,20.1035 24.1234,22.3807Z"
+      android:strokeAlpha="0.8"
+      android:fillColor="#ffffff"
+      android:fillType="evenOdd"
+      android:fillAlpha="0.8"/>
+</vector>

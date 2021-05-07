@@ -1,0 +1,28 @@
+<!--
+  ~ Copyright 2021 Google LLC. All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="M20,20m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0"
+      android:fillColor="#D3C0EE"/>
+  <path
+      android:pathData="M20,10.0001C14.479,10.0001 10,14.479 10,20.0001C10,25.5211 14.479,30.0001 20,30.0001C25.521,30.0001 30,25.5211 30,20.0001C30,14.479 25.521,10.0001 20,10.0001ZM17.3618,19.3036H12.1791L17.0589,21.7435L19.4985,23.1375V28.0161L23.1112,20.8266H28.2112L21.0216,16.5832V11.984L17.3618,19.3036Z"
+      android:fillColor="#ffffff"
+      android:fillType="evenOdd"/>
+</vector>

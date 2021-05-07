@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2021-present Google LLC. All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+  <!-- Text Sizes-->
+  <dimen name="text_size_9">9sp</dimen>
+  <dimen name="text_size_12">12sp</dimen>
+  <dimen name="text_size_14">14sp</dimen>
+  <dimen name="text_size_16">16sp</dimen>
+  <dimen name="text_size_18">18sp</dimen>
+  <dimen name="text_size_20">20sp</dimen>
+  <dimen name="text_size_22">22sp</dimen>
+  <dimen name="text_size_24">24sp</dimen>
+  <dimen name="text_size_26">26sp</dimen>
+  <dimen name="text_size_28">28sp</dimen>
+  <dimen name="text_size_30">30sp</dimen>
+
+  <!-- Margins-->
+  <dimen name="margin_5dp">5dp</dimen>
+  <dimen name="margin_10dp">10dp</dimen>
+  <dimen name="margin_12dp">12dp</dimen>
+  <dimen name="margin_15dp">15dp</dimen>
+  <dimen name="margin_16dp">16dp</dimen>
+  <dimen name="margin_20dp">20dp</dimen>
+  <dimen name="margin_24dp">24dp</dimen>
+  <dimen name="margin_25dp">25dp</dimen>
+  <dimen name="margin_30dp">30dp</dimen>
+  <dimen name="margin_36dp">36dp</dimen>
+
+  <!-- Padding -->
+  <dimen name="padding_5dp">5dp</dimen>
+  <dimen name="padding_10dp">10dp</dimen>
+  <dimen name="padding_12dp">12dp</dimen>
+  <dimen name="padding_14dp">14dp</dimen>
+  <dimen name="padding_15dp">15dp</dimen>
+  <dimen name="padding_20dp">20dp</dimen>
+  <dimen name="padding_24dp">24dp</dimen>
+  <dimen name="padding_30dp">30dp</dimen>
+  <dimen name="padding_35dp">35dp</dimen>
+
+  <!-- Toolbar -->
+  <dimen name="toolbar_height">60dp</dimen>
+  <dimen name="default_horizontal_margin">24dp</dimen>
+
+  <!-- Fragment Home-->
+  <dimen name="item_offset">10dp</dimen>
+</resources>

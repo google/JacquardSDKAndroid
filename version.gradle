@@ -1,0 +1,7 @@
+project.ext.versionName="0.1.0"
+project.ext.versionCode= getVersionCode()
+
+def getVersionCode() {
+	//TODO: Version code should be hash of latest commit id.
+    return new Date().format('yyyyMMddHH').toInteger()
+}

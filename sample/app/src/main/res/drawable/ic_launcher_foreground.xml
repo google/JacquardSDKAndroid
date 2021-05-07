@@ -1,0 +1,33 @@
+<!--
+  ~ Copyright 2021 Google LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+  <group android:scaleX="1.1"
+      android:scaleY="1.1"
+      android:translateX="21"
+      android:translateY="21">
+    <path
+        android:pathData="M0,13C0,5.8203 5.8203,0 13,0H47C54.1797,0 60,5.8203 60,13V47C60,54.1797 54.1797,60 47,60H13C5.8203,60 0,54.1797 0,47V13Z"
+        android:fillColor="#ffffff"
+        android:fillType="evenOdd"/>
+    <path
+        android:pathData="M41.9645,12V32.6003H39.7932V12H37.622V32.6003H35.4507V12H33.2795V32.6003H31.1082V12H28.937V32.6003H16V34.8003H28.937V37.0003H16V39.2002H28.937V41.4001H16V43.6001H28.937V45.8H16V48H30.0226C30.6107,48 31.1082,47.4958 31.1082,46.9V43.6459H34.3199C34.9079,43.6459 35.4055,43.1418 35.4055,42.546V39.1544H38.6171C39.2052,39.1544 39.7027,38.6502 39.7027,38.0544V34.8003H42.9144C43.5024,34.8003 44,34.2961 44,33.7003V12H41.9645ZM31.1987,34.8003H33.3699V37.0003H31.1987V34.8003ZM33.3699,41.3085H31.1987V39.1544H33.3699V41.3085ZM37.6672,36.9544H35.496V34.7545H37.6672V36.9544Z"
+        android:fillColor="#000000"/>
+  </group>
+</vector>
