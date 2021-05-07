@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2021 Google LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,23 +19,34 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <TextView
-    android:id="@+id/title"
-    style="@style/General_Title_30sp"
+  <ImageView
+    android:id="@+id/logo"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/fragment_splash_title"
+    android:paddingBottom="42dp"
+    android:src="@drawable/splash_logo"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
+  <TextView
+    android:id="@+id/title"
+    style="@style/SplashTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="17dp"
+    android:gravity="center_horizontal"
+    android:text="@string/fragment_splash_title"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/logo" />
 
   <TextView
     android:id="@+id/app_version"
-    style="@style/TextAppearance.AppCompat.Small"
+    style="@style/SplashSubtitle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
     android:gravity="center_horizontal"
     app:layout_constraintTop_toBottomOf="@id/title" />
 

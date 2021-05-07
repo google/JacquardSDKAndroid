@@ -124,6 +124,38 @@
         app:popEnterAnim="@anim/enter_from_left"
         app:popExitAnim="@anim/exit_to_right"
         app:popUpTo="@id/homeFragment"/>
+    <action
+        android:id="@+id/action_homeFragment_to_firmwareUpdateFragment"
+        app:destination="@id/firmwareUpdateFragment"
+        app:enterAnim="@anim/enter_from_right"
+        app:exitAnim="@anim/exit_to_left"
+        app:popEnterAnim="@anim/enter_from_left"
+        app:popExitAnim="@anim/exit_to_right"
+        app:popUpTo="@id/homeFragment" />
+    <action
+      android:id="@+id/action_homeFragment_to_placesConfigFragment"
+      app:destination="@id/placesConfigFragment"
+      app:enterAnim="@anim/enter_from_right"
+      app:exitAnim="@anim/exit_to_left"
+      app:popEnterAnim="@anim/enter_from_left"
+      app:popExitAnim="@anim/exit_to_right"
+      app:popUpTo="@id/homeFragment" />
+    <action
+      android:id="@+id/action_homeFragment_to_imuFragment"
+      app:destination="@id/imuFragment"
+      app:enterAnim="@anim/enter_from_right"
+      app:exitAnim="@anim/exit_to_left"
+      app:popEnterAnim="@anim/enter_from_left"
+      app:popExitAnim="@anim/exit_to_right"
+      app:popUpTo="@id/homeFragment" />
+    <action
+      android:id="@+id/action_homeFragment_to_placesListFragment"
+      app:destination="@id/placesListFragment"
+      app:enterAnim="@anim/enter_from_right"
+      app:exitAnim="@anim/exit_to_left"
+      app:popEnterAnim="@anim/enter_from_left"
+      app:popExitAnim="@anim/exit_to_right"
+      app:popUpTo="@id/homeFragment" />
   </fragment>
 
   <fragment
@@ -202,4 +234,73 @@
       android:id="@+id/renameTagFragment"
       android:name="com.google.android.jacquard.sample.renametag.RenameTagFragment"
       android:label="RenameTagFragment" />
+  <fragment
+      android:id="@+id/firmwareUpdateFragment"
+      android:name="com.google.android.jacquard.sample.firmwareupdate.FirmwareUpdateFragment"
+      android:label="FirmwareUpdateFragment" />
+  <fragment
+    android:id="@+id/placesConfigFragment"
+    android:label="PlacesConfigFragment"
+    android:name="com.google.android.jacquard.sample.places.PlacesConfigFragment">
+    <action
+      android:id="@+id/action_placesConfigFragment_to_placesListFragment"
+      app:destination="@id/placesListFragment"
+      app:enterAnim="@anim/enter_from_right"
+      app:exitAnim="@anim/exit_to_left"
+      app:popEnterAnim="@anim/enter_from_left"
+      app:popExitAnim="@anim/exit_to_right"
+      app:popUpTo="@id/homeFragment" />
+  </fragment>
+  <fragment
+    android:id="@+id/placesListFragment"
+    android:label="placesListFragment"
+    android:name="com.google.android.jacquard.sample.places.PlacesListFragment">
+    <argument
+      android:name="gestureAssigned"
+      app:argType="integer" />
+    <action
+      android:id="@+id/action_placesListFragment_to_placesDetailsFragment"
+      app:destination="@id/placesDetailsFragment"
+      app:enterAnim="@anim/enter_from_right"
+      app:exitAnim="@anim/exit_to_left"
+      app:popEnterAnim="@anim/enter_from_left"
+      app:popExitAnim="@anim/exit_to_right"
+      app:popUpTo="@id/placesListFragment" />
+    <action
+      android:id="@+id/action_placesListFragment_to_placesConfigFragment"
+      app:destination="@id/placesConfigFragment"
+      app:enterAnim="@anim/enter_from_right"
+      app:exitAnim="@anim/exit_to_left"
+      app:popEnterAnim="@anim/enter_from_left"
+      app:popExitAnim="@anim/exit_to_right"
+      app:popUpTo="@id/placesListFragment"/>
+  </fragment>
+  <fragment
+    android:id="@+id/imuFragment"
+    android:name="com.google.android.jacquard.sample.imu.IMUFragment"
+    android:label="IMUFragment" >
+    <action
+      android:id="@+id/action_imuFragment_to_imusamplesListFragment"
+      app:destination="@id/imuSamplesListFragment"
+      app:enterAnim="@anim/enter_from_right"
+      app:exitAnim="@anim/exit_to_left"
+      app:popEnterAnim="@anim/enter_from_left"
+      app:popExitAnim="@anim/exit_to_right"
+      app:popUpTo="@id/imuFragment" >
+    </action>
+  </fragment>
+  <fragment
+    android:id="@+id/imuSamplesListFragment"
+    android:name="com.google.android.jacquard.sample.imu.ImuSamplesListFragment"
+    android:label="IMUSamplesListFragment" >
+    <argument android:name="sessionDataFilePath" app:argType="java.lang.String"/>
+  </fragment>
+  <fragment
+    android:id="@+id/placesDetailsFragment"
+    android:label="placesDetailsFragment"
+    android:name="com.google.android.jacquard.sample.places.PlacesDetailsFragment">
+    <argument
+      android:name="selectedPlace"
+      app:argType="long" />
+  </fragment>
 </navigation>

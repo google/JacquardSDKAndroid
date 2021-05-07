@@ -16,6 +16,8 @@
 
 package com.google.android.jacquard.sample.musicalthreads;
 
+import android.bluetooth.BluetoothGatt;
+import android.util.Log;
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
 import com.google.android.jacquard.sample.ConnectivityManager;
@@ -76,6 +78,7 @@ public class MusicalThreadsViewModel extends ViewModel {
           return new Subscription() {
             @Override
             protected void onUnsubscribe() {
+              requestNormalConnectionPriority();
               subscription.unsubscribe();
               setTouchMode(TouchMode.GESTURE).consume();
               signal.complete();
@@ -112,10 +115,17 @@ public class MusicalThreadsViewModel extends ViewModel {
                                         new IllegalStateException(
                                             "Failed to enable continuous touch mode"));
                                   }
+                                  tag.requestConnectionPriority(
+                                      BluetoothGatt.CONNECTION_PRIORITY_HIGH);
                                   return tag.subscribe(
                                           new ContinuousTouchNotificationSubscription())
                                       .map(TouchData::lines);
                                 }));
+  }
+
+  private void requestNormalConnectionPriority() {
+    connectedJacquardTagSignal.first()
+        .onNext(tag -> tag.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED));
   }
 
   /** Returns a List of 0's when the gear is detached. */
@@ -135,7 +145,7 @@ public class MusicalThreadsViewModel extends ViewModel {
   }
 
   private Signal<Boolean> setTouchMode(TouchMode mode) {
-    // TODO: Revise the below code b/185917177
+    // TODO(b/185917177): Revise the below code
     AtomicReference<ConnectedJacquardTag> jacquardTag = new AtomicReference<>();
     return connectedJacquardTagSignal
         .flatMap(

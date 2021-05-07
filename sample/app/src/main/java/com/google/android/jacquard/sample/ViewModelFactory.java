@@ -21,15 +21,23 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import com.google.android.jacquard.sample.firmwareupdate.FirmwareUpdateViewModel;
 import com.google.android.jacquard.sample.gesture.GestureViewModel;
 import com.google.android.jacquard.sample.haptics.HapticsViewModel;
 import com.google.android.jacquard.sample.home.HomeViewModel;
+import com.google.android.jacquard.sample.imu.ImuSamplesListViewModel;
+import com.google.android.jacquard.sample.imu.ImuViewModel;
 import com.google.android.jacquard.sample.ledpattern.LedPatternViewModel;
 import com.google.android.jacquard.sample.musicalthreads.MusicalThreadsViewModel;
 import com.google.android.jacquard.sample.musicalthreads.player.ThreadsPlayer;
+import com.google.android.jacquard.sample.places.PlacesConfigViewModel;
+import com.google.android.jacquard.sample.places.PlacesDetailsViewModel;
+import com.google.android.jacquard.sample.places.PlacesListViewModel;
 import com.google.android.jacquard.sample.renametag.RenameTagViewModel;
 import com.google.android.jacquard.sample.scan.ScanViewModel;
 import com.google.android.jacquard.sample.splash.SplashViewModel;
+import com.google.android.jacquard.sample.storage.ImuSessionsRepository;
+import com.google.android.jacquard.sample.storage.PlacesRepository;
 import com.google.android.jacquard.sample.tagmanager.TagDetailsViewModel;
 import com.google.android.jacquard.sample.tagmanager.TagManagerViewModel;
 import com.google.android.jacquard.sample.touchdata.TouchDataViewModel;
@@ -40,10 +48,12 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
   private final NavController navController;
   private final ResourceLocator resourceLocator;
+  private final Application application;
 
   public ViewModelFactory(Application application, NavController navController) {
     this.navController = navController;
     this.resourceLocator = ((SampleApplication) application).getResourceLocator();
+    this.application = application;
   }
 
   @SuppressWarnings("unchecked")
@@ -74,11 +84,12 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     }
 
     if (modelClass == LedPatternViewModel.class) {
-      return (T) new LedPatternViewModel(connectivityManager, navController, StringUtils.getInstance());
+      return (T) new LedPatternViewModel(connectivityManager, navController, StringUtils.getInstance(), preferences);
     }
 
     if (modelClass == HomeViewModel.class) {
-      return (T) new HomeViewModel(preferences, navController, connectivityManager);
+      return (T) new HomeViewModel(preferences, navController, connectivityManager,
+          resourceLocator.getRecipeManager());
     }
 
     if (modelClass == SplashViewModel.class) {
@@ -100,6 +111,41 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
               connectivityManager.getConnectedJacquardTag(),
               preferences,
               navController);
+    }
+
+    if (modelClass == FirmwareUpdateViewModel.class) {
+      return (T)
+          new FirmwareUpdateViewModel(resourceLocator.getFirmwareManager(), navController,
+              connectivityManager);
+    }
+    if (modelClass == PlacesConfigViewModel.class) {
+      return (T)
+          new PlacesConfigViewModel(
+              navController,
+              resourceLocator.getRecipeManager()
+          );
+    }
+    if (modelClass == PlacesListViewModel.class) {
+      return (T)
+          new PlacesListViewModel(
+              connectivityManager,
+              navController,
+              resourceLocator.geocoder(),
+              new PlacesRepository(application)
+          );
+    }
+    if (modelClass == ImuViewModel.class) {
+      return (T)
+          new ImuViewModel(connectivityManager, navController,
+              resourceLocator.getImuSessionDownloadDirectory(),
+              new ImuSessionsRepository(application), preferences);
+    }
+    if (modelClass == ImuSamplesListViewModel.class) {
+      return (T) new ImuSamplesListViewModel(navController);
+    }
+    if(modelClass == PlacesDetailsViewModel.class){
+      return (T)
+          new PlacesDetailsViewModel(navController, new PlacesRepository(application));
     }
     return super.create(modelClass);
   }

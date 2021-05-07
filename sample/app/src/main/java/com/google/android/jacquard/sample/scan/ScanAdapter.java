@@ -20,6 +20,7 @@ import static com.google.android.jacquard.sample.scan.AdapterItem.Type.SECTION_H
 import static com.google.android.jacquard.sample.scan.AdapterItem.Type.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +29,14 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.google.android.jacquard.sample.KnownTag;
 import com.google.android.jacquard.sample.R;
 import com.google.android.jacquard.sample.scan.ScanAdapter.AdapterItemViewHolder;
+import com.google.android.jacquard.sample.utilities.Util;
+import com.google.android.jacquard.sdk.log.PrintLogger;
+import com.google.android.jacquard.sdk.rx.Signal;
 
 /** Adapter for displaying {@link AdapterItem}. */
 public class ScanAdapter extends ListAdapter<AdapterItem, AdapterItemViewHolder> {
@@ -41,6 +46,14 @@ public class ScanAdapter extends ListAdapter<AdapterItem, AdapterItemViewHolder>
   public ScanAdapter(ItemClickListener itemClickListener) {
     super(new DiffCallback());
     this.itemClickListener = itemClickListener;
+  }
+
+  @Override
+  public void onViewDetachedFromWindow(@NonNull AdapterItemViewHolder holder) {
+    super.onViewDetachedFromWindow(holder);
+    if (holder instanceof  TagViewHolder) {
+      ((TagViewHolder)holder).unsubscribe();
+    }
   }
 
   private static View getView(ViewGroup parent, @LayoutRes int layoutResId) {
@@ -143,9 +156,13 @@ public class ScanAdapter extends ListAdapter<AdapterItem, AdapterItemViewHolder>
     private final TextView address;
     private final ItemClickListener itemClickListener;
     private final View layout;
+    private final TextView tagRSSIValue;
+
+    private Signal.Subscription subscription;
 
     public TagViewHolder(View itemView, ItemClickListener itemClickListener) {
       super(itemView);
+      tagRSSIValue = itemView.findViewById(R.id.tag_rssi_value);
       displayName = itemView.findViewById(R.id.tag_name);
       address = itemView.findViewById(R.id.tag_identifier);
       layout = itemView.findViewById(R.id.scan_item_layout);
@@ -157,6 +174,15 @@ public class ScanAdapter extends ListAdapter<AdapterItem, AdapterItemViewHolder>
       KnownTag tag = item.tag();
       displayName.setText(tag.displayName());
       address.setText(tag.pairingSerialNumber());
+      if (tag.rssiSignal() != null) {
+        // tag may not be connected.
+        subscription = tag.rssiSignal().onNext(value -> {
+          Context context = itemView.getContext();
+          tagRSSIValue.setText(
+                  context.getString(R.string.scan_page_rssi_info, String.valueOf(value)));
+          tagRSSIValue.setTextColor(context.getColor(Util.getRSSIColor(value)));
+        });
+      }
       layout.setSelected(item.isItemSelected);
       itemView.setOnClickListener(
           v -> {
@@ -171,6 +197,12 @@ public class ScanAdapter extends ListAdapter<AdapterItem, AdapterItemViewHolder>
             previousSelectedItem = adapterItem;
             itemClickListener.onItemClick(tag);
           });
+    }
+
+    public void unsubscribe() {
+      if (subscription != null) {
+        subscription.unsubscribe();;
+      }
     }
   }
 }

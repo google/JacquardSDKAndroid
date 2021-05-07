@@ -94,6 +94,12 @@ public class HapticsFragment extends Fragment implements HapticsAdapter.ItemClic
         }));
   }
 
+  @Override
+  public void onPause() {
+    viewModel.sendHapticRequest(HapticPatternType.STOP_PATTERN).consume();
+    super.onPause();
+  }
+
   private NavController getNavController() {
     return NavHostFragment.findNavController(this);
   }

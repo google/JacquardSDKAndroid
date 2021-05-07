@@ -16,6 +16,8 @@
 
 package com.google.android.jacquard.sample.touchdata;
 
+import android.bluetooth.BluetoothGatt;
+import android.util.Log;
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
 import com.google.android.jacquard.sample.ConnectivityManager;
@@ -61,6 +63,7 @@ public class TouchDataViewModel extends ViewModel {
             @Override
             protected void onUnsubscribe() {
               subscription.unsubscribe();
+              requestNormalConnectionPriority();
               setTouchMode(TouchMode.GESTURE).consume();
               signal.complete();
             }
@@ -89,6 +92,8 @@ public class TouchDataViewModel extends ViewModel {
                                         new IllegalStateException(
                                             "Failed to enable continuous touch mode"));
                                   }
+                                  tag.requestConnectionPriority(
+                                      BluetoothGatt.CONNECTION_PRIORITY_HIGH);
                                   return tag.subscribe(
                                       new ContinuousTouchNotificationSubscription())
                                       .map(TouchData::lines);
@@ -112,8 +117,13 @@ public class TouchDataViewModel extends ViewModel {
     return connectivityManager.getEventsSignal().distinctUntilChanged();
   }
 
+  private void requestNormalConnectionPriority() {
+    connectedJacquardTagSignal.first()
+        .onNext(tag -> tag.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED));
+  }
+
   private Signal<Boolean> setTouchMode(TouchMode mode) {
-    // TODO: Revise the below code b/185917177
+    // TODO(b/185917177): Revise the below code
     AtomicReference<ConnectedJacquardTag> connectedJacquardTag = new AtomicReference<>();
     return connectedJacquardTagSignal
         .flatMap(

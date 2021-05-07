@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
   <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
     <item name="colorControlNormal">#000000</item>
@@ -36,9 +36,60 @@
     <item name="android:alpha">0.1</item>
   </style>
 
+  <style name="General_Title_24sp" parent="@android:style/TextAppearance">
+    <item name="android:textSize">@dimen/text_size_24</item>
+    <item name="android:textColor">@color/black</item>
+  </style>
+
+  <style name="General_Title_20sp" parent="@android:style/TextAppearance">
+    <item name="android:textSize">@dimen/text_size_20</item>
+    <item name="android:textColor">@color/black</item>
+  </style>
+
+  <style name="SplashTitle" parent="General_Title_24sp">
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:letterSpacing">0.01</item>
+  </style>
+
   <style name="General_Title_30sp" parent="@android:style/TextAppearance">
     <item name="android:textSize">@dimen/text_size_30</item>
     <item name="android:textColor">@color/black</item>
+  </style>
+
+  <style name="MusicalThreads" parent="General_Title_30sp">
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+
+  <style name="RenameTag" parent="General_Title_30sp">
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+
+  <style name="VisualizerTitle" parent="General_Title_30sp">
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+
+  <style name="LedTitle" parent="General_Title_30sp">
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+
+  <style name="FirmwareUpdateTitle" parent="General_Title_30sp">
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+
+  <style name="HomeProductTitle" parent="General_Title_30sp">
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:letterSpacing">-0.05</item>
+  </style>
+
+  <style name="Gestures" parent="General_Title_30sp">
+    <item name="android:textColor">@color/grey_700</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+
+  <style name="TagHeader" parent="General_Title_30sp">
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textColor">@color/grey_700</item>
+    <item name="android:letterSpacing">-0.05</item>
   </style>
 
   <style name="General_subtitle_16sp" parent="@android:style/TextAppearance">
@@ -46,12 +97,45 @@
     <item name="android:textColor">@color/general_subtitle_text_color_grey</item>
   </style>
 
+  <style name="MusicalThreadsSubtitle" parent="General_subtitle_16sp">
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:letterSpacing">0.02</item>
+  </style>
+
+  <style name="VisualizerSubtitle" parent="General_subtitle_16sp">
+    <item name="android:fontFamily">sans-serif</item>
+  </style>
+
+  <style name="LedSubtitle" parent="General_subtitle_16sp">
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:letterSpacing">0.02</item>
+  </style>
+
+  <style name="FirmwareUpdateSubtitle" parent="General_subtitle_16sp">
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:letterSpacing">0.02</item>
+  </style>
+
   <style name="General_subtitle_12sp" parent="@android:style/TextAppearance">
     <item name="android:textSize">@dimen/text_size_12</item>
     <item name="android:textColor">@color/general_subtitle_text_color_grey</item>
   </style>
 
+  <style name="RenameTagValue" parent="General_subtitle_12sp">
+    <item name="android:fontFamily">sans-serif</item>
+  </style>
+
+  <style name="BatteryCharging" parent="General_subtitle_12sp">
+    <item name="android:fontFamily">sans-serif</item>
+  </style>
+
+  <style name="SplashSubtitle" parent="General_subtitle_12sp">
+    <item name="android:textColor">@color/black</item>
+    <item name="android:letterSpacing">0.02</item>
+  </style>
+
   <style name="GestureListItemTextStyle" parent="@android:style/TextAppearance">
+    <item name="android:fontFamily">sans-serif-medium</item>
     <item name="android:textSize">14sp</item>
     <item name="android:textColor">#3A3A3A</item>
   </style>
@@ -62,12 +146,19 @@
     <item name="android:textColor">#646464</item>
   </style>
 
+  <style name="FeedStyle" parent="GestureListTitleTextStyle">
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:letterSpacing">0.12</item>
+  </style>
+
   <style name="GestureOverviewListItemTitleTextStyle" parent="@style/TextAppearance.AppCompat.Medium">
+    <item name="android:fontFamily">sans-serif-medium</item>
     <item name="android:textSize">16sp</item>
     <item name="android:textColor">#3A3A3A</item>
   </style>
 
   <style name="GestureOverviewListItemSubtitleTextStyle" parent="@android:style/TextAppearance">
+    <item name="android:fontFamily">sans-serif</item>
     <item name="android:textSize">14sp</item>
     <item name="android:textColor">#646464</item>
   </style>
@@ -77,9 +168,21 @@
     <item name="android:textColor">#3A3A3A</item>
   </style>
 
-  <style name="ScanPairingTitle" parent="@android:style/TextAppearance">
+  <style name="LedTag" parent="@android:style/TextAppearance">
+    <item name="android:fontFamily">sans-serif-medium</item>
     <item name="android:textSize">18sp</item>
-    <item name="android:letterSpacing">0.002</item>
+    <item name="android:textColor">@color/grey_900</item>
+  </style>
+
+  <style name="LedPatternItem" parent="@android:style/TextAppearance">
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textSize">18sp</item>
+    <item name="android:textColor">@color/grey_700</item>
+  </style>
+
+  <style name="ScanPairingTitle" parent="@android:style/TextAppearance">
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textSize">18sp</item>
     <item name="android:textColor">@color/scan_page_text</item>
   </style>
 
@@ -87,6 +190,56 @@
     <item name="android:textSize">16sp</item>
     <item name="android:letterSpacing">0.02</item>
     <item name="android:textColor">@color/scan_page_text</item>
+    <item name="android:fontFamily">sans-serif</item>
+  </style>
+
+  <style name="ListItemTitle" parent="@android:style/TextAppearance">
+    <item name="android:textSize">16sp</item>
+    <item name="android:letterSpacing">0.02</item>
+    <item name="android:textColor">@color/black</item>
+    <item name="android:fontFamily">sans-serif</item>
+  </style>
+
+  <style name="Description" parent="@android:style/TextAppearance">
+    <item name="android:textSize">16sp</item>
+    <item name="android:letterSpacing">0.02</item>
+    <item name="android:textColor">@color/grey_600</item>
+    <item name="android:fontFamily">sans-serif</item>
+  </style>
+
+  <style name="PageTitle" parent="General_Title_30sp">
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+
+  <style name="PageDescription" parent="General_subtitle_16sp">
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:letterSpacing">0.02</item>
+  </style>
+
+  <style name="PageSection" parent="@android:style/TextAppearance">
+    <item name="android:textSize">12sp</item>
+    <item name="android:letterSpacing">0.12</item>
+    <item name="android:textColor">@color/grey_600</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+
+  <style name="ProgressTitle" parent="@android:style/TextAppearance">
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textSize">18sp</item>
+    <item name="android:textColor">@color/scan_page_text</item>
+  </style>
+
+  <style name="RenameThisTag" parent="ScanPairingDesc">
+    <item name="android:textColor">@color/rename_tag_action_text</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+
+  <style name="TagName" parent="ScanPairingDesc">
+    <item name="android:textColor">@color/black</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+
+  <style name="ScanItem" parent="ScanPairingDesc">
     <item name="android:fontFamily">sans-serif-medium</item>
   </style>
 
@@ -108,6 +261,28 @@
     <item name="android:textAllCaps">false</item>
   </style>
 
+  <style name="ScanButton" parent="FullWidthButton">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:gravity">center</item>
+    <item name="android:layout_gravity">center_horizontal</item>
+    <item name="android:minWidth">240dp</item>
+    <item name="android:paddingStart">16dp</item>
+    <item name="android:paddingEnd">16dp</item>
+    <item name="android:paddingTop">14dp</item>
+    <item name="android:paddingBottom">14dp</item>
+    <item name="cornerRadius">30dp</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:letterSpacing">0.03</item>
+    <item name="android:layout_marginEnd">67dp</item>
+    <item name="android:textColor">@color/solid_white</item>
+    <item name="backgroundTint">@color/grey_700</item>
+  </style>
+
+  <style name="RedRoundButton" parent="ScanButton">
+    <item name="backgroundTint">#D93025</item>
+  </style>
+
   <style name="CancelButton" parent="Widget.MaterialComponents.Button">
     <item name="android:textSize">16sp</item>
     <item name="android:letterSpacing">0.025</item>
@@ -123,10 +298,44 @@
     <item name="android:alpha">0.5</item>
   </style>
 
+  <style name="BlackSolidCornersFixedSizeStyle" parent="MaterialButtonStyle_20">
+    <item name="backgroundTint">@color/solid_black_bg_color</item>
+    <item name="android:textColor">@color/solid_black_text_color</item>
+    <item name="android:layout_width">240dp</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:paddingTop">13dp</item>
+    <item name="android:paddingBottom">13dp</item>
+  </style>
+
+  <style name="MaterialButtonStyle_20" parent="MaterialButtonStyle">
+    <item name="android:textSize">20sp</item>
+  </style>
+
+  <style name="MaterialButtonStyle" parent="Widget.MaterialComponents.Button">
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textSize">16sp</item>
+    <item name="cornerRadius">54dp</item>
+    <item name="enforceTextAppearance">false</item>
+    <item name="android:gravity">center</item>
+    <item name="android:stateListAnimator">@null</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:paddingTop">19dp</item>
+    <item name="android:paddingBottom">19dp</item>
+    <item name="android:singleLine">true</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:importantForAccessibility">yes</item>
+  </style>
+
   <style name="home_tile_subtitle_enabled" parent="@android:style/TextAppearance">
     <item name="android:textSize">@dimen/text_size_14</item>
     <item name="android:textColor">@color/black</item>
     <item name="android:fontFamily">roboto-regular</item>
+  </style>
+
+  <style name="ApiTileDescription" parent="home_tile_subtitle_enabled">
+    <item name="android:textSize">@dimen/text_size_14</item>
+    <item name="android:fontFamily">sans-serif</item>
   </style>
 
   <style name="home_tile_title_enabled" parent="@android:style/TextAppearance">
@@ -135,10 +344,14 @@
     <item name="android:fontFamily">roboto-bold</item>
   </style>
 
+  <style name="ApiTile" parent="home_tile_title_enabled">
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+
   <style name="home_tile_section_enabled" parent="@android:style/TextAppearance">
     <item name="android:textSize">@dimen/text_size_14</item>
-    <item name="android:textColor">@color/black</item>
-    <item name="android:fontFamily">roboto-regular</item>
+    <item name="android:textColor">@color/grey_700</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
   </style>
 
   <style name="NearByTagsText" parent="@android:style/TextAppearance">
@@ -155,13 +368,76 @@
   </style>
 
   <style name="tagDetailItem">
+    <item name="android:fontFamily">sans-serif-medium</item>
     <item name="android:textSize">16sp</item>
     <item name="android:letterSpacing">0.02</item>
     <item name="android:textColor">#000000</item>
   </style>
 
   <style name="tagDetailItemValue">
+    <item name="android:fontFamily">sans-serif</item>
     <item name="android:textSize">12sp</item>
     <item name="android:textColor">#646464</item>
+  </style>
+
+  <style name="TagDetailsToolBar">
+    <item name="android:layout_gravity">center_horizontal</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textSize">18sp</item>
+    <item name="android:textColor">@color/grey_700</item>
+  </style>
+
+  <style name="HapticsItem">
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textSize">18sp</item>
+    <item name="android:textColor">@color/grey_700</item>
+  </style>
+
+  <style name="CustomDialogTitle" parent="General_Title_20sp">
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textSize">@dimen/text_size_20</item>
+  </style>
+
+  <style name="CustomDialogSubTitle" parent="General_subtitle_16sp">
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:textSize">@dimen/text_size_16</item>
+  </style>
+
+  <style name="CustomDialogNegativeButton" parent="Widget.MaterialComponents.Button">
+    <item name="android:fontFamily">roboto</item>
+    <item name="android:background">@android:color/transparent</item>
+    <item name="android:textColor">@color/black</item>
+    <item name="android:textSize">@dimen/text_size_16</item>
+    <item name="android:textAllCaps">false</item>
+  </style>
+
+  <style name="CustomDialogPositiveButton" parent="Widget.MaterialComponents.Button">
+    <item name="android:fontFamily">roboto</item>
+    <item name="android:textSize">@dimen/text_size_16</item>
+    <item name="android:textAllCaps">false</item>
+  </style>
+
+  <style name="CustomDialog">
+    <item name="android:padding">@dimen/padding_20dp</item>
+    <item name="cornerRadius">30dp</item>
+  </style>
+
+  <style name="RSSI" parent="@android:style/TextAppearance">
+    <item name="android:textSize">12sp</item>
+    <item name="android:letterSpacing">0.02</item>
+    <item name="android:textColor">@color/scan_page_text</item>
+    <item name="android:fontFamily">sans-serif</item>
+  </style>
+
+  <style name="H4">
+    <item name="android:letterSpacing">0.0156</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:lineSpacingExtra">5sp</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:lineHeight" tools:targetApi="p">24sp</item>
+  </style>
+
+  <style name="BaseBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+    <item name="android:windowIsFloating">false</item>
   </style>
 </resources>

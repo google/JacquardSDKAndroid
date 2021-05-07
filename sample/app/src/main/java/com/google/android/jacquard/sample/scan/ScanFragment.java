@@ -18,6 +18,7 @@ package com.google.android.jacquard.sample.scan;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
+import static com.google.android.jacquard.sample.MainActivity.COMPANION_DEVICE_REQUEST;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -34,8 +35,10 @@ import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission;
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.location.LocationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -43,22 +46,28 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.jacquard.sample.KnownTag;
+import com.google.android.jacquard.sample.MainActivity;
 import com.google.android.jacquard.sample.R;
 import com.google.android.jacquard.sample.ViewModelFactory;
 import com.google.android.jacquard.sample.scan.ScanAdapter.ItemClickListener;
 import com.google.android.jacquard.sample.scan.ScanViewModel.State;
 import com.google.android.jacquard.sample.utilities.Util;
+import com.google.android.jacquard.sdk.log.PrintLogger;
+import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.rx.Signal.Subscription;
 import java.util.ArrayList;
 import java.util.List;
-import timber.log.Timber;
 
 /**
  * Fragment for scanning for jacquard tags.
  */
 public class ScanFragment extends Fragment implements ItemClickListener {
 
+  private static final String TAG = ScanFragment.class.getSimpleName();
+  private static final int SCAN_TIMEOUT = 30000;
+
   private final List<Subscription> subscriptions = new ArrayList<>();
+  private Subscription tryAgainSubscription;
   private ScanAdapter adapter;
   private ScanViewModel viewModel;
   private Subscription scanSubscription;
@@ -85,7 +94,7 @@ public class ScanFragment extends Fragment implements ItemClickListener {
                 startScan();
               }
             } else {
-              onNotAbleToScan();
+              shouldShowRequestPermissionRationale();
             }
           });
   private final ActivityResultLauncher<Intent> enableBluetoothLauncher =
@@ -156,7 +165,12 @@ public class ScanFragment extends Fragment implements ItemClickListener {
     stopScanButton = view.findViewById(R.id.stop_scan_button);
     stopScanButton.setOnClickListener(v -> stopScan());
     pairButton = view.findViewById(R.id.pair_button);
-    pairButton.setOnClickListener(v -> viewModel.connect());
+    pairButton.setOnClickListener(v -> {
+      changeStatusBarColor(R.color.progress_overlay);
+      viewModel.connect(requireActivity(), intentSender -> ((MainActivity) requireActivity())
+          .startForResult(intentSender, COMPANION_DEVICE_REQUEST)
+          .map(result -> result.resultCode() == Activity.RESULT_OK));
+    });
     progressBarHolder = view.findViewById(R.id.progress_bar_holder);
     progressBar = view.findViewById(R.id.progress_bar);
     pairedIcon = view.findViewById(R.id.paired_icon);
@@ -165,13 +179,27 @@ public class ScanFragment extends Fragment implements ItemClickListener {
 
   private void startScan() {
     initScanningViews();
+    startTimer();
+    if (scanSubscription != null) {
+      scanSubscription.unsubscribe();
+      subscriptions.remove(scanSubscription);
+      scanSubscription = null;
+    }
     scanSubscription = viewModel
         .startScanning()
         .onNext(tags -> {
-          Timber.d("Got tags %d", tags.size());
+          PrintLogger.d(TAG, "Got tags: " + tags.size());
           adapter.submitList(tags);
         });
     subscriptions.add(scanSubscription);
+  }
+
+  private void initScanView() {
+    scanButton.setText(R.string.scan_page_scan_button);
+    scanButton.setEnabled(true);
+    stopScanButton.setVisibility(View.GONE);
+    tagIndicatorIcon.setVisibility(View.VISIBLE);
+    description.setText(R.string.scan_page_charge_your_tag_desc);
   }
 
   private void initScanningViews() {
@@ -182,12 +210,32 @@ public class ScanFragment extends Fragment implements ItemClickListener {
     description.setText(R.string.scan_page_match_last_four_digits_desc);
   }
 
-  private void stopScan() {
-    scanButton.setText(R.string.scan_page_scan_button);
+  private void initTryAgainView() {
+    scanButton.setText(R.string.scan_page_try_again_button);
     scanButton.setEnabled(true);
     stopScanButton.setVisibility(View.GONE);
     tagIndicatorIcon.setVisibility(View.VISIBLE);
     description.setText(R.string.scan_page_charge_your_tag_desc);
+  }
+
+  private void startTimer() {
+    tryAgainSubscription = Signal.from(1).delay(SCAN_TIMEOUT).onNext(ignored -> {
+      initTryAgainView();
+    });
+    subscriptions.add(tryAgainSubscription);
+  }
+
+  private void stopTimer() {
+    if(tryAgainSubscription != null) {
+      tryAgainSubscription.unsubscribe();
+      subscriptions.remove(tryAgainSubscription);
+      tryAgainSubscription = null;
+    }
+  }
+
+  private void stopScan() {
+    stopTimer();
+    initScanView();
     if (scanSubscription != null) {
       scanSubscription.unsubscribe();
       subscriptions.remove(scanSubscription);
@@ -196,11 +244,17 @@ public class ScanFragment extends Fragment implements ItemClickListener {
   }
 
   private void onConnectionState() {
-    Timber.d("Tag connected");
+    PrintLogger.d(TAG, "Tag connected");
     progressBar.setVisibility(View.GONE);
     pairedIcon.setVisibility(View.VISIBLE);
     loadingTitle.setText(R.string.scan_page_paired_button);
-    viewModel.successfullyConnected(isUserOnboarded());
+    subscriptions.add(
+        Signal.from(isUserOnboarded())
+            .delay(/* delayInMillis= */ 2000)
+            .onNext(isOnBoarded -> {
+              viewModel.successfullyConnected(isOnBoarded);
+              changeStatusBarColor(R.color.white);
+            }));
   }
 
   private void onState(State state) {
@@ -214,6 +268,7 @@ public class ScanFragment extends Fragment implements ItemClickListener {
       case ERROR:
         Util.showSnackBar(getView(), state.error());
         progressBarHolder.setVisibility(View.GONE);
+        changeStatusBarColor(R.color.white);
         break;
     }
   }
@@ -242,14 +297,18 @@ public class ScanFragment extends Fragment implements ItemClickListener {
   private boolean hasPermissions() {
     if (checkSelfPermission(requireActivity(), ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
       return true;
-    } else if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
-      // User has denied the permission. Its time to show rationale.
-      showRationale();
-      return false;
     } else {
       requestPermissionLauncher.launch(ACCESS_FINE_LOCATION);
       return false;
     }
+  }
+
+  private void shouldShowRequestPermissionRationale(){
+    if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
+      return;
+    }
+    PrintLogger.d(TAG, "need to show permission rational.");
+    showRationale();
   }
 
   private boolean hasBluetoothEnabled() {
@@ -273,21 +332,17 @@ public class ScanFragment extends Fragment implements ItemClickListener {
     return false;
   }
 
-  private void onNotAbleToScan() {
-    // TODO Show error..
-    Util.showSnackBar(getView(),
-        "Please grant location permission for scanning bluetooth devices.");
-    Timber.d("Not able to start ble scan.");
-  }
-
   private void showRationale() {
-    // TODO Show rationale
     Util.showSnackBar(getView(),
         "Please grant location permission for scanning bluetooth devices.");
-    Timber.d("Location permission is denied. Show Primer dialog.");
   }
 
   private boolean isUserOnboarded() {
     return ScanFragmentArgs.fromBundle(getArguments()).getIsUserOnboarded();
+  }
+
+  private void changeStatusBarColor(@ColorRes int color) {
+    requireActivity().getWindow().setStatusBarColor(
+        ContextCompat.getColor(requireContext(), color));
   }
 }

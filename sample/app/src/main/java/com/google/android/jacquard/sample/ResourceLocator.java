@@ -24,19 +24,24 @@ import static com.google.android.jacquard.sdk.log.LogLevel.WARNING;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.location.Geocoder;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import com.google.android.jacquard.sample.firmwareupdate.FirmwareManager;
 import com.google.android.jacquard.sample.musicalthreads.audio.Fader;
 import com.google.android.jacquard.sample.musicalthreads.audio.SoundPlayer.Note;
 import com.google.android.jacquard.sample.musicalthreads.audio.SoundPoolPlayer;
 import com.google.android.jacquard.sample.musicalthreads.player.PluckTreadsPlayerImpl;
 import com.google.android.jacquard.sample.musicalthreads.player.ThreadsPlayer;
+import com.google.android.jacquard.sample.utilities.RecipeManager;
 import com.google.android.jacquard.sdk.JacquardManager;
 import com.google.android.jacquard.sdk.log.LogLevel;
 import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.io.File;
+import java.util.Locale;
 
 /**
  * Very simple implementation of the Service Locator IoC pattern - central registry for obtaining
@@ -50,6 +55,8 @@ public class ResourceLocator {
   private Preferences preferences;
   private Gson gson;
   private ConnectivityManager connectivityManager;
+  private FirmwareManager firmwareManager;
+  private Geocoder geocoder;
 
   ResourceLocator(Context context) {
     this.context = context.getApplicationContext();
@@ -83,6 +90,13 @@ public class ResourceLocator {
     return connectivityManager;
   }
 
+  public FirmwareManager getFirmwareManager() {
+    if (firmwareManager == null) {
+      firmwareManager = new FirmwareManager(getConnectivityManager());
+    }
+    return firmwareManager;
+  }
+
   public ThreadsPlayer getThreadsPlayer() {
     SoundPool soundPool = getSoundPool();
     Fader fader = new Fader(soundPool, NOTE_FADE_DURATION_IN_MILLIS);
@@ -90,8 +104,25 @@ public class ResourceLocator {
     return new PluckTreadsPlayerImpl(player);
   }
 
+  public String getImuSessionDownloadDirectory() {
+    File directory = new File(context.getCacheDir(), "Sessions/");
+    directory.mkdirs();
+    return directory.getAbsolutePath();
+  }
+
   public Resources getResources() {
     return context.getResources();
+  }
+
+  public RecipeManager getRecipeManager() {
+    return RecipeManager.getInstance(context);
+  }
+
+  public Geocoder geocoder() {
+    if (geocoder == null) {
+      geocoder = new Geocoder(context, Locale.getDefault());
+    }
+    return geocoder;
   }
 
   private Gson getGson() {
@@ -107,7 +138,7 @@ public class ResourceLocator {
    */
   private void configurePrintLogger() {
     ImmutableList<LogLevel> logLevels = ImmutableList.of(DEBUG, INFO, WARNING, ERROR, ASSERT);
-    PrintLogger.initialize(logLevels);
+    PrintLogger.initialize(logLevels, context);
     PrintLogger.d(TAG, "PrintLogger is configured with " + logLevels);
   }
 }

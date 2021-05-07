@@ -1,14 +1,18 @@
 package com.google.android.jacquard.sample.tagmanager;
 
+import android.content.IntentSender;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
 import com.google.android.jacquard.sample.ConnectivityManager;
 import com.google.android.jacquard.sample.KnownTag;
 import com.google.android.jacquard.sample.Preferences;
+import com.google.android.jacquard.sample.SampleApplication;
 import com.google.android.jacquard.sample.scan.AdapterItem;
 import com.google.android.jacquard.sample.tagmanager.TagManagerAdapter.ItemClickListener;
 import com.google.android.jacquard.sample.tagmanager.TagManagerFragmentDirections.ActionTagManagerFragmentToScanFragment;
 import com.google.android.jacquard.sdk.log.PrintLogger;
+import com.google.android.jacquard.sdk.rx.Fn;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.auto.value.AutoOneOf;
 import java.util.ArrayList;
@@ -59,9 +63,9 @@ public class TagManagerViewModel extends ViewModel implements ItemClickListener 
   }
 
   @Override
-  public void onTagSelect(KnownTag tag) {
+  public void onTagSelect(KnownTag tag, Fn<IntentSender, Signal<Boolean>> senderHandler) {
     PrintLogger.d(TAG, "onTagSelect tag: " + tag.identifier());
-    connectivityManager.connect(tag.identifier());
+    connectivityManager.connect(null, tag.identifier(), senderHandler);
     preferences.putCurrentDevice(tag);
     stateSignal.next(State.ofActive(tag.pairingSerialNumber()));
   }

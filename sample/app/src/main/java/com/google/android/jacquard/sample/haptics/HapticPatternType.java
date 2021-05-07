@@ -54,7 +54,14 @@ public enum HapticPatternType {
       700,
       Pattern.HAPTIC_SYMBOL_SINE_INCREASE,
       /* maxAmplitudePercent= */ 60,
-      /* repeatNminusOne= */ -1);
+      /* repeatNminusOne= */ 14),
+  STOP_PATTERN(
+      /* description= */ "Stop Pattern",
+      /* onMs= */ 0,
+      0,
+      Pattern.HAPTIC_SYMBOL_HALTED,
+      /* maxAmplitudePercent= */ 0,
+      /* repeatNminusOne= */ 0);
 
   private final Frame frame;
   private final String description;

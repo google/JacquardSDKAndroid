@@ -18,12 +18,15 @@ package com.google.android.jacquard.sample;
 
 import static com.google.android.jacquard.sdk.connection.ConnectionState.Type.CONNECTED;
 
+import android.content.Context;
+import android.content.IntentSender;
 import com.google.android.jacquard.sdk.JacquardManager;
 import com.google.android.jacquard.sdk.ManagerScanningException.BluetoothUnavailableException;
 import com.google.android.jacquard.sdk.connection.ConnectionState;
 import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.model.GearState;
 import com.google.android.jacquard.sdk.model.GearState.Type;
+import com.google.android.jacquard.sdk.model.SdkConfig;
 import com.google.android.jacquard.sdk.rx.Fn;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.rx.Signal.Subscription;
@@ -34,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.jetbrains.annotations.NotNull;
 
 /** Manager for providing access to the jacquard tag. */
 public class ConnectivityManager {
@@ -69,13 +71,23 @@ public class ConnectivityManager {
     this.jacquardManager = jacquardManager;
   }
 
+  /**
+   * Initialized the sdk with provided SdkConfig object.
+   *
+   * @param config a {@link SdkConfig} to initialize the sdk.
+   */
+  public void init(SdkConfig config) {
+    jacquardManager.init(config);
+  }
+
   /** Starts scanning for jacquard devices. */
   public Signal<AdvertisedJacquardTag> startScanning() {
     return jacquardManager.startScanning();
   }
 
   /** Connects to the provided address. */
-  public Signal<ConnectionState> connect(String address) {
+  public Signal<ConnectionState> connect(Context activityContext, String address,
+      Fn<IntentSender, Signal<Boolean>> senderHandler) {
     PrintLogger.d(TAG, /* message= */"connect: " + address);
     if (!BluetoothUtils.isBluetoothEnabled()) {
       PrintLogger.d(TAG, /* message= */"Bluetooth not enabled while connect");
@@ -83,7 +95,7 @@ public class ConnectivityManager {
     }
     clearSubscriptions(address);
     List<Subscription> subscriptionList = new ArrayList<>();
-    subscriptionList.add(createBond(address));
+    subscriptionList.add(createBond(activityContext, address, senderHandler));
     subscriptionList.add(observeEvents());
     subscriptions.put(address, subscriptionList);
     return connectionStateSignal;
@@ -129,9 +141,11 @@ public class ConnectivityManager {
     jacquardManager.destroy();
   }
 
-  @NotNull
-  private Subscription createBond(String address) {
-    return jacquardManager.connect(address).forward(connectionStateSignal);
+  private Subscription createBond(Context activityContext, String address,
+      Fn<IntentSender, Signal<Boolean>> senderHandler) {
+    return jacquardManager.connect(activityContext, address, senderHandler)
+        .tap(state -> PrintLogger.d(TAG, "createBond: " + state))
+        .forward(connectionStateSignal);
   }
 
   private Subscription observeEvents() {

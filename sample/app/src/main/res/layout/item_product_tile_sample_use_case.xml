@@ -16,7 +16,7 @@
   -->
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/home_tile_title_enabled"
+    style="@style/ApiTile"
     android:id="@+id/tileTitle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

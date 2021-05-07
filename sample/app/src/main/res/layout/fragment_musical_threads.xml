@@ -26,11 +26,11 @@
     android:layout_height="@dimen/toolbar_height"
     android:fitsSystemWindows="true"
     android:theme="@style/ToolbarTheme"
-    app:navigationIcon="@drawable/abc_ic_ab_back_material" />
+    app:navigationIcon="@drawable/ic_chevron_left_24px" />
 
   <TextView
     android:id="@+id/title"
-    style="@style/General_Title_30sp"
+    style="@style/MusicalThreads"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="24dp"
@@ -40,7 +40,7 @@
     android:text="@string/musical_threads_title" />
 
   <TextView
-    style="@style/General_subtitle_16sp"
+    style="@style/MusicalThreadsSubtitle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="33dp"

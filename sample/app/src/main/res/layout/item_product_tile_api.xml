@@ -23,14 +23,14 @@
     android:paddingBottom="@dimen/padding_15dp">
 
   <TextView
-      style="@style/home_tile_title_enabled"
+      style="@style/ApiTile"
       android:id="@+id/tileTitle"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/tile_gesture_title" />
 
   <TextView
-      style="@style/home_tile_subtitle_enabled"
+      style="@style/ApiTileDescription"
       android:id="@+id/tileSubTitle"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"

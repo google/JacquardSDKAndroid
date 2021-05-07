@@ -30,8 +30,8 @@
     app:navigationIcon="@drawable/ic_chevron_left_24px" />
 
   <TextView
-    android:id="@+id/titleTxt"
-    style="@style/General_Title_30sp"
+    android:id="@+id/page_title"
+    style="@style/LedTitle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -43,10 +43,10 @@
 
   <TextView
     android:id="@+id/subTitleTxt"
-    style="@style/General_subtitle_16sp"
+    style="@style/LedSubtitle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@id/titleTxt"
+    app:layout_constraintTop_toBottomOf="@id/page_title"
     app:layout_constraintStart_toStartOf="parent"
     android:layout_marginStart="24dp"
     android:layout_marginTop="20dp"
@@ -62,7 +62,7 @@
     android:layout_marginStart="24dp"
     android:layout_centerVertical="true"
     android:minWidth="24dp"
-    android:src="@drawable/ic_tag"
+    android:src="@drawable/ic_group_607"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/subTitleTxt" />
 
@@ -78,9 +78,21 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/tagImg" />
 
+  <ImageView
+    android:id="@+id/durationImg"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="25dp"
+    android:layout_marginStart="24dp"
+    android:layout_centerVertical="true"
+    android:enabled="false"
+    android:src="@drawable/ic_led_duration"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/garmentImg" />
+
   <TextView
     android:id="@+id/tagTxt"
-    style="@style/ledPatternNormalText"
+    style="@style/LedTag"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="22dp"
@@ -95,7 +107,7 @@
 
   <TextView
     android:id="@+id/garmentTxt"
-    style="@style/ledPatternNormalText"
+    style="@style/LedTag"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="25dp"
@@ -115,33 +127,71 @@
     android:layout_marginTop="22dp"
     android:background="#E5E5E5"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/garmentTxt" />
+    app:layout_constraintTop_toBottomOf="@id/led_duration_txt" />
+
+  <TextView
+    android:id="@+id/led_duration_txt"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="@id/garmentTxt"
+    app:layout_constraintTop_toBottomOf="@id/garmentTxt"
+    app:layout_constraintBottom_toTopOf="@id/separatorView"
+    style="@style/ledPatternNormalText"
+    android:layout_marginTop="25dp"
+    android:text="@string/led_duration_text" />
+
+  <EditText
+    android:id="@+id/led_duration"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="25dp"
+    android:layout_marginBottom="22dp"
+    android:ems="7"
+    android:gravity="end|top"
+    android:inputType="number"
+    android:maxLength="7"
+    android:textSize="18sp"
+    android:paddingEnd="9dp"
+    android:paddingBottom="6dp"
+    android:paddingTop="6dp"
+    android:imeOptions="actionDone"
+    android:paddingLeft="9dp"
+    android:background="@drawable/led_duration_selector"
+    android:text="5"
+    android:hint="5"
+    app:layout_constraintBottom_toTopOf="@id/separatorView"
+    app:layout_constraintEnd_toEndOf="@id/gearSwitch"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toEndOf="@id/led_duration_txt"
+    app:layout_constraintTop_toBottomOf="@id/gearSwitch"
+    app:layout_constraintVertical_bias="0.781" />
 
   <androidx.appcompat.widget.SwitchCompat
     android:id="@+id/gearSwitch"
-    android:layout_width="wrap_content"
+    android:layout_width="34dp"
     android:layout_height="wrap_content"
     android:layout_marginEnd="24dp"
-    android:layout_centerVertical="true"
     android:enabled="false"
+    android:button="@drawable/switch_selector"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintLeft_toRightOf="@id/garmentTxt"
     app:layout_constraintTop_toBottomOf="@id/tagSwitch"
-    app:thumbTint="@color/white"
-    app:trackTint="@drawable/switch_track" />
+    android:thumb="@null"
+    app:track="@null"/>
 
   <androidx.appcompat.widget.SwitchCompat
     android:id="@+id/tagSwitch"
-    android:layout_width="wrap_content"
+    android:layout_width="34dp"
     android:layout_height="wrap_content"
     android:layout_marginTop="9dp"
     android:layout_marginEnd="24dp"
     android:layout_centerVertical="true"
+    android:button="@drawable/switch_selector"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintLeft_toRightOf="@id/tagTxt"
     app:layout_constraintTop_toBottomOf="@id/subTitleTxt"
-    app:thumbTint="@color/white"
-    app:trackTint="@drawable/switch_track" />
+    android:thumb="@null"
+    app:track="@null"/>
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/recyclerviewPattern"

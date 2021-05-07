@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
 import com.google.android.jacquard.sample.ConnectivityManager;
 import com.google.android.jacquard.sample.ConnectivityManager.Events;
+import com.google.android.jacquard.sample.Preferences;
 import com.google.android.jacquard.sample.R;
 import com.google.android.jacquard.sdk.command.PlayLedPatternCommand;
 import com.google.android.jacquard.sdk.command.PlayLedPatternCommand.Color;
@@ -27,8 +28,8 @@ import com.google.android.jacquard.sdk.command.PlayLedPatternCommand.LedPatternT
 import com.google.android.jacquard.sdk.command.PlayLedPatternCommand.PlayLedPatternCommandBuilder;
 import com.google.android.jacquard.sdk.command.PlayLedPatternCommand.PlayType;
 import com.google.android.jacquard.sdk.connection.ConnectionState;
+import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.model.GearState;
-import com.google.android.jacquard.sdk.model.Product;
 import com.google.android.jacquard.sdk.model.Product.Capability;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.tag.ConnectedJacquardTag;
@@ -36,24 +37,28 @@ import com.google.android.jacquard.sdk.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import timber.log.Timber;
 
 /**
  * A viewmodel for fragment {@link LedPatternFragment}.
  */
 public class LedPatternViewModel extends ViewModel {
 
+  private static final String TAG = LedPatternViewModel.class.getSimpleName();
+
   private final ConnectivityManager connectivityManager;
   private final Signal<ConnectedJacquardTag> connectedJacquardTag;
   private final NavController navController;
   private final StringUtils stringUtils;
+  private final Preferences preferences;
 
   public LedPatternViewModel(
-          ConnectivityManager connectivityManager, NavController navController, StringUtils stringUtilsInstance) {
+      ConnectivityManager connectivityManager, NavController navController,
+      StringUtils stringUtilsInstance, Preferences preferences) {
     this.connectivityManager = connectivityManager;
     this.connectedJacquardTag = connectivityManager.getConnectedJacquardTag();
     this.navController = navController;
     this.stringUtils = stringUtilsInstance;
+    this.preferences = preferences;
   }
 
   /**
@@ -84,8 +89,9 @@ public class LedPatternViewModel extends ViewModel {
             .icon(R.drawable.ic_blue)
             .text("Blue Blink")
             .frames(Collections.singletonList(Frame.of(Color.of(0, 0, 255), 1000)))
-            .resumable(false)
-            .playType(PlayType.PLAY)
+            .resumable(true)
+            .haltAll(false)
+            .playType(PlayType.TOGGLE)
             .ledPatternType(LedPatternType.PATTERN_TYPE_SINGLE_BLINK)
             .build());
 
@@ -94,8 +100,9 @@ public class LedPatternViewModel extends ViewModel {
             .icon(R.drawable.ic_green)
             .text("Green Blink")
             .frames(Collections.singletonList(Frame.of(Color.of(0, 255, 0), 1000)))
-            .resumable(false)
-            .playType(PlayType.PLAY)
+            .resumable(true)
+            .haltAll(false)
+            .playType(PlayType.TOGGLE)
             .ledPatternType(LedPatternType.PATTERN_TYPE_SINGLE_BLINK)
             .build());
 
@@ -104,8 +111,9 @@ public class LedPatternViewModel extends ViewModel {
             .icon(R.drawable.ic_pink)
             .text("Pink Blink")
             .frames(Collections.singletonList(Frame.of(Color.of(255, 102, 178), 1000)))
-            .resumable(false)
-            .playType(PlayType.PLAY)
+            .resumable(true)
+            .haltAll(false)
+            .playType(PlayType.TOGGLE)
             .ledPatternType(LedPatternType.PATTERN_TYPE_SINGLE_BLINK)
             .build());
 
@@ -115,6 +123,7 @@ public class LedPatternViewModel extends ViewModel {
             .text("Blink")
             .frames(Collections.singletonList(Frame.of(Color.of(220, 255, 255), 1000)))
             .resumable(true)
+            .haltAll(false)
             .playType(PlayType.TOGGLE)
             .ledPatternType(LedPatternType.PATTERN_TYPE_SINGLE_BLINK)
             .build());
@@ -126,20 +135,21 @@ public class LedPatternViewModel extends ViewModel {
             .frames(
                 new ArrayList<Frame>() {
                   {
-                    add(Frame.of(Color.of(255, 0, 0), 1000));
-                    add(Frame.of(Color.of(247, 95, 0), 1000));
-                    add(Frame.of(Color.of(255, 204, 255), 1000));
-                    add(Frame.of(Color.of(0, 255, 0), 1000));
-                    add(Frame.of(Color.of(2, 100, 255), 1000));
-                    add(Frame.of(Color.of(255, 0, 255), 1000));
-                    add(Frame.of(Color.of(100, 255, 255), 1000));
-                    add(Frame.of(Color.of(2, 202, 255), 1000));
-                    add(Frame.of(Color.of(255, 0, 173), 1000));
-                    add(Frame.of(Color.of(113, 5, 255), 1000));
-                    add(Frame.of(Color.of(15, 255, 213), 1000));
+                    add(Frame.of(Color.of(255, 0, 0), 100));
+                    add(Frame.of(Color.of(247, 95, 0), 100));
+                    add(Frame.of(Color.of(255, 204, 255), 100));
+                    add(Frame.of(Color.of(0, 255, 0), 100));
+                    add(Frame.of(Color.of(2, 100, 255), 100));
+                    add(Frame.of(Color.of(255, 0, 255), 100));
+                    add(Frame.of(Color.of(100, 255, 255), 100));
+                    add(Frame.of(Color.of(2, 202, 255), 100));
+                    add(Frame.of(Color.of(255, 0, 173), 100));
+                    add(Frame.of(Color.of(113, 5, 255), 100));
+                    add(Frame.of(Color.of(15, 255, 213), 100));
                   }
                 })
             .resumable(true)
+            .haltAll(false)
             .playType(PlayType.TOGGLE)
             .ledPatternType(LedPatternType.PATTERN_TYPE_CUSTOM)
             .build());
@@ -149,7 +159,19 @@ public class LedPatternViewModel extends ViewModel {
             .icon(R.drawable.ic_shine)
             .text("Shine")
             .frames(Collections.singletonList(Frame.of(Color.of(220, 255, 255), 1000)))
-            .resumable(false)
+            .resumable(true)
+            .haltAll(false)
+            .playType(PlayType.TOGGLE)
+            .ledPatternType(LedPatternType.PATTERN_TYPE_SOLID)
+            .build());
+
+    ledPatternItems.add(
+        LedPatternItem.builder()
+            .icon(R.drawable.clear_icon)
+            .text("Stop All")
+            .frames(Collections.singletonList(Frame.of(Color.of(0, 0, 0), 1000)))
+            .resumable(true)
+            .haltAll(true)
             .playType(PlayType.TOGGLE)
             .ledPatternType(LedPatternType.PATTERN_TYPE_SOLID)
             .build());
@@ -182,13 +204,13 @@ public class LedPatternViewModel extends ViewModel {
    * @param patternItem pattern to be played.
    * @return Signal<Boolean> defines if pattern played successfully.
    */
-  public Signal<Boolean> playLEDCommandOnGear(LedPatternItem patternItem) {
-    PlayLedPatternCommandBuilder ledPatternCommandBuilder = getPlayLEDBuilder(patternItem);
+  public Signal<Boolean> playLEDCommandOnGear(LedPatternItem patternItem, int durationMs) {
+    PlayLedPatternCommandBuilder ledPatternCommandBuilder = getPlayLEDBuilder(patternItem, durationMs);
     return getGearNotification()
         .first()
         .filter(gearState -> gearState.getType() == GearState.Type.ATTACHED)
         .map(GearState::attached)
-        .tap(c -> Timber.d("LED pattern Component # %s", c))
+        .tap(c -> PrintLogger.d(TAG, "LED pattern Component # " + c))
         .flatMap(component ->
             connectedJacquardTag
                 .first()
@@ -202,8 +224,8 @@ public class LedPatternViewModel extends ViewModel {
    * @param patternItem pattern to be played.
    * @return Signal<Boolean> defines if pattern played successfully.
    */
-  public Signal<Boolean> playLEDCommandOnUJT(LedPatternItem patternItem) {
-    PlayLedPatternCommandBuilder ledPatternCommandBuilder = getPlayLEDBuilder(patternItem);
+  public Signal<Boolean> playLEDCommandOnUJT(LedPatternItem patternItem, int durationMs) {
+    PlayLedPatternCommandBuilder ledPatternCommandBuilder = getPlayLEDBuilder(patternItem, durationMs);
     return connectedJacquardTag
         .first()
         .flatMap(
@@ -219,15 +241,47 @@ public class LedPatternViewModel extends ViewModel {
     return connectivityManager.getEventsSignal().distinctUntilChanged();
   }
 
-  private PlayLedPatternCommandBuilder getPlayLEDBuilder(LedPatternItem patternItem) {
+  private PlayLedPatternCommandBuilder getPlayLEDBuilder(LedPatternItem patternItem, int durationMs) {
     return  PlayLedPatternCommand.newBuilder()
             .setFrames(patternItem.frames())
             .setResumable(patternItem.resumable())
             .setPlayType(patternItem.playType())
             .setLedPatternType(patternItem.ledPatternType())
-            .setHaltAll(false)
+            .setHaltAll(patternItem.haltAll())
             .setIntensityLevel(100)
-            .setDurationInMs(5000)
+            .setDurationInMs(durationMs)
             .setStringUtils(stringUtils);
+  }
+
+  /**
+   * Persists tag led state.
+   *
+   * @param isChecked true if tag led control is active
+   */
+  public void persistTagLedState(boolean isChecked) {
+    preferences.persistTagLedState(isChecked);
+  }
+
+  /**
+   * Returns true if tag led is active.
+   */
+  public boolean isTagLedActive() {
+    return preferences.isTagLedActive();
+  }
+
+  /**
+   * Persists gear led state.
+   *
+   * @param isActive true if gear led control is active
+   */
+  public void persistGearLedState(boolean isActive) {
+    preferences.persistGearLedState(isActive);
+  }
+
+  /**
+   * Returns true if gear led is active.
+   */
+  public boolean isGearLedActive() {
+    return preferences.isGearLedActive();
   }
 }

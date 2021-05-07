@@ -21,13 +21,15 @@ import android.media.SoundPool;
 import androidx.annotation.FloatRange;
 import androidx.annotation.RawRes;
 import com.google.android.jacquard.sample.R;
+import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.common.collect.ImmutableMap;
 import java.util.EnumMap;
 import java.util.Map;
-import timber.log.Timber;
 
 /** Implementation of {@link SoundPlayer} that uses a {@link SoundPool}. */
 public class SoundPoolPlayer implements SoundPlayer {
+
+  private static final String TAG = SoundPoolPlayer.class.getSimpleName();
 
   private final SoundPool soundPool;
   private final Fader fader;
@@ -44,10 +46,10 @@ public class SoundPoolPlayer implements SoundPlayer {
   public void noteOn(Note note, float volume) {
     Integer soundId = noteSoundIdMap.get(note);
     if (soundId == null) {
-      Timber.e("No sound found for note %s", note);
+      PrintLogger.e(TAG, "No sound found for note: " + note.toString());
       return;
     }
-    Timber.d("noteOn " + note + " volume: " + volume);
+    PrintLogger.d(TAG,"noteOn " + note + " volume: " + volume);
     streams.put(note, playNote(soundId, volume));
   }
 
@@ -55,10 +57,10 @@ public class SoundPoolPlayer implements SoundPlayer {
   public void noteOff(Note note) {
     Stream stream = streams.get(note);
     if (stream == null) {
-      Timber.d("No sound is playing for note %s", note);
+      PrintLogger.d(TAG, "No sound is playing for note " + note.toString());
       return;
     }
-    Timber.d("noteOff %s", note);
+    PrintLogger.d(TAG, "noteOff: " + note.toString());
     fader.fadeOut(stream);
     streams.remove(note);
   }

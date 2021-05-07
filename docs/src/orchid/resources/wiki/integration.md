@@ -13,5 +13,5 @@ You need to include GMaven in your repositories section of your gradle file:
 Then include Jacquard in the `dependencies` section:
 
 ```
-  implementation "com.google.jacquard:jacquard-sdk:0.1.0"
+  implementation "com.google.jacquard:jacquard-sdk:0.2.0"
 ```

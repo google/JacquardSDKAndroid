@@ -30,6 +30,7 @@
   <dimen name="text_size_30">30sp</dimen>
 
   <!-- Margins-->
+  <dimen name="margin_2dp">2dp</dimen>
   <dimen name="margin_5dp">5dp</dimen>
   <dimen name="margin_10dp">10dp</dimen>
   <dimen name="margin_12dp">12dp</dimen>

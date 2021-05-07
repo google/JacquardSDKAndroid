@@ -21,4 +21,5 @@ orchid {
     version = "1.0.0"
     srcDir  = "src/orchid/resources"
     destDir = "build/docs/orchid"
+    baseUrl = "/JacquardSDKAndroid/"
 }

@@ -15,6 +15,9 @@
  */
 package com.google.android.jacquard.sample.tagmanager;
 
+import android.content.Context;
+import android.content.IntentSender;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
 import com.google.android.jacquard.sample.ConnectivityManager;
@@ -24,15 +27,13 @@ import com.google.android.jacquard.sample.home.HomeViewModel.Notification;
 import com.google.android.jacquard.sdk.command.BatteryStatus;
 import com.google.android.jacquard.sdk.command.BatteryStatusCommand;
 import com.google.android.jacquard.sdk.command.BatteryStatusNotificationSubscription;
-import com.google.android.jacquard.sdk.command.DeviceInfo;
-import com.google.android.jacquard.sdk.command.DeviceInfoCommand;
 import com.google.android.jacquard.sdk.connection.ConnectionState;
 import com.google.android.jacquard.sdk.log.PrintLogger;
+import com.google.android.jacquard.sdk.model.Revision;
 import com.google.android.jacquard.sdk.rx.Fn;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.rx.Signal.Subscription;
 import com.google.android.jacquard.sdk.tag.ConnectedJacquardTag;
-import com.google.android.jacquard.sdk.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -93,14 +94,10 @@ public class TagDetailsViewModel extends ViewModel {
   }
 
   /**
-   * Gets device info for selected tag.
+   * Gets device version info for selected tag.
    */
-  public Signal<DeviceInfo> getDeviceInfo() {
-    return connectedJacquardTagSignal
-        .first()
-        .flatMap(
-            (Fn<ConnectedJacquardTag, Signal<DeviceInfo>>)
-                tag -> tag.enqueue(new DeviceInfoCommand(tag.tagComponent(), StringUtils.getInstance())));
+  public Signal<Revision> getVersion() {
+    return connectedJacquardTagSignal.first().map(tag -> tag.tagComponent().version());
   }
 
   /**
@@ -125,9 +122,10 @@ public class TagDetailsViewModel extends ViewModel {
   /**
    * Sets selected tag as current tag and initiates connect call for the tag.
    */
-  public void selectAsCurrentTag(KnownTag knownTag) {
+  public void selectAsCurrentTag(Context context, KnownTag knownTag,
+      final @NonNull Fn<IntentSender, Signal<Boolean>> senderHandler) {
     PrintLogger.d(TAG, "Change current tag to :: " + knownTag.displayName());
-    connectivityManager.connect(knownTag.identifier());
+    connectivityManager.connect(context, knownTag.identifier(), senderHandler);
     preferences.putCurrentDevice(knownTag);
     backArrowClick();
   }
@@ -135,16 +133,18 @@ public class TagDetailsViewModel extends ViewModel {
   /**
    * Removes selected tag from known tag list.
    */
-  public void forgetTag(KnownTag knownTag) {
+  public void forgetTag(Context context, KnownTag knownTag,
+      final @NonNull Fn<IntentSender, Signal<Boolean>> senderHandler) {
     connectivityManager.forget(knownTag.identifier());
     List<KnownTag> knownTags = preferences.getKnownTags();
     knownTags.remove(knownTag);
     preferences.putKnownDevices(knownTags);
     if (knownTags.isEmpty()) {
+      preferences.removeCurrentDevice();
       initiateScan();
     } else {
       KnownTag currentTagToSet = knownTags.get(0);
-      selectAsCurrentTag(currentTagToSet);
+      selectAsCurrentTag(context, currentTagToSet, senderHandler);
     }
   }
 

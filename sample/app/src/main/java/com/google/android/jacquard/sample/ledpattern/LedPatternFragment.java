@@ -15,14 +15,16 @@
  */
 package com.google.android.jacquard.sample.ledpattern;
 
-import static com.google.android.jacquard.sdk.connection.ConnectionState.Type.CONNECTED;
-
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
@@ -32,6 +34,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.jacquard.sample.ConnectivityManager.Events;
 import com.google.android.jacquard.sample.R;
 import com.google.android.jacquard.sample.ViewModelFactory;
@@ -40,6 +43,7 @@ import com.google.android.jacquard.sample.utilities.Util;
 import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.model.GearState;
 import com.google.android.jacquard.sdk.rx.Signal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,12 +53,17 @@ import java.util.List;
 public class LedPatternFragment extends Fragment implements ItemClickListener {
 
   private static final String TAG = LedPatternFragment.class.getSimpleName();
+  private static final int DEFAULT_LED_DURATION = 5 * 1000; // 5 sec
+  private static final int MIN_DURATION = 1;
+  private static final int MAX_DURATION = Integer.MAX_VALUE / 1000; // in seconds
   private final List<Signal.Subscription> subscriptions = new ArrayList<>();
   private LedPatternViewModel viewModel;
   private SwitchCompat gearSwitch, tagSwitch;
   private ImageView imgTag, imgGarment;
   private TextView txtTag, txtGarment;
+  private EditText editDuration;
   private boolean playLedOnGarment, playLedOnTag;
+  private boolean isTagLedClickedWithoutUser, isGearLedClickedWithoutUser;
 
   @Nullable
   @Override
@@ -78,20 +87,48 @@ public class LedPatternFragment extends Fragment implements ItemClickListener {
     tagSwitch = view.findViewById(R.id.tagSwitch);
     txtGarment = view.findViewById(R.id.garmentTxt);
     txtTag = view.findViewById(R.id.tagTxt);
+    editDuration = view.findViewById(R.id.led_duration);
+    editDuration.setOnEditorActionListener((v, actionId, event) -> {
+      if (actionId == EditorInfo.IME_ACTION_DONE) {
+        String text = v.getText().toString();
+        if (!TextUtils.isEmpty(text)) {
+          int duration = Integer.parseInt(text);
+          if (duration < MIN_DURATION) {
+            showSnackbar(getString(R.string.led_duration_min_error));
+            setDefault();
+          } else if (duration > MAX_DURATION) {
+            showSnackbar(getString(R.string.led_duration_max_error, MAX_DURATION));
+            setDefault();
+          }
+        }
+      }
+      return false;
+    });
     imgGarment = view.findViewById(R.id.garmentImg);
     imgTag = view.findViewById(R.id.tagImg);
     gearSwitch.setOnCheckedChangeListener(
         (buttonView, isChecked) -> {
           playLedOnGarment = isChecked;
+          if (isGearLedClickedWithoutUser) {
+            isGearLedClickedWithoutUser = false;
+            return;
+          }
+          viewModel.persistGearLedState(isChecked);
         });
     tagSwitch.setOnCheckedChangeListener(
         (buttonView, isChecked) -> {
           playLedOnTag = isChecked;
+          if (isTagLedClickedWithoutUser) {
+            isTagLedClickedWithoutUser = false;
+            return;
+          }
+          viewModel.persistTagLedState(isChecked);
         });
-    gearSwitch.setChecked(false);
-    subscriptions.add(viewModel.getGearNotification().onNext(this::updateGearState));
-    subscriptions.add(viewModel.getConnectionStateSignal()
-        .onNext(connectionState -> updateTagLedSwitch(connectionState.isType(CONNECTED))));
+    gearSwitch.setChecked(viewModel.isGearLedActive());
+    updateSwitchState();
+    subscriptions.add(viewModel.getGearNotification().distinctUntilChanged().onNext(this::updateGearState));
+    subscriptions.add(viewModel.getConnectivityEvents()
+        .onNext(this::updateTagLedSwitch));
     initLedPatternList(view);
     subscribeEvents();
   }
@@ -104,9 +141,22 @@ public class LedPatternFragment extends Fragment implements ItemClickListener {
 
   @Override
   public void onItemClick(LedPatternItem patternItem) {
-
+    int ledDuration = DEFAULT_LED_DURATION;
+    String durationText =
+        editDuration.getText().toString().trim();
+    if (!TextUtils.isEmpty(durationText)) {
+      int duration = Integer.parseInt(
+          editDuration.getText().toString());
+      if (duration >= MIN_DURATION && duration <= MAX_DURATION) {
+        ledDuration = duration * 1000;
+      } else {
+        setDefault();
+      }
+    } else {
+      PrintLogger.e(TAG, "Using default led duration.");
+    }
     if (playLedOnGarment) {
-      subscriptions.add(viewModel.playLEDCommandOnGear(patternItem)
+      subscriptions.add(viewModel.playLEDCommandOnGear(patternItem, ledDuration)
           .onError(error -> {
             PrintLogger.e(TAG, error.getMessage());
             showSnackbar(error.getMessage());
@@ -114,12 +164,18 @@ public class LedPatternFragment extends Fragment implements ItemClickListener {
     }
 
     if (playLedOnTag) {
-      subscriptions.add(viewModel.playLEDCommandOnUJT(patternItem)
+      subscriptions.add(viewModel.playLEDCommandOnUJT(patternItem, ledDuration)
           .onError(error -> {
             PrintLogger.e(TAG, error.getMessage());
             showSnackbar(error.getMessage());
           }));
     }
+  }
+
+  @Override
+  public void onPause() {
+    Util.hideSoftKeyboard(requireActivity());
+    super.onPause();
   }
 
   private void unSubscribeSubscription() {
@@ -156,17 +212,38 @@ public class LedPatternFragment extends Fragment implements ItemClickListener {
   }
 
   private void updateTagLedSwitch(boolean enabled) {
+    if (enabled) {
+      tagSwitch.setChecked(viewModel.isTagLedActive());
+    } else {
+      isTagLedClickedWithoutUser = true;
+      tagSwitch.setChecked(false);
+    }
     tagSwitch.setEnabled(enabled);
     imgTag.setEnabled(enabled);
     txtTag.setEnabled(enabled);
-    tagSwitch.setChecked(enabled);
+  }
+
+  private void updateTagLedSwitch(Events events) {
+    switch (events) {
+      case TAG_CONNECTED:
+        updateTagLedSwitch(true);
+        break;
+      case TAG_DISCONNECTED:
+        updateTagLedSwitch(false);
+        break;
+    }
   }
 
   private void updateGarmentLedSwitch(boolean enabled) {
-    gearSwitch.setEnabled(enabled);
+    if (enabled) {
+      gearSwitch.setChecked(viewModel.isGearLedActive());
+    } else {
+      isGearLedClickedWithoutUser = true;
+      gearSwitch.setChecked(false);
+    }
     imgGarment.setEnabled(enabled);
     txtGarment.setEnabled(enabled);
-    gearSwitch.setChecked(enabled);
+    gearSwitch.setEnabled(enabled);
   }
 
   private void initLedPatternList(View view) {
@@ -195,5 +272,14 @@ public class LedPatternFragment extends Fragment implements ItemClickListener {
         showSnackbar(getString(R.string.gear_detached));
         break;
     }
+  }
+
+  private void updateSwitchState() {
+    playLedOnTag = viewModel.isTagLedActive();
+    tagSwitch.setChecked(playLedOnTag);
+  }
+
+  private void setDefault() {
+    editDuration.setText("5");
   }
 }

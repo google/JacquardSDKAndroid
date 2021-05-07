@@ -14,7 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<RelativeLayout
+<com.google.android.jacquard.sample.utilities.JacquardRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
@@ -37,7 +37,7 @@
       android:layout_height="wrap_content"
       android:layout_toLeftOf="@id/imgProduct">
     <TextView
-        style="@style/General_Title_30sp"
+        style="@style/TagHeader"
         android:id="@+id/txtTagName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
         android:ellipsize="end"
         />
     <TextView
-        style="@style/General_Title_30sp"
+        style="@style/HomeProductTitle"
         android:id="@+id/txtTagState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,32 +60,30 @@
         android:textColor="@color/home_tile_grey_shade_2"/>
 
     <TextView
-        style="@style/General_subtitle_12sp"
+        style="@style/BatteryCharging"
         android:id="@+id/txtBattery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/txtTagState"
         android:layout_alignStart="@id/txtTagName"
         android:fontFamily="sans-serif"
+        android:layout_marginBottom="@dimen/margin_2dp"/>
+
+    <TextView
+        style="@style/RSSI"
+        android:id="@+id/txtRssi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtBattery"
+        android:layout_alignStart="@id/txtTagName"
         android:layout_marginBottom="@dimen/margin_12dp"/>
   </RelativeLayout>
-
-  <TextView
-    style="@style/General_subtitle_12sp"
-    android:id="@+id/app_version"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/relTop"
-    android:fontFamily="sans-serif"
-    android:paddingStart="@dimen/padding_20dp"
-    android:background="@color/home_tile_grey_shade_2"
-    android:layout_marginBottom="@dimen/margin_12dp"/>
 
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recyclerGearOptions"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_below="@id/app_version"
+      android:layout_below="@id/relTop"
       android:paddingStart="@dimen/padding_15dp"
       android:paddingEnd="@dimen/padding_15dp"/>
-  </RelativeLayout>
+  </com.google.android.jacquard.sample.utilities.JacquardRelativeLayout>

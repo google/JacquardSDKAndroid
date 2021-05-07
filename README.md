@@ -48,8 +48,5 @@ Once you have completed the tutorial, the best place to go next is the API Overv
 ## Copyright
 Copyright 2021 Google LLC
 
-## License - Sample App
-The code in this repository is licensed under the Apache License, Version 2.0. See the [LICENSE](https://google.github.com/JacquardSDKAndroid/wiki/license) file for more info.
-
-## License - Framework
-The JacquardSDK Framework is licensed under the Jacquard Software Development Kit License Agreement. See the [LICENSE](https://google.github.com/JacquardSDKAndroid/wiki/license) file for more info.
+## License
+The code in this repository is licensed under the Apache License, Version 2.0. See the LICENSE file for more info.

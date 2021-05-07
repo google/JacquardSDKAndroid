@@ -171,7 +171,7 @@ blockquote {
         margin-top: 28px;
     }
 
-    .firmware_list {
+    .firmware_list, .tutorial_list {
         li {
             img {
                 margin: 0px;
@@ -557,4 +557,13 @@ input:focus, select:focus, textarea:focus {
 
 .menu ul a.opener:hover:before, .menu ul span.opener:hover:before {
     color: inherit;
+}
+
+input[type="checkbox"] {
+  -moz-appearance: checkbox !important;
+  -webkit-appearance: checkbox !important;
+  -ms-appearance: checkbox !important;
+  appearance: checkbox !important;
+  opacity: 1.0 !important;
+  margin-right: 4px !important;
 }

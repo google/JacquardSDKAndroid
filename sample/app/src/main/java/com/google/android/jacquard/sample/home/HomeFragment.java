@@ -15,6 +15,9 @@
  */
 package com.google.android.jacquard.sample.home;
 
+import static com.google.android.jacquard.sample.MainActivity.COMPANION_DEVICE_REQUEST;
+
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,25 +34,34 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.jacquard.sample.BuildConfig;
 import com.google.android.jacquard.sample.ConnectivityManager.Events;
+import com.google.android.jacquard.sample.MainActivity;
 import com.google.android.jacquard.sample.R;
 import com.google.android.jacquard.sample.ViewModelFactory;
+import com.google.android.jacquard.sample.dialog.DefaultDialog;
 import com.google.android.jacquard.sample.home.HomeViewModel.Notification;
 import com.google.android.jacquard.sample.home.HomeViewModel.State;
+import com.google.android.jacquard.sample.utilities.JacquardRelativeLayout;
 import com.google.android.jacquard.sample.utilities.Util;
+import com.google.android.jacquard.sdk.BuildConfig;
 import com.google.android.jacquard.sdk.command.BatteryStatus;
 import com.google.android.jacquard.sdk.command.BatteryStatus.ChargingState;
+import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.model.GearState;
 import com.google.android.jacquard.sdk.rx.Signal.ObservesNext;
 import com.google.android.jacquard.sdk.rx.Signal.Subscription;
+import com.google.android.jacquard.sdk.tag.ConnectedJacquardTag;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import timber.log.Timber;
 
 /** Fragment for Dashboard UI. */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements JacquardRelativeLayout.OnDoubleListener {
+
+  private static final String TAG = HomeFragment.class.getSimpleName();
 
   private final List<Subscription> subscriptions = new ArrayList<>();
   private final String blurProductImageName = "product_blur_image_hear";
@@ -70,6 +82,7 @@ public class HomeFragment extends Fragment {
   private TextView txtGearState;
   private TextView txtTagName;
   private TextView txtBattery;
+  private TextView txtRssi;
   private ImageView imgProduct;
 
   @Override
@@ -80,7 +93,9 @@ public class HomeFragment extends Fragment {
                 requireActivity(),
                 new ViewModelFactory(requireActivity().getApplication(), getNavController()))
             .get(HomeViewModel.class);
-    homeViewModel.connect();
+    homeViewModel.connect(requireActivity(), intentSender -> ((MainActivity) requireActivity())
+        .startForResult(intentSender, COMPANION_DEVICE_REQUEST)
+        .map(result -> result.resultCode() == Activity.RESULT_OK));
   }
 
   @Nullable
@@ -90,7 +105,10 @@ public class HomeFragment extends Fragment {
       @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     subscriptions.add(homeViewModel.stateSignal.onNext(this::onNavigation));
-    return inflater.inflate(R.layout.fragment_home, container, false);
+    JacquardRelativeLayout view =
+        (JacquardRelativeLayout) inflater.inflate(R.layout.fragment_home, container, false);
+    view.setDoubleTouchListener(this);
+    return view;
   }
 
   @Override
@@ -100,6 +118,7 @@ public class HomeFragment extends Fragment {
     txtGearState = view.findViewById(R.id.txtTagState);
     txtTagName = view.findViewById(R.id.txtTagName);
     txtBattery = view.findViewById(R.id.txtBattery);
+    txtRssi = view.findViewById(R.id.txtRssi);
     recyclerView = view.findViewById(R.id.recyclerGearOptions);
     GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), /* spanCount= */ 2);
     layoutManager.setSpanSizeLookup(spanSizeLookup);
@@ -109,9 +128,43 @@ public class HomeFragment extends Fragment {
 
     populateView();
     subscribeToNotifications();
-    setAppVersion();
     subscriptions.add(homeViewModel.getBatteryStatus().onNext(this::onBatteryStatus));
     subscribeEvents();
+  }
+
+  @Override
+  public void onTwoFingerDoubleTap() {
+    try {
+      showAppVersionDialog();
+    } catch (ParseException e) {
+      PrintLogger.e(TAG, "Parsing issue for build date.");
+    }
+  }
+
+  private void showAppVersionDialog() throws ParseException {
+    DefaultDialog defaultDialog = new DefaultDialog.DefaultDialogBuilder()
+        .setTitle(R.string.app_version_dialog_title)
+        .setSubtitle(getString(R.string.app_version_dialog_desc,
+            BuildConfig.SDK_VERSION,
+            com.google.android.jacquard.sample.BuildConfig.GIT_HEAD,
+            getBuildDate()))
+        .setPositiveButtonTitleId(R.string.ok_caps)
+        .setShowNegativeButton(false)
+        .setShowPositiveButton(true)
+        .setCancellable(true)
+        .setShowSubtitle(true)
+        .setShowProgress(false)
+        .build();
+
+    defaultDialog.show(getParentFragmentManager(), /* tag= */null);
+  }
+
+  private String getBuildDate() throws ParseException {
+    String versionStr = String.valueOf(com.google.android.jacquard.sample.BuildConfig.VERSION_CODE);
+    SimpleDateFormat original = new SimpleDateFormat("yyyyMMddHH");
+    SimpleDateFormat updated = new SimpleDateFormat("yyyy-MM-dd hh aa");
+    Date parsedDate = original.parse(versionStr);
+    return parsedDate != null ? updated.format(parsedDate) : "Not Available";
   }
 
   @Override
@@ -124,12 +177,13 @@ public class HomeFragment extends Fragment {
   }
 
   private void onNavigation(State state) {
+    PrintLogger.d(TAG, "onNavigation: " + state);
     switch (state.getType()) {
       case ADAPTER:
         onSetAdapter(state.adapter().listForAdapter(), state.adapter().itemClickListener());
         return;
       case CONNECTED:
-        onConnected();
+        onConnected(state.connected());
         return;
       case DISCONNECTED:
         onDisconnected();
@@ -163,7 +217,7 @@ public class HomeFragment extends Fragment {
                 new ObservesNext<Notification>() {
                   @Override
                   public void onNext(@NonNull Notification notification) {
-                    Timber.d("Received notification %s", notification);
+                    PrintLogger.d(TAG, "Received notification: " + notification);
                     switch (notification.getType()) {
                       case BATTERY:
                         onBatteryStatus(notification.battery());
@@ -176,9 +230,16 @@ public class HomeFragment extends Fragment {
 
                   @Override
                   public void onError(@NonNull Throwable t) {
-                    Timber.e(t, "Failed Notification");
+                    PrintLogger.e(TAG, "Failed Notification: " + t);
                   }
                 }));
+  }
+
+  private void onRSSIChanged(int rssiValue) {
+    if (isAdded()) {
+      txtRssi.setText(getString(R.string.home_page_rssi_info, String.valueOf(rssiValue)));
+      txtRssi.setTextColor(getContext().getColor(Util.getRSSIColor(rssiValue)));
+    }
   }
 
   private void onBatteryStatus(BatteryStatus batteryStatus) {
@@ -197,11 +258,12 @@ public class HomeFragment extends Fragment {
   }
 
   private void onGearState(GearState gearState) {
+    PrintLogger.d(TAG, "onGearState: " + gearState);
     if (gearState.getType() == GearState.Type. ATTACHED) {
       updateGearImage(gearState.attached().product().image());
       homeViewModel.onTagAttached(gearState.attached());
       txtGearState.setText(gearState.attached().product().name());
-      txtGearState.setTextColor(requireContext().getColor(R.color.black));
+      txtGearState.setTextColor(requireContext().getColor(R.color.grey_700));
       txtTagName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.green_indicator, 0);
     } else {
       updateGearImage(blurProductImageName);
@@ -217,25 +279,43 @@ public class HomeFragment extends Fragment {
     imgProduct.setImageResource(imageResourceId);
   }
 
-  private void onConnected() {
+  private void onConnected(ConnectedJacquardTag tag) {
+    subscriptions.add(tag.rssiSignal().onNext(this::onRSSIChanged));
     onGearState(GearState.ofDetached());
   }
 
   private void onDisconnected() {
     homeViewModel.onTagDisconnected();
     txtBattery.setText("");
+    txtRssi.setText("");
     txtTagName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.red_indicator, 0);
     txtGearState.setText(requireContext().getString(R.string.state_disconnected));
     txtGearState.setTextColor(requireContext().getColor(R.color.home_tile_grey_shade_2));
   }
 
-  private void setAppVersion() {
-    TextView appVersion = getView().findViewById(R.id.app_version);
-    appVersion.setText(getString(R.string.app_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
-  }
-
   private void showSnackbar(String message) {
     Util.showSnackBar(getView(), message);
+  }
+
+  private void showDisconnectSnackbar() {
+    Util.showSnackBar(getView(),
+        getString(R.string.tag_not_connected),
+        getString(R.string.disconnect_help),
+        view -> showDisconnectDialog());
+  }
+
+  private void showDisconnectDialog() {
+    new DefaultDialog.DefaultDialogBuilder()
+        .setTitle(R.string.disconnect_help_dialog_title)
+        .setSubtitle(R.string.disconnect_help_dialog_subtitle)
+        .setPositiveButtonTitleId(R.string.disconnect_help_dialog_positive_btn)
+        .setShowNegativeButton(false)
+        .setShowPositiveButton(true)
+        .setCancellable(true)
+        .setShowSubtitle(true)
+        .setShowProgress(false)
+        .build()
+        .show(getParentFragmentManager(), /* tag= */null);
   }
 
   private void subscribeEvents() {
@@ -245,7 +325,7 @@ public class HomeFragment extends Fragment {
   private void onEvents(Events events) {
     switch (events) {
       case TAG_DISCONNECTED:
-        showSnackbar(getString(R.string.tag_not_connected));
+        showDisconnectSnackbar();
         break;
       case TAG_DETACHED:
         showSnackbar(getString(R.string.gear_detached));

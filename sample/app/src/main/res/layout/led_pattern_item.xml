@@ -30,14 +30,13 @@
     android:layout_marginBottom="24dp" />
 
   <TextView
+    style="@style/LedPatternItem"
     android:id="@+id/txtPattern"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
     android:layout_marginStart="36dp"
-    android:layout_toEndOf="@id/imgLedPattern"
-    android:textColor="#3A3A3A"
-    android:textSize="18sp" />
+    android:layout_toEndOf="@id/imgLedPattern"/>
 
   <ImageView
     android:id="@+id/imgPlayPattern"

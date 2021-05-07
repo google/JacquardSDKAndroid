@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Google LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     https://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:animateLayoutChanges="true"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <include
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    layout="@layout/current_imu_session"
+    android:id="@+id/current_session_page_section"
+    app:layout_constraintTop_toBottomOf="@+id/description"
+    android:visibility="gone"/>
+
+  <LinearLayout
+    android:id="@+id/past_session_page_section"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/grey_100"
+    android:orientation="horizontal"
+    android:visibility="gone"
+    app:layout_constraintTop_toBottomOf="@+id/current_session_page_section">
+    <TextView
+      style="@style/PageSection"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="11dp"
+      android:layout_marginBottom="11dp"
+      android:layout_marginStart="24dp"
+      android:text="@string/past_sessions"
+      android:textAllCaps="true" />
+  </LinearLayout>
+
+  <ImageButton
+    android:id="@+id/overflow"
+    android:layout_width="24dp"
+    android:layout_height="24dp"
+    android:layout_marginTop="18dp"
+    android:foreground="?selectableItemBackground"
+    android:layout_marginEnd="24dp"
+    android:background="@null"
+    android:src="@drawable/overflow"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <LinearLayout
+    android:id="@+id/button_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="24dp"
+    android:paddingBottom="24dp"
+    android:orientation="vertical"
+    app:layout_constraintBottom_toBottomOf="parent">
+    <Button
+      android:id="@+id/start_imu_session"
+      style="@style/RedRoundButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/start_imu_session" />
+    <Button
+      android:id="@+id/stop_imu_session"
+      style="@style/RedRoundButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:drawableEnd="@drawable/stop_recording_button_drawable"
+      android:text="@string/stop_imu_session"
+      android:visibility="gone" />
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/page_title"
+    style="@style/PageTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="46dp"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    android:text="@string/imu_title"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+  <TextView
+    android:id="@+id/description"
+    style="@style/PageDescription"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:paddingBottom="25dp"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    android:text="@string/imu_description"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/page_title" />
+
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="24dp"
+    android:layout_height="24dp"
+    android:layout_marginTop="22dp"
+    android:layout_marginStart="22dp"
+    android:fitsSystemWindows="true"
+    android:theme="@style/ToolbarTheme"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:navigationIcon="@drawable/ic_chevron_left_24px" />
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/session_list"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:layout_marginStart="24dp"
+    app:layout_constraintBottom_toTopOf="@id/button_layout"
+    app:layout_constraintTop_toBottomOf="@id/past_session_page_section" />
+
+  <LinearLayout
+    android:id="@+id/progress"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/progress_overlay"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:visibility="visible">
+
+    <ProgressBar
+      android:id="@+id/progress_bar"
+      android:layout_width="52dp"
+      android:layout_height="52dp"
+      android:layout_centerInParent="true"
+      android:indeterminate="true" />
+
+    <TextView
+      android:id="@+id/progress_message"
+      style="@style/ProgressTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="15dp"
+      android:text="@string/please_wait"
+      android:textColor="@color/white" />
+  </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

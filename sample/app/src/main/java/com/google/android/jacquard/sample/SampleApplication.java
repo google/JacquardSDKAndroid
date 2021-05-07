@@ -18,8 +18,7 @@ package com.google.android.jacquard.sample;
 
 import android.app.Application;
 import com.google.android.jacquard.sdk.log.PrintLogger;
-import timber.log.Timber;
-import timber.log.Timber.DebugTree;
+import com.google.android.jacquard.sdk.model.SdkConfig;
 
 public class SampleApplication extends Application {
 
@@ -29,8 +28,9 @@ public class SampleApplication extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
-    Timber.plant(new DebugTree());
     resourceLocator = new ResourceLocator(this);
+    resourceLocator.getConnectivityManager()
+        .init(SdkConfig.of(getPackageName(), BuildConfig.API_KEY));
     PrintLogger.d(TAG,
         "App created # " + getString(R.string.app_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
   }

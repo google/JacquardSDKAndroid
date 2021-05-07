@@ -109,11 +109,9 @@
       app:layout_constraintBottom_toBottomOf="parent">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/scan_button"
-        style="@style/FullWidthButton"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="@string/scan_page_scan_button" />
+      android:id="@+id/scan_button"
+      style="@style/ScanButton"
+      android:text="@string/scan_page_scan_button" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/stop_scan_button"
@@ -125,9 +123,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/pair_button"
-        style="@style/FullWidthButton"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+        style="@style/ScanButton"
         android:text="@string/scan_page_pair_button"
         android:visibility="gone" />
   </LinearLayout>
@@ -136,7 +132,7 @@
       android:id="@+id/progress_bar_holder"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="@color/scan_page_progress_overlay"
+      android:background="@color/progress_overlay"
       android:clickable="true"
       android:focusable="true"
       android:visibility="gone">

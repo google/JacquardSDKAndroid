@@ -1,10 +1,9 @@
 In this tutorial you will learn how to integrate the Jacquard SDK into
 an Android app, scan and connect to a tag, send commands and respond to
-notifications.
+notifications using Android Studio.
 
 You will need:
-1. Some Jacquard gear TODO: Link to getting started section/page about
-   obtaining gear.
+1. Some Jacquard gear. You can order it [here](https://atap.google.com/jacquard/products/).
 2. An Android device (since the Jacquard SDK uses Bluetooth to connect to
    your tag the simulator won't work).
 
@@ -12,17 +11,12 @@ You will need:
 1. [Prepare your Jacquard Tag](#section1)
 1. [Create a new Android project](#section2)
 1. [Integrate Jacquard SDK](#section3)
-1. [Add the scanning table view](#section4)
-1. [Displaying the advertised tags and connecting the TableView Delegate](#section5)
+1. [Add the scanning RecyclerView](#section4)
+1. [Displaying the advertised tags and populating the RecyclerView](#section5)
 1. [Displaying already connected tags](#section6)
 1. [Connecting to tags](#section7)
-1. [Sending commands](#section8)
-1. [Observing Notifications](#section9)
-
 
 ## <a name="section1"></a>1. Prepare your Jacquard Tag
-
-Before continuing, update the Jacquard firmware as per the [instructions](/wiki/firmware_update).
 
 To ensure the smoothest path through this tutorial, go to Android
 Bluetooth settings, find the entry for your Jacquard Tag and choose
@@ -36,59 +30,208 @@ In Android Studio, create a new Android project.
 
 ![Android Studio new project dialog](../../assets/media/tutorial/create_new_project.png)
 
+Select `No Activity` as your project template then create the project.
+
 ## <a name="section3"></a>3. Integrate Jacquard SDK
 
-It's easy to integrate the Jacquard SDK using Maven.
-
-You need to include Jacquard in the `dependencies` section of your gradle file:
+It's easy to integrate the Jacquard SDK using Maven. First, you need to include GMaven into your project gradle file - `build.gradle (Project: Jacquard_Tutorial)`.
 
 ```java
-implementation "com.google.jacquard:jacquard-sdk:0.1.0"
+allprojects {
+  repositories {
+    ...
+    maven {
+        url "https://maven.google.com/"
+    }
+  }
+}
 ```
 
-## <a name="section4"></a>4. Add the scanning table view
+Then you need to include Jacquard in the `dependencies` section of your application's gradle file - `build.gradle (Module: Jacquard_Tutorial.app)`.
+You might need to expand the Gradle Scripts dropdown in the Project panel on the left.
 
-The app you will make has two screens. The first is a tableview
+```java
+implementation "com.google.jacquard:jacquard-sdk:0.2.0"
+```
+
+## <a name="section4"></a>4. Add the scanning RecyclerView
+
+The app you will make has two screens. The first is a RecyclerView
 listing any nearby advertising tags. The second is a screen with a few
 simple labels and buttons which you will connect to Jacquard
 functions.
 
 First lets set up the Scanning activity.
 
-1. Select `File > New > Activity > Empty Activity`.
-   We'll make this the main activity.
-1. Add a RecyclerView by going to `activity_main.xml`.
-1. Your activity should look something like this:
+1. {.tutorial_list}Select `File > New > Activity > Empty Activity`.
+   ![Create main activity](../../assets/media/tutorial/create_main_activity.png)
+   We will also make this the main activity.
+1. Open `activity_main.xml` and add a RecyclerView. Your activity layout file should look something like this if you select "Split" view:
    ![Main activity layout](../../assets/media/tutorial/activity_main.png)
 
-You're now ready to start coding!
+Now we can start coding!
+
+### Set blue tooth permissions
+
+First we need to request for bluetooth permissions, which also requires fine location permission. In `AndroidManifest.xml`, make sure you have these
+permissions:
+
+```
+<uses-permission android:name="android.permission.BLUETOOTH" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+```
+
+### Create RecyclerView adapter
+
+We have to create an adapter to update the RecycleView's UI. Create a file named `TagListAdapter`. In this adapter, we are going to implement a simple
+item UI with just the name of the tag:
+```java
+public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.AdvertisedJacquardTagViewHolder> {
+  private List<AdvertisedJacquardTag> tagList;
+
+  public TagListAdapter(List<AdvertisedJacquardTag> tagList) {
+    this.tagList = tagList;
+  }
+
+  @NonNull
+  @Override
+  public AdvertisedJacquardTagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+    View view = layoutInflater.inflate(R.layout.tag_item, parent, false);
+    return new AdvertisedJacquardTagViewHolder(view);
+  }
+
+  @Override
+  public int getItemCount() {
+    return tagList.size();
+  }
+
+  @Override
+  public void onBindViewHolder(@NonNull AdvertisedJacquardTagViewHolder holder, int position) {
+    holder.bindView(tagList.get(position).displayName());
+  }
+
+  class AdvertisedJacquardTagViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    private final View view;
+
+    AdvertisedJacquardTagViewHolder(View itemView) {
+      super(itemView);
+      view = itemView;
+      view.setOnClickListener(this);
+    }
+
+    void bindView(String name) {
+      TextView tv = view.findViewById(R.id.tag_item_name);
+      tv.setText(name);
+    }
+
+    @Override
+    public void onClick(View v) {
+      // Item click
+    }
+  }
+}
+```
+
+And the layout file should look something like the following:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+  <TextView
+      android:id="@+id/tag_item_name"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center_vertical" />
+
+</RelativeLayout>
+```
+
+### Setup RecyclerView
+
+Now switching back to your MainActivity file. First, we need to create a private variable to hold our scanned tag list:
+
+```
+private ArrayList<AdvertisedJacquardTag> tags = new ArrayList<>();
+```
+
+Then, in the `onCreate` method we will set our RecycleView to use the newly created TagListAdapter:
+
+```
+RecyclerView recyclerView = findViewById(R.id.tag_recyclerview);
+recyclerView.setLayoutManager(new LinearLayoutManager(this));
+recyclerView.setAdapter(new TagListAdapter(tags));
+```
+
+## <a name="section5"></a>5. Displaying the advertised tags and populating the RecyclerView
+
+Before we can scan for tags, we'll need to request for the necessary permissions. Copy and paste the following into MainActivity:
 
 ```java
-jacquardManager.startScanning()
-               .distinct()
-               .scan(new ArrayList<AdvertisedJacquardTag>(), 
-                      (tagList, tag) -> {
-                        tagList.add(tag);
-                        return tagList;
-                      })
-               .onNext(tagList -> // Notify adapter to update UI);  
+private final ActivityResultLauncher<String> requestPermissionLauncher =
+    registerForActivityResult(
+        new ActivityResultContracts.RequestPermission(),
+        isGranted -> {
+          if (isGranted) {
+            startScan();
+          }
+        });
+
+private boolean hasPermissions() {
+  if (checkSelfPermission(ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
+    return true;
+  } else if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
+    // User has denied the permission. Its time to show rationale.
+    return false;
+  } else {
+    requestPermissionLauncher.launch(ACCESS_FINE_LOCATION);
+    return false;
+  }
+}
+```
+
+Now create a `onResume` method and put the following in `onResume`. This will request the permission if necessary whenever we come back to this screen.
+
+```
+if (hasPermissions()) {
+  startScan();
+}
+```
+
+### Scan for advertising Jacquard tags
+
+Now we will create the startScan method that was used in `onResume` and put our tag scanning codes inside.
+This will start scanning for advertising Jacquard tags whenever the activity is back on screen.
+
+```java
+private void startScan() {
+    JacquardManager jacquardManager = JacquardManager.getInstance();
+    Signal<List<AdvertisedJacquardTag>> scanningSignal = jacquardManager.startScanning()
+        .distinct()
+        .scan(tags,
+            (tagList, tag) -> {
+              tagList.add(tag);
+              return tagList;
+            });
+    scanningSignal.onNext(tagList -> {
+      // Notify RecyclerView adapter to update the list
+      RecyclerView recyclerView = findViewById(R.id.tag_recyclerview);
+      recyclerView.getAdapter().notifyDataSetChanged();
+    });
+}
 ```
 
 ### Put the Jacquard Tag into advertising mode
 
 Press and hold the button on your tag for 3 or 4 seconds. The LED on
-the tag will start pulsing, and you should see a log entry in Xcode
-`Found advertising tag 01ZK` (your tag's identifier will be
-different).
+the tag will start pulsing.
 
-## <a name="section5"></a>5. Displaying the advertised tags and populating the RecyclerView
+You should be able to the RecyclerView updated with your Jacquard Tag name.
 
-Here we are using a standard Android approach to display the found tag in
-a cell and respond to a tapped cell. You may do this yourself.
-
-You should be able to build and run and see advertising tags in the
-table view (you will need to press and hold the tag button again -
-Jacquard tags stop advertising after 60 seconds).
 
 ## <a name="section6"></a>6. Displaying already connected tag
 
@@ -108,8 +251,7 @@ private void savePairedDevices(KnownTag tag) {
 
 ## <a name="section7"></a>7. Connecting to tags
 
-Connecting to tags is an important step that is fully documented in
-[Connecting to Tags](Connecting%20to%20Tags.html).
+Connecting to tags is an important step that is fully documented in the api documentation.
 
 ### Connecting to the tag
 
@@ -133,82 +275,6 @@ public Signal<ConnectedJacquardTag> getConnectedTagSignal() {
 }
 ```
 
-
 Congratulations, your app will now show an advertising tag, connect to
 it. Try it now (and don't forget to press the tag's button for four seconds 
 to restart pairing mode).
-
-## <a name="section8"></a>8. Sending commands
-
-Now we'll explore sending commands to the tag, in this case
-`RenameTagCommand`, but commands are documented fully in the
-[Commands](Commands.html) documentation.
-
-When you have `ConnectedJacquardTag` available, you can enqueue commands which will be sent to 
-the tag in sequential manner as below -
-
-```java
-public Signal<String> renameTag(String tagName) {
-  return connectedJacquardTag
-          .enqueue(new RenameTagCommand(tagName)));
-}
-```
-
-Note - Your app should listen for command success as well as failures both as below -
-```java
-updateTagName("NewTagName").observe(new Observer<String>() {
-  @Override
-  public void onNext(@NonNull String s) {
-    // SUCCESS
-  }
-
-  @Override
-  public void onError(@NonNull Throwable t) {
-    // FAILURE
-  }
-
-  @Override
-  public void onComplete() {
-  }
-});
-```
- 
-`ConnectedJacquardTag.enqueue(Request command, int retries)` this api will give you ability to retry 
-sending same request multiple times if it fails in prior attempt.
-
-## <a name="section9"></a>9. Observing Notifications
-
-Commands are initiated by the app and sent to the tag (possibly with a
-response). Notifications on the other hand originate from the tag at
-any time. We can ask to be notified any time a notification of
-interest occurs. 
-
-To get the tag battery notifiations -
-```java
-private Signal<BatteryStatus> getBatteryNotifications(ConnectedJacquardTag tag) {
-  return tag.subscribe(new BatteryStatusNotificationSubscription());
-}
-```
-
-To get tag attach-detach notifications - 
-```java
-private Signal<GearState> getGearNotifications(ConnectedJacquardTag tag) {
-  return tag.getConnectedGearSignal();
-}
-```
-
-Once you have `ConnectedJacquardTag`, you can insert tag into  Jacquard gear and 
-observe for the gesture events as below -
-
-```java
-private Signal<Gesture> getGestures(ConnectedJacquardTag tag) {
-  return tag.subscribe(new GestureNotificationSubscription());
-}
-```
-
-You have now successfully integrated the Jacquard SDK and learned how
-to connect, send commands and observe notifications. There's more to
-the SDK which you can see demonstrated in the [sample
-app](https://github.com/google/JacquardSDKAndroid) and read about in the
-SDK documentation (see the table of contents on the left side of this
-page).

@@ -23,14 +23,16 @@ import com.google.android.jacquard.sample.ConnectivityManager.Events;
 import com.google.android.jacquard.sample.KnownTag;
 import com.google.android.jacquard.sample.Preferences;
 import com.google.android.jacquard.sdk.command.RenameTagCommand;
+import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.rx.Fn;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.tag.ConnectedJacquardTag;
 import java.util.List;
-import timber.log.Timber;
 
 /** View model for the {@link RenameTagFragment}. */
 public class RenameTagViewModel extends ViewModel {
+
+  private static final String TAG = RenameTagViewModel.class.getSimpleName();
 
   private final Preferences preferences;
   private final NavController navController;
@@ -74,14 +76,14 @@ public class RenameTagViewModel extends ViewModel {
     String tagIdentifier = preferences.getCurrentTag().identifier();
     List<KnownTag> knownTags = preferences.getKnownTags();
     KnownTag knownTag = KnownTag
-        .of(tagIdentifier, updatedTagName, preferences.getCurrentTag().pairingSerialNumber());
+        .of(tagIdentifier, updatedTagName, preferences.getCurrentTag().pairingSerialNumber(), null);
     for (int i = 0; i < knownTags.size(); i++) {
       if (knownTags.get(i).identifier().equals(tagIdentifier)) {
         knownTags.set(i, knownTag);
         break;
       }
     }
-    Timber.d("Persisting devices %s", knownTags);
+    PrintLogger.d(TAG, "Persisting devices: " + knownTags);
     preferences.putKnownDevices(knownTags);
     preferences.putCurrentDevice(knownTag);
     currentTag = knownTag;

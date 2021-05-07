@@ -18,7 +18,7 @@
       <div id="header_content">
         <!-- Menu -->
         <ul id="nav_menu">
-          <li>v. 0.1.0</li>
+          <li>v. 0.2.0</li>
           <li><a href="https://github.com/google/JacquardSDKAndroid">View on Github</a></li>
           <li><a id="search_button" href="javascript:JacquardDoc.toggleSearch()"></a></li>
         </ul>

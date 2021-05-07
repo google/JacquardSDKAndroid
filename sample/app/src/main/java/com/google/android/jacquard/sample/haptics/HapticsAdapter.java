@@ -27,8 +27,12 @@ import com.google.android.jacquard.sample.haptics.HapticsAdapter.HapticsViewHold
 /** A adapter for {@link HapticsFragment}. */
 public class HapticsAdapter extends RecyclerView.Adapter<HapticsViewHolder> {
 
-  private static final HapticPatternType[] HAPTICS = HapticPatternType.values();
+  private static final HapticPatternType[] HAPTICS = new HapticPatternType[]{
+      HapticPatternType.INSERT_PATTERN, HapticPatternType.GESTURE_PATTERN,
+      HapticPatternType.NOTIFICATION_PATTERN, HapticPatternType.ERROR_PATTERN,
+      HapticPatternType.ALERT_PATTERN};
   private final ItemClickListener itemClickListener;
+
   HapticsAdapter(ItemClickListener itemClickListener) {
     this.itemClickListener = itemClickListener;
   }

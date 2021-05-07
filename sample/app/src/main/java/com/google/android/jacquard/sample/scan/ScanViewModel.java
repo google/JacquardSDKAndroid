@@ -17,6 +17,8 @@ package com.google.android.jacquard.sample.scan;
 
 import static com.google.android.jacquard.sdk.connection.ConnectionState.Type.CONNECTED;
 
+import android.content.Context;
+import android.content.IntentSender;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
@@ -26,6 +28,8 @@ import com.google.android.jacquard.sample.Preferences;
 import com.google.android.jacquard.sample.R;
 import com.google.android.jacquard.sample.splash.SplashFragmentDirections;
 import com.google.android.jacquard.sdk.connection.ConnectionState;
+import com.google.android.jacquard.sdk.log.PrintLogger;
+import com.google.android.jacquard.sdk.rx.Fn;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.rx.Signal.ObservesNext;
 import com.google.android.jacquard.sdk.rx.Signal.Subscription;
@@ -36,12 +40,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
-import timber.log.Timber;
 
 /** View model for {@link ScanFragment}. */
 public class ScanViewModel extends ViewModel {
 
   private static final int PAIRING_TIMEOUT = 30 * 1000;
+  private static final String TAG = ScanViewModel.class.getSimpleName();
 
   public final Signal<State> stateSignal = Signal.create();
   private final Preferences preferences;
@@ -108,7 +112,7 @@ public class ScanViewModel extends ViewModel {
   private void persistKnownDevices(KnownTag tag) {
     Set<KnownTag> knownTags = new HashSet<>(preferences.getKnownTags());
     knownTags.add(tag);
-    Timber.d("Persisting devices %s", knownTags);
+    PrintLogger.d(TAG, "Persisting devices: " + knownTags);
     preferences.putKnownDevices(knownTags);
     preferences.putCurrentDevice(tag);
   }
@@ -119,9 +123,10 @@ public class ScanViewModel extends ViewModel {
   }
 
   /** Connects to the selected tag. */
-  public void connect() {
+  public void connect(Context context,
+      final @NonNull Fn<IntentSender, Signal<Boolean>> senderHandler) {
     stateSignal.next(State.ofConnecting());
-    subscriptions.add(connectivityManager.connect(tag.identifier())
+    subscriptions.add(connectivityManager.connect(context, tag.identifier(), senderHandler)
         .filter(connectionState -> connectionState.isType(CONNECTED)).first()
         .timeout(PAIRING_TIMEOUT)
         .observe(new ObservesNext<ConnectionState>() {
@@ -132,7 +137,7 @@ public class ScanViewModel extends ViewModel {
 
                    @Override
                    public void onError(@NonNull Throwable t) {
-                     Timber.e(t, "Failed to connect");
+                     PrintLogger.e(TAG, "Failed to connect: " + t);
                      String errorMsg;
                      if (t instanceof TimeoutException) {
                        errorMsg = "Getting issue to tag pairing, Please retry.";
@@ -150,16 +155,11 @@ public class ScanViewModel extends ViewModel {
    */
   public void successfullyConnected(boolean isUserAlreadyOnboarded) {
     persistKnownDevices(tag);
-    subscriptions.add(
-        Signal.from(isUserAlreadyOnboarded)
-            .delay(/* delayInMillis= */ 2000)
-            .onNext(isOnboarded -> {
-              if (isUserAlreadyOnboarded) {
-                navController.popBackStack();
-                return;
-              }
-              navController.navigate(SplashFragmentDirections.actionToHomeFragment());
-            }));
+    if (isUserAlreadyOnboarded) {
+      navController.popBackStack();
+      return;
+    }
+    navController.navigate(SplashFragmentDirections.actionToHomeFragment());
   }
 
   @Override

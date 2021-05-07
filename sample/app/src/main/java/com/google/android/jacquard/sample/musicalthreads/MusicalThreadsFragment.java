@@ -40,7 +40,6 @@ public class MusicalThreadsFragment extends Fragment {
 
   private final List<Subscription> subscriptions = new ArrayList<>();
 
-  private Subscription subscription = new Subscription();
   private MusicalThreadsViewModel viewModel;
   private ViewGroup threadLayout;
   private int threadCount = 0;
@@ -64,18 +63,6 @@ public class MusicalThreadsFragment extends Fragment {
     threadLayout = view.findViewById(R.id.thread_layout);
     initToolbar(view);
     subscribeEvents();
-  }
-
-  @Override
-  public void onResume() {
-    super.onResume();
-    subscription = viewModel.startTouchStream().onNext(this::onLineUpdate);
-  }
-
-  @Override
-  public void onPause() {
-    subscription.unsubscribe();
-    super.onPause();
   }
 
   private void initToolbar(View root) {
@@ -112,6 +99,7 @@ public class MusicalThreadsFragment extends Fragment {
 
   private void subscribeEvents() {
     subscriptions.add(viewModel.getConnectivityEvents().onNext(this::onEvents));
+    subscriptions.add(viewModel.startTouchStream().onNext(this::onLineUpdate));
   }
 
   private void onEvents(Events events) {

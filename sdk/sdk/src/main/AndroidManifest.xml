@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.google.android.jacquard.sdk">
+  <uses-feature android:name="android.software.companion_device_setup"/>
+  <uses-permission android:name="android.permission.BLUETOOTH" />
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+  <application>
+
+    <provider
+      android:name=".SdkInitProvider"
+      android:authorities="com.google.android.jacquard.sdk.SdkInitProvider"
+      android:exported="false" />
+
+  </application>
+
+</manifest>

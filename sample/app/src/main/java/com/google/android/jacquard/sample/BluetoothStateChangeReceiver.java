@@ -48,6 +48,6 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
     }
     PrintLogger.d(TAG, /* message= */"onBleEnabled # Connect to # " + knownTag.identifier());
     ConnectivityManager connectivityManager = resourceLocator.getConnectivityManager();
-    connectivityManager.connect(knownTag.identifier());
+    connectivityManager.connect(context, knownTag.identifier(), null);
   }
 }

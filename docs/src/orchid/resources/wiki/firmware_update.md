@@ -31,3 +31,4 @@ You're now ready to interact with **Jacquard**. Tap `Personalize`.
 current tag BLE protocol does not support simultaneous connections from multiple apps. To do that, either clear Jacquard app data 
 or simply uninstall Jacquard app.
 21. All Set!
+

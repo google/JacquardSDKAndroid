@@ -25,7 +25,14 @@
     android:fitsSystemWindows="true"
     android:theme="@style/ToolbarTheme"
     app:layout_constraintTop_toTopOf="parent"
-    app:navigationIcon="@drawable/ic_chevron_left_24px" />
+    app:navigationIcon="@drawable/ic_chevron_left_24px" >
+    <TextView
+      android:id="@+id/toolbar_title"
+      style="@style/TagDetailsToolBar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center" />
+  </androidx.appcompat.widget.Toolbar>
 
   <androidx.constraintlayout.widget.Guideline
     android:layout_width="wrap_content"

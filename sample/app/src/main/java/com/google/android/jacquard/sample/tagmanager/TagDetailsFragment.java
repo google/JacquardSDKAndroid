@@ -15,6 +15,9 @@
  */
 package com.google.android.jacquard.sample.tagmanager;
 
+import static com.google.android.jacquard.sample.MainActivity.COMPANION_DEVICE_REQUEST;
+
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,22 +31,24 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import com.google.android.jacquard.sample.KnownTag;
+import com.google.android.jacquard.sample.MainActivity;
 import com.google.android.jacquard.sample.R;
 import com.google.android.jacquard.sample.ViewModelFactory;
 import com.google.android.jacquard.sample.utilities.Util;
 import com.google.android.jacquard.sdk.command.BatteryStatus;
 import com.google.android.jacquard.sdk.command.BatteryStatus.ChargingState;
+import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.model.GearState;
 import com.google.android.jacquard.sdk.rx.Signal.Subscription;
 import java.util.ArrayList;
 import java.util.List;
-import timber.log.Timber;
 
 /**
  * Fragment for showing tag details.
  */
 public class TagDetailsFragment extends Fragment {
 
+  private static final String TAG = TagDetailsFragment.class.getSimpleName();
   private final List<Subscription> subscriptions = new ArrayList<>();
 
   private KnownTag knownTag;
@@ -78,11 +83,18 @@ public class TagDetailsFragment extends Fragment {
     showMessageWhenTagIsNotCurrent();
     txtSerialNumber.setText(knownTag.pairingSerialNumber());
     txtSelectAsCurrentTag.setOnClickListener(v -> {
-      tagDetailsViewModel.selectAsCurrentTag(knownTag);
+      tagDetailsViewModel
+          .selectAsCurrentTag(requireActivity(), knownTag,
+              intentSender -> ((MainActivity) requireActivity())
+                  .startForResult(intentSender, COMPANION_DEVICE_REQUEST)
+                  .map(result -> result.resultCode() == Activity.RESULT_OK));
       showSnackBar(getString(R.string.tag_details_tag_selected, knownTag.displayName()));
     });
     txtForgetTag.setOnClickListener(v -> {
-      tagDetailsViewModel.forgetTag(knownTag);
+      tagDetailsViewModel
+          .forgetTag(requireActivity(), knownTag, intentSender -> ((MainActivity) requireActivity())
+              .startForResult(intentSender, COMPANION_DEVICE_REQUEST)
+              .map(result -> result.resultCode() == Activity.RESULT_OK));
       showSnackBar(getString(R.string.tag_details_tag_removed, knownTag.displayName()));
     });
   }
@@ -108,32 +120,29 @@ public class TagDetailsFragment extends Fragment {
 
   private void getFirmwareVersion() {
     subscriptions.add(
-        tagDetailsViewModel.getDeviceInfo()
-            .observe(deviceInfo -> {
-              Timber.d("Received device info %s", deviceInfo);
-              txtVersion.setText(requireContext().
-                  getString(R.string.firmware_version_format, deviceInfo.firmwareMajor(),
-                      deviceInfo.firmwareMinor()));
-            }, error -> {
-              if (error == null) {
-                return;
-              }
-              Timber.e(error);
-              showSnackBar(error.getMessage());
-            }));
+        tagDetailsViewModel.getVersion().observe(version -> {
+          PrintLogger.d(TAG, "Received device info: " + version.toString());
+          txtVersion.setText(version.toString());
+        }, error -> {
+          if (error == null) {
+            return;
+          }
+          PrintLogger.e(TAG, "getFirmwareVersion: " + error.getMessage());
+          showSnackBar(error.getMessage());
+        }));
   }
 
   private void getBatteryStatus() {
     subscriptions.add(
         tagDetailsViewModel.getBatteryStatus()
             .observe(notification -> {
-              Timber.d("Received battery status info %s", notification);
+              PrintLogger.d(TAG, "Received battery status info: " + notification);
               onBatteryStatus(notification);
             }, error -> {
               if (error == null) {
                 return;
               }
-              Timber.e(error);
+              PrintLogger.e(TAG, "getBatteryStatus: " + error.getMessage());
               showSnackBar(error.getMessage());
             }));
   }
@@ -143,7 +152,7 @@ public class TagDetailsFragment extends Fragment {
         tagDetailsViewModel
             .getNotification()
             .observe(notification -> {
-              Timber.d("Received notification %s", notification);
+              PrintLogger.d(TAG, "Received notification: " + notification);
               switch (notification.getType()) {
                 case BATTERY:
                   onBatteryStatus(notification.battery());
@@ -156,7 +165,7 @@ public class TagDetailsFragment extends Fragment {
               if (error == null) {
                 return;
               }
-              Timber.e(error);
+              PrintLogger.e(TAG, "subscribeToNotifications: " + error.getMessage());
               showSnackBar(error.getMessage());
             }));
   }
@@ -206,7 +215,7 @@ public class TagDetailsFragment extends Fragment {
     toolbar.setNavigationOnClickListener(v -> {
       tagDetailsViewModel.backArrowClick();
     });
-    toolbar.setTitle(knownTag.displayName());
+    ((TextView)getView().findViewById(R.id.toolbar_title)).setText(knownTag.displayName());
   }
 
   private void showSnackBar(String text) {
@@ -219,7 +228,7 @@ public class TagDetailsFragment extends Fragment {
 
   private void showMessageWhenTagIsNotCurrent() {
     if (tagDetailsViewModel.checkIfCurrentTag(knownTag)) {
-      Timber.d("%s is current tag", knownTag.identifier());
+      PrintLogger.d(TAG, knownTag.identifier() + " is current tag");
       return;
     }
     Util.showSnackBar(getView(), getString(R.string.tag_details_tag_not_current));

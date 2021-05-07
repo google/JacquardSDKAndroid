@@ -1,8 +1,24 @@
+/*
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.google.android.jacquard.sample.tagmanager;
 
 import static com.google.android.jacquard.sample.scan.AdapterItem.Type.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.IntentSender;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +34,8 @@ import com.google.android.jacquard.sample.KnownTag;
 import com.google.android.jacquard.sample.R;
 import com.google.android.jacquard.sample.scan.AdapterItem;
 import com.google.android.jacquard.sample.tagmanager.TagManagerAdapter.AdapterItemViewHolder;
+import com.google.android.jacquard.sdk.rx.Fn;
+import com.google.android.jacquard.sdk.rx.Signal;
 
 /**
  * A adapter for tag manager fragment {@link TagManagerFragment}.
@@ -41,15 +59,17 @@ public class TagManagerAdapter extends ListAdapter<AdapterItem, AdapterItemViewH
      *
      * @param tag known tag
      */
-    void onTagSelect(KnownTag tag);
+    void onTagSelect(KnownTag tag, Fn<IntentSender, Signal<Boolean>> senderHandler);
   }
 
   private final TagManagerViewModel viewModel;
+  private final Fn<IntentSender, Signal<Boolean>> senderHandler;
   private static TagViewHolder selectedTagViewHolder;
 
-  public TagManagerAdapter(TagManagerViewModel viewModel) {
+  public TagManagerAdapter(final @NonNull Fn<IntentSender, Signal<Boolean>> senderHandler, TagManagerViewModel viewModel) {
     super(new DiffCallback());
     this.viewModel = viewModel;
+    this.senderHandler = senderHandler;
   }
 
   @Override
@@ -70,7 +90,7 @@ public class TagManagerAdapter extends ListAdapter<AdapterItem, AdapterItemViewH
 
   @Override
   public void onBindViewHolder(AdapterItemViewHolder holder, int position) {
-    holder.bind(getItem(position));
+    holder.bind(getItem(position), senderHandler);
   }
 
   @Override
@@ -114,7 +134,7 @@ public class TagManagerAdapter extends ListAdapter<AdapterItem, AdapterItemViewH
       super(itemView);
     }
 
-    abstract void bind(AdapterItem item);
+    abstract void bind(AdapterItem item, Fn<IntentSender, Signal<Boolean>> senderHandler);
   }
 
   static class TagViewHolder extends AdapterItemViewHolder {
@@ -135,24 +155,25 @@ public class TagManagerAdapter extends ListAdapter<AdapterItem, AdapterItemViewH
     }
 
     @Override
-    void bind(AdapterItem item) {
+    void bind(AdapterItem item, Fn<IntentSender, Signal<Boolean>> senderHandler) {
       KnownTag tag = item.tag();
       displayName.setText(tag.displayName());
       address.setText(tag.pairingSerialNumber());
       setCurrentTagAsSelected(tag);
-      tagSelection.setOnClickListener(v -> onTagSelect(tag, v));
+      tagSelection.setOnClickListener(v -> onTagSelect(senderHandler, tag, v));
       itemView.setOnClickListener(v -> {
         viewModel.onItemClick(tag);
       });
     }
 
-    private void onTagSelect(KnownTag tag, View v) {
+    private void onTagSelect(Fn<IntentSender, Signal<Boolean>> senderHandler, KnownTag tag,
+        View v) {
       if (selectedTagViewHolder != null) {
         selectedTagViewHolder.layout.setSelected(false);
       }
       selectedTagViewHolder = TagViewHolder.this;
       layout.setSelected(true);
-      viewModel.onTagSelect(tag);
+      viewModel.onTagSelect(tag, senderHandler);
     }
 
     private void setCurrentTagAsSelected(KnownTag tag) {

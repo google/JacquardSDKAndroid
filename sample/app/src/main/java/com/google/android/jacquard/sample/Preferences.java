@@ -16,14 +16,19 @@
 
 package com.google.android.jacquard.sample;
 
+import static com.google.android.jacquard.sample.Preferences.KEY.CURRENT_IMU_SESSION;
 import static com.google.android.jacquard.sample.Preferences.KEY.CURRENT_TAG;
 import static com.google.android.jacquard.sample.Preferences.KEY.FIRST_RUN;
+import static com.google.android.jacquard.sample.Preferences.KEY.GEAR_LED_STATE;
 import static com.google.android.jacquard.sample.Preferences.KEY.IS_GESTURE_LOADED;
 import static com.google.android.jacquard.sample.Preferences.KEY.IS_HOME_LOADED;
 import static com.google.android.jacquard.sample.Preferences.KEY.KNOWN_TAGS;
+import static com.google.android.jacquard.sample.Preferences.KEY.RECIPES;
+import static com.google.android.jacquard.sample.Preferences.KEY.TAG_LED_STATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.google.android.jacquard.sample.utilities.Recipe;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -39,11 +44,15 @@ public class Preferences {
   private static final String EMPTY_JSON_OBJECT = "";
 
   enum KEY {
+    RECIPES,
     KNOWN_TAGS,
     FIRST_RUN,
     IS_HOME_LOADED,
     CURRENT_TAG,
-    IS_GESTURE_LOADED
+    IS_GESTURE_LOADED,
+    TAG_LED_STATE,
+    GEAR_LED_STATE,
+    CURRENT_IMU_SESSION
   }
 
   private static final String EMPTY_JSON_LIST = "[]";
@@ -52,8 +61,21 @@ public class Preferences {
   public Preferences(Context context, Gson gson) {
     sharedPref =
         context.getSharedPreferences(
-            context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            "com.google.android.jacquard.sample.preferences", Context.MODE_PRIVATE);
     this.gson = gson;
+  }
+
+  /** Returns all gesture recipe list. */
+  public List<Recipe> getRecipes() {
+    Type listType = new TypeToken<ArrayList<Recipe>>() {}.getType();
+    String json = sharedPref.getString(RECIPES.toString(), EMPTY_JSON_LIST);
+    return gson.fromJson(json, listType);
+  }
+
+  /** Add new recipe to the existing recipe list. */
+  public void setRecipes(List<Recipe>  recipes) {
+    String json = gson.toJson(recipes);
+    sharedPref.edit().putString(RECIPES.toString(), json).apply();
   }
 
   /** Returns known tags. */
@@ -114,5 +136,56 @@ public class Preferences {
   public void putCurrentDevice(KnownTag knownTag) {
     String json = gson.toJson(knownTag);
     sharedPref.edit().putString(CURRENT_TAG.toString(), json).apply();
+  }
+
+  /** Removes the current tag from preference. */
+  public void removeCurrentDevice() {
+    sharedPref.edit().remove(CURRENT_TAG.toString()).apply();
+  }
+
+  /**
+   * Persists tag led state whether active or not.
+   *
+   * @param isActive true if tag led control is active
+   */
+  public void persistTagLedState(boolean isActive) {
+    sharedPref.edit().putBoolean(TAG_LED_STATE.toString(), isActive).apply();
+  }
+
+  /**
+   * Returns true if tag led is active.
+   */
+  public boolean isTagLedActive() {
+    return sharedPref.getBoolean(TAG_LED_STATE.toString(), true);
+  }
+
+  /**
+   * Persists gear led state.
+   *
+   * @param isActive true if gear led control is active
+   */
+  public void persistGearLedState(boolean isActive) {
+    sharedPref.edit().putBoolean(GEAR_LED_STATE.toString(), isActive).apply();
+  }
+
+  /**
+   * Returns true if gear led is active.
+   */
+  public boolean isGearLedActive() {
+    return sharedPref.getBoolean(GEAR_LED_STATE.toString(), false);
+  }
+
+  /**
+   * Saves current Imu session id.
+   */
+  public void setCurrentImuSession(String id, String serial) {
+    sharedPref.edit().putString(CURRENT_IMU_SESSION.name() + serial, id).commit();
+  }
+
+  /**
+   * Returns current imu session id.
+   */
+  public String getCurrentImuSessionId(String serial) {
+    return sharedPref.getString(CURRENT_IMU_SESSION.name() + serial, "0");
   }
 }

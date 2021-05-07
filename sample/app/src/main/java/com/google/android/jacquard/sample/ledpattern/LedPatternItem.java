@@ -41,6 +41,8 @@ public abstract class LedPatternItem {
 
   public abstract PlayType playType();
 
+  public abstract boolean haltAll();
+
   @AutoValue.Builder
   public abstract static class Builder {
 
@@ -55,6 +57,8 @@ public abstract class LedPatternItem {
     public abstract Builder ledPatternType(LedPatternType ledPatternType);
 
     public abstract Builder playType(PlayType playType);
+
+    public abstract Builder haltAll(boolean halt);
 
     public abstract LedPatternItem build();
   }

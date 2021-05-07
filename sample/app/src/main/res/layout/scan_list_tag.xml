@@ -37,7 +37,7 @@
 
   <TextView
       android:id="@+id/tag_identifier"
-      style="@style/ScanPairingDesc"
+      style="@style/ScanItem"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="5dp"
@@ -47,10 +47,20 @@
 
   <TextView
       android:id="@+id/tag_name"
-      style="@style/ScanPairingDesc"
+      style="@style/ScanItem"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="13dp"
       android:layout_alignBaseline="@+id/tag_selected_icon"
       android:textColor="@drawable/scan_list_item_tag_name_selector" />
+
+  <TextView
+      android:id="@+id/tag_rssi_value"
+      style="@style/RSSI"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_toRightOf="@+id/tag_identifier"
+      android:layout_marginStart="@dimen/margin_5dp"
+      android:layout_marginBottom="@dimen/margin_2dp"
+      android:layout_alignBottom="@+id/tag_identifier" />
 </RelativeLayout>

@@ -30,7 +30,7 @@
 
   <TextView
     android:id="@+id/title"
-    style="@style/General_Title_30sp"
+    style="@style/VisualizerTitle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="24dp"
@@ -40,7 +40,7 @@
     android:text="@string/thread_visualizer_title" />
 
   <TextView
-    style="@style/General_subtitle_16sp"
+    style="@style/VisualizerSubtitle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="24dp"
