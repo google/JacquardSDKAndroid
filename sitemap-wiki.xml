@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>wiki</loc>
+        <lastmod>2021-05-11</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>wiki/tutorial</loc>
+        <lastmod>2021-05-11</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>wiki/firmware_update</loc>
+        <lastmod>2021-05-11</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>wiki/integration</loc>
+        <lastmod>2021-05-11</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>wiki/apis</loc>
+        <lastmod>2021-05-11</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>wiki/releases</loc>
+        <lastmod>2021-05-11</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>wiki/license</loc>
+        <lastmod>2021-05-11</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>wiki/contributing</loc>
+        <lastmod>2021-05-11</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>wiki/conduct</loc>
+        <lastmod>2021-05-11</lastmod>
+        <priority>0.5</priority>
+    </url>
+</urlset>

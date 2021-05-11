@@ -1,0 +1,31 @@
+{
+  "ownKey": "home",
+  "ownPages": [
+    {
+      "reference": {
+        "path": "",
+        "baseUrl": "",
+        "fileName": "",
+        "extension": "html",
+        "usePrettyUrl": true,
+        "link": ""
+      },
+      "description": "",
+      "title": "Jacquard SDK",
+      "content": ""
+    },
+    {
+      "reference": {
+        "path": "",
+        "baseUrl": "",
+        "fileName": "404",
+        "extension": "html",
+        "usePrettyUrl": false,
+        "link": "404.html"
+      },
+      "description": "",
+      "title": "Not Found",
+      "content": ""
+    }
+  ]
+}

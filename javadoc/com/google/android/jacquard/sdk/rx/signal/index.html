@@ -1,0 +1,7289 @@
+<!DOCTYPE HTML>
+<!--
+    Editorial by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+  
+
+
+
+
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid 0.21.1"/>
+<link rel="icon" href="favicon.ico">
+
+
+<meta name="robots" content="index, follow">
+
+
+
+<title>Signal</title>
+
+
+<meta name="description" content="This is a short description of this project.">
+
+
+
+
+
+<!-- start:inject styles -->
+<link rel="stylesheet" type="text/css" href="Editorial/528fdff7/assets/css/editorial_main.css"  />
+<link rel="stylesheet" type="text/css" href="Editorial/528fdff7/assets/css/editorial_orchidCustomizations.css"  />
+<link rel="stylesheet" type="text/css" href="Editorial/528fdff7/assets/css/orchidSearch.css"  />
+<link rel="stylesheet" type="text/css" href="Editorial/528fdff7/assets/css/jacquard.css"  />
+<link rel="stylesheet" type="text/css" href="assets/css/orchidSearch.css"  />
+<link rel="stylesheet" type="text/css" href="assets/css/orchidSourceDoc.css"  />
+<!-- end:inject styles -->
+
+
+
+
+
+<!-- start:debug info -->
+
+<!-- THEME -->
+<!-- Type: Editorial -->
+<!-- Class: com.eden.orchid.editorial.EditorialTheme -->
+
+<!-- PAGE -->
+<!-- Type: classes -->
+<!-- Class: com.eden.orchid.sourcedoc.page.SourceDocPage -->
+<!-- Layout: index -->
+<!-- Resolved Layout: templates/layouts/index.peb -->
+<!-- Page Template: javadocClass, sourceDocPage, classes, page -->
+<!-- Resolved Page Template: templates/pages/sourceDocPage.peb -->
+
+<!-- RESOURCE -->
+<!-- Class: com.eden.orchid.sourcedoc.page.SourceDocResource -->
+<!-- Source Filename:  -->
+
+<!-- COMPLETE PAGE CONFIGURATION -->
+<script>
+    window.allData = {"reference":{"path":"javadoc","baseUrl":"","fileName":"com/google/android/jacquard/sdk/rx/signal","extension":"html","usePrettyUrl":true,"link":"javadoc/com/google/android/jacquard/sdk/rx/signal"},"description":"","title":"Signal"};
+</script>
+
+<!-- end:debug info -->
+
+
+
+<script>
+    window.site = {"orchidVersion":"0.21.1","baseUrl":"","environment":"debug","version":"1.0.0"};
+</script>
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+    <!-- start:inject meta-components [head] -->
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+
+
+
+
+</head>
+
+<body class="is-loading">
+  
+
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+
+
+  <div id="jacquard_header_container">
+    <div id="jacquard_header">
+      <div id="header_content">
+        <!-- Menu -->
+        <ul id="nav_menu">
+          <li>v. 0.1.0</li>
+          <li><a href="https://github.com/google/JacquardSDKAndroid">View on Github</a></li>
+          <li><a id="search_button" href="javascript:JacquardDoc.toggleSearch()"></a></li>
+        </ul>
+
+        <!-- Search -->
+        <section id="search">
+          <form data-orchid-search="">
+            <input id="search_input" type="text" name="query" id="query" placeholder="Search"
+              onblur="javascript:setTimeout(() => JacquardDoc.toggleSearch(), 500)" />
+          </form>
+          <div class="box" id="search-results" data-orchid-search-results style="display: none;">
+            <div>
+              <b>Search Results</b>
+              <ul></ul>
+            </div>
+          </div>
+          <div class="box" id="search-progress" data-orchid-search-progress style="display: none;">
+            <div class="loader">Loading...</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+
+        <!-- Header -->
+        
+        <section id="pageContent">
+          <!-- <header class="major">
+          </header> -->
+          <article>
+            <h1>Signal</h1>
+            
+    <!-- start:inject components -->
+    
+        
+            
+                
+                    
+                        <div class="sourcedoc-page orchid-sourcedoc content">
+  
+<div class="sourcedoc-section section-root section-level-1" id="Signal">
+
+
+  
+
+  
+    <div class="sourcedoc-section section-element" id="1644c1d637a7234d60f33469340108150d87acaa">
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public class <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; extends Object</code>
+      </p>
+
+      
+        
+    <!-- start:inject components -->
+    
+    <!-- end:inject components -->
+
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>A naive reimplementation of rxjava's Observable&lt;T&gt;</p>
+ <p>Produces an observable stream of T. All operations are single-threaded, but should otherwise
+ be thread-safe.
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-2" id="methods">
+
+
+  
+    <h2 class="sourcedoc-section section-name">Methods</h2>
+  
+
+  
+    <div class="sourcedoc-section section-element" id="81717cca2ba55982700e42a775f09832659bc16f">
+      
+      <h3 class="sourcedoc-section element-name">create</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public static &lt;T&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; create()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>Signal factory method</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="396c4a3927a11e0a45df6f13fee2c5bb43f0259f">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="e56e9e6594070f886941a4d9482eb3b74c7c7eed">
+      
+      <h3 class="sourcedoc-section element-name">create</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public static &lt;T&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; create(<a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscriptionfactory">SubscriptionFactory</a>&lt;T&gt; sf)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>signal factory method</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="e8083d341bc55eec02b37641babb16a8b7b209cb">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="4149d08a50b46a0f5dc84c2758efb6c42ceb0ae1">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscriptionfactory">SubscriptionFactory</a>&lt;T&gt; sf</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="161015aaa3528ed398c2639519ecf4a0540fe5f1">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="7152c77f4311c53e3366e024c4a131bd8daa814a">
+      
+      <h3 class="sourcedoc-section element-name">empty</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public static &lt;T&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; empty()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>empty signal factory</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="ff08e84a1c87b6de04c38ade4af3d21ddd4e9cec">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="a03ecc1d6f3bcc7ae33723fc7cd4c45f7adedb5b">
+      
+      <h3 class="sourcedoc-section element-name">empty</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public static &lt;T&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; empty(Throwable error)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>errored signal factory</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="8673fe87675a4b1f13bf648d74df61b7f2715b6f">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="2ece0f8c626b9be8e65e8804904c789e94be3fea">
+        <td class="sourcedoc-section section-signature">
+          <code>Throwable error</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="e20cbda9f4df45d313ff5e8d0c26742a3e1e83cb">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="39b59731f4db2646dca24e658a1907060592519d">
+      
+      <h3 class="sourcedoc-section element-name">from</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public static &lt;T&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; from(Iterable&lt;T&gt; xs)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>create Signal[T] from Iterable[T]</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="3b3568aa52170861b872cdfa7eef1e6674121f86">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="d374e5156435978d4727d742fe40d4256b8f3609">
+        <td class="sourcedoc-section section-signature">
+          <code>Iterable&lt;T&gt; xs</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="36f6697603cba8b6c88f9b39710da26ee6c7a72f">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="e922c5e4f59cd87c100246e0b1b4580fd6e365f2">
+      
+      <h3 class="sourcedoc-section element-name">from</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public static &lt;T&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; from(T t)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>create Signal[T] from a T</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="aa2ee9bcfed68a418b888f15625a6b372148a752">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="53e7b1a63153568bb833cb292c84143aa2d23920">
+        <td class="sourcedoc-section section-signature">
+          <code>T t</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="f9367ec6cdcc505fc33de3110c0aa2d766517b07">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="3307109c72fd22cf9bebd580dcb0e28747ff0cce">
+      
+      <h3 class="sourcedoc-section element-name">just</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public static &lt;T&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; just(T t)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>create Signal[T] from a T (alias to allow Collections)</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="ba53dd69d3e46ff7534d0e99e3529e206980aa92">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="53e7b1a63153568bb833cb292c84143aa2d23920">
+        <td class="sourcedoc-section section-signature">
+          <code>T t</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="093a29d398520f14a7d04fa02f75264d3219ff40">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="c017ceb1ea9dd33e6b5b73535489d6d164e4ea55">
+      
+      <h3 class="sourcedoc-section element-name">merge</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public static &lt;T&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; merge(<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;? extends T&gt; signal1, <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;? extends T&gt; signal2)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>combine multiple signals of the same type into one</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="a3511cf86b346c9d3c802c0620e93f270aee4008">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="305ea3168f466fcaace30c8e7023300999acf886">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;? extends T&gt; signal1</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      <tr class="sourcedoc-section section-element" id="26ee31ee127b79aac92feaec66307d621d60a692">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;? extends T&gt; signal2</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="8329291b4d44c686cb0f33b5b8af2c0b3059d5eb">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="cc0da342e0dee98173420e74f8d1943637cc24a3">
+      
+      <h3 class="sourcedoc-section element-name">merge</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public static &lt;T&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; merge(Iterable&lt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;&gt; signals)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>merge a list of signals of the same type into one</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="04f152215f824730cbe91d783a060379c6f281e9">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="e2eac88f96c32cdb9078e5457d699c3390517271">
+        <td class="sourcedoc-section section-signature">
+          <code>Iterable&lt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;&gt; signals</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="b81cc5de0bc87c535ff76812a042f46ac29c2e52">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="89df2a5f672e7590fed00433172fe1f365bc3165">
+      
+      <h3 class="sourcedoc-section element-name">hasObservers</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public boolean hasObservers()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="ca1bebe93dae4ff0058285a853e60be05eb16618">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="48647474b89fa8f56ed6bda0f8148a17b51b97bd">
+        <td class="sourcedoc-section section-signature">
+          <code>boolean</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="cb07748d98af8a96171942323c133296dcb9fdf6">
+      
+      <h3 class="sourcedoc-section element-name">error</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public synchronized void error(Throwable t)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>error out this signal</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="f1fb235291c0bc2c0d1fea030b950e5875e3d83b">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="5d6f43b73867b3195bcbdea6b6d4dc61087ad8e5">
+        <td class="sourcedoc-section section-signature">
+          <code>Throwable t</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="e8b0ade2b23691d9a4e5dbffe8952ca6d7330f1b">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="e9cede9b80ea3abd89c755f1117337d429162c86">
+        <td class="sourcedoc-section section-signature">
+          <code>void</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="86f4d85d7806985a744732a32ca8945df029ba10">
+      
+      <h3 class="sourcedoc-section element-name">next</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public void next(T t)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>provide a new value to this signal</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="6442d1ee0b6ee42c6ae808512f7edc4d8d62755f">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="53e7b1a63153568bb833cb292c84143aa2d23920">
+        <td class="sourcedoc-section section-signature">
+          <code>T t</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="bc9922c41809f96d479a3b92022adfb27b257897">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="e9cede9b80ea3abd89c755f1117337d429162c86">
+        <td class="sourcedoc-section section-signature">
+          <code>void</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="f23ce2339cdea63cb84345c6e138c065270da2ad">
+      
+      <h3 class="sourcedoc-section element-name">hasError</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public synchronized boolean hasError()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="a0649d546727f57c922c84385706932969010e4e">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="48647474b89fa8f56ed6bda0f8148a17b51b97bd">
+        <td class="sourcedoc-section section-signature">
+          <code>boolean</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="f184833e3132de7a985faf3854894bebc1919960">
+      
+      <h3 class="sourcedoc-section element-name">isComplete</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public synchronized boolean isComplete()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="7e8a74ca8eb3ce58a5969a7b937691e2ab2fdf65">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="48647474b89fa8f56ed6bda0f8148a17b51b97bd">
+        <td class="sourcedoc-section section-signature">
+          <code>boolean</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="c491f045067a41c4b9ee64609f552e794aa5d122">
+      
+      <h3 class="sourcedoc-section element-name">complete</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public synchronized void complete()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>mark this signal as being completed</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="4f1f511ab7e3ac4ff8c499b696b20b90915590c9">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="e9cede9b80ea3abd89c755f1117337d429162c86">
+        <td class="sourcedoc-section section-signature">
+          <code>void</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="a5df55a3a17af9db9dfa630b8b81ee8bc50438e2">
+      
+      <h3 class="sourcedoc-section element-name">map</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public &lt;U&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;U&gt; map(<a href="javadoc/com/google/android/jacquard/sdk/rx/fn">Fn</a>&lt;? extends T, ? extends U&gt; f)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>transform Signal[T] to Signal[U] using T -&gt; U</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="fd9af0f59eee46ef0a5beab5994d1890ecb9265b">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="47550793151ec2606814900d04fc24bf258c0f6e">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/fn">Fn</a>&lt;? extends T, ? extends U&gt; f</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="0b7f850e78723e64a491c5bd62207550f5cc5af3">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="b5c906aaa4ca455ea9390548fefde8a1c5d758e1">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;U&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="c138161994d42d57015ea015f941ccb0ce00a9c8">
+      
+      <h3 class="sourcedoc-section element-name">flatMap</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public &lt;U&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;U&gt; flatMap(<a href="javadoc/com/google/android/jacquard/sdk/rx/fn">Fn</a>&lt;? extends T, ? extends <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;? extends U&gt;&gt; f)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>transform Signal[T] to Signal[U] using T -&gt; Signal[U]</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="079cb611380dd1e135b78caf7a3085eb185c7321">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="f18e1d0837fcc8bffd52facef3f39c212afa49a4">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/fn">Fn</a>&lt;? extends T, ? extends <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;? extends U&gt;&gt; f</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="421cb106897071ee3f90dc88d384c77e5c0b9724">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="b5c906aaa4ca455ea9390548fefde8a1c5d758e1">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;U&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="9205b033fa3f420544abd764311fc6e4cf4bbfdf">
+      
+      <h3 class="sourcedoc-section element-name">switchMap</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public &lt;U&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;U&gt; switchMap(<a href="javadoc/com/google/android/jacquard/sdk/rx/fn">Fn</a>&lt;? extends T, ? extends <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;? extends U&gt;&gt; f)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>transform Signal[T] to Signal[U] using T -&gt; Signal[U] and complete previous inner observable
+before emitting.</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="f2637914ddce234678b94a868e960a0cf10c949b">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="f18e1d0837fcc8bffd52facef3f39c212afa49a4">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/fn">Fn</a>&lt;? extends T, ? extends <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;? extends U&gt;&gt; f</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="cc3f740871577839269e54d3d506212e9231b79a">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="b5c906aaa4ca455ea9390548fefde8a1c5d758e1">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;U&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="dd9b86cb08d676b2081d67936381dce789411d4f">
+      
+      <h3 class="sourcedoc-section element-name">filter</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; filter(<a href="javadoc/com/google/android/jacquard/sdk/rx/pred">Pred</a>&lt;? extends T&gt; f)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>remove elements from this Signal that do not match the predicate</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="a8117c945f2b6fdf1600e4a7da3dfe1b0d04825b">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="e05f1fa1b04bb1193aa9dcf08ed3d62f995ceb09">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/pred">Pred</a>&lt;? extends T&gt; f</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="560f31b2fba15bceae6dbaae429d851b7a93ab6e">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="43cf05793ecf01c18e0ae75a8fd7e2ecb439a168">
+      
+      <h3 class="sourcedoc-section element-name">takeWhile</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; takeWhile(<a href="javadoc/com/google/android/jacquard/sdk/rx/pred">Pred</a>&lt;? extends T&gt; f)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>retrieve the beginning of this signal while the predicate is true</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="dcc07839353b864c3ec2a7a508ec8b561c3f8a05">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="e05f1fa1b04bb1193aa9dcf08ed3d62f995ceb09">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/pred">Pred</a>&lt;? extends T&gt; f</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="81e4421cfab21efc42385117ae0268c61b739e09">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="b383260d10e7b0277f7d9048e2a830484757335f">
+      
+      <h3 class="sourcedoc-section element-name">take</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; take(int count)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>retrieve the first count items from this signal</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="86b98b5bf4f67bd462f83770e696f6582d279e63">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="35a8b6378ce065242063cf53d8aaa2cad47dbf4f">
+        <td class="sourcedoc-section section-signature">
+          <code>int count</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="0646b562adeeab09a27854ad5c348c528f367fcb">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="b7e180ed3d0aa4f44697171271f86a16a81e3c6a">
+      
+      <h3 class="sourcedoc-section element-name">first</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; first()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>retrieve the first element of this signal</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="d40012fb9b9895ba7358e6bc10c0291e22655618">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="5179c4995d31c4c7af520e216e4f0b89dcf3bbb7">
+      
+      <h3 class="sourcedoc-section element-name">drop</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; drop(int count)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>ignore the first count items from this signal</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="24667a80d148d13e5a5a9eefdbf7f914c78f16cd">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="35a8b6378ce065242063cf53d8aaa2cad47dbf4f">
+        <td class="sourcedoc-section section-signature">
+          <code>int count</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="befb28bdf836c1671b91bccd8aee8770d7fe2524">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="5743dc97d3494a2577abdae16a850d002ce1ee11">
+      
+      <h3 class="sourcedoc-section element-name">dropWhile</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; dropWhile(<a href="javadoc/com/google/android/jacquard/sdk/rx/pred">Pred</a>&lt;? extends T&gt; f)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>ignore the first items of this signal while the predicate holds</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="4189a5543a05d213f05e23edfe2aed9df6b402cd">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="e05f1fa1b04bb1193aa9dcf08ed3d62f995ceb09">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/pred">Pred</a>&lt;? extends T&gt; f</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="6805b8b0d30ee48ffa6bc99962e6ecbc4b183e5e">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="f5e947c0fe781517c5ab808da56052416f76a5b2">
+      
+      <h3 class="sourcedoc-section element-name">distinct</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; distinct()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="113f05968feb6c604ba8141baf6c31fd0be4b8b9">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        <p>a new signal that only returns unique items</p>
+
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="8204622900acb34c39791e3d5e40c649fc6e67ad">
+      
+      <h3 class="sourcedoc-section element-name">distinctUntilChanged</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; distinctUntilChanged()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="53fc625a7445509d4fd5bb5e0eba4c983b46ab97">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        <p>a new signal that ignores duplicate consecutive emissions.</p>
+
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="42c4bc0fe7b4d52c74b8e3c19c2e4e3bc404b4d1">
+      
+      <h3 class="sourcedoc-section element-name">sticky</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; sticky()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="8d64123bb321dfe3b51d7587f9d648257b035a3c">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        <p>a signal that remembers its last value and emits it as the first value on subscribe</p>
+
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="b1ba908c98cb68822498ca826b2f5fabab357fa9">
+      
+      <h3 class="sourcedoc-section element-name">last</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; last()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>retrieve the last item of this signal</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="fab8764e0a37ca58b0ef2af3f8dd35db00c839ba">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="99ec888e026aee5133ca2c4aff928ae889b28313">
+      
+      <h3 class="sourcedoc-section element-name">scan</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public &lt;U&gt;<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;U&gt; scan(U initial, <a href="javadoc/com/google/android/jacquard/sdk/rx/fn2">Fn2</a>&lt;? extends U, ? extends T, ? extends U&gt; f)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>collate this signal into an accumulator</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="9d1583e3524f191bbbbaf1b221bc856ae5fe501c">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="3f3fb1363908516814e154843315081c7a7301c4">
+        <td class="sourcedoc-section section-signature">
+          <code>U initial</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      <tr class="sourcedoc-section section-element" id="f80c63c669d43a94cbdae46999c1456cf0c3e002">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/fn2">Fn2</a>&lt;? extends U, ? extends T, ? extends U&gt; f</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="183b4e19cafec4b2e2bd20eb1d20d20d19520a9d">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="b5c906aaa4ca455ea9390548fefde8a1c5d758e1">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;U&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="c555b0131e078e04e78fadda66428614ebc70418">
+      
+      <h3 class="sourcedoc-section element-name">shared</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; shared()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>share any previous operations across subsequent observers</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="4ee0add64628d1916b5b389aaf5ee560f7b11ea5">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="a260b409dad1b70a80dbf99256fb1e031ced8f91">
+      
+      <h3 class="sourcedoc-section element-name">timeout</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; timeout(long timeoms)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>timeout this signal after timeoms milliseconds</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="03f5c6f615c2f7135111a713cebc0255d3948179">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="3aaa7fadce4cb95c72c47acecb0f34ac8c16c8fd">
+        <td class="sourcedoc-section section-signature">
+          <code>long timeoms</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="1fa7b348ecdf84058ba2caeba023745cb7bd310e">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="8bc9e42d798b7f746564e6382ccfffbc66f0d1a6">
+      
+      <h3 class="sourcedoc-section element-name">timeout</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; timeout(long timeoms, String loggingPayload)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>timeout this signal after timeoms milliseconds</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="da588a2f8e89149e306948503322c6db6c1a8330">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="3aaa7fadce4cb95c72c47acecb0f34ac8c16c8fd">
+        <td class="sourcedoc-section section-signature">
+          <code>long timeoms</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      <tr class="sourcedoc-section section-element" id="14144713299489a4075b1d5a633a658b7c8a91e4">
+        <td class="sourcedoc-section section-signature">
+          <code>String loggingPayload</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="a993349c94c97b4c954175fe77d2c8c8eac766ec">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="349aebbdc8925cec52bed9f1672cc6935af16b3a">
+      
+      <h3 class="sourcedoc-section element-name">recoverWith</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; recoverWith(<a href="javadoc/com/google/android/jacquard/sdk/rx/fn">Fn</a>&lt;Throwable, <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;&gt; recoveryF)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>Recovers this Signal if it encounters an error by returning a new Signal.</p>
+ <p>The exception can be inspected to either return a new signal, or another error if it
+ should not be handled.
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="4b152c20604a099a421368e237b551f3cfda0305">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="05aa959191ec288bf28d331214ecf0d886b9f828">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/fn">Fn</a>&lt;Throwable, <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;&gt; recoveryF</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="857d78a1db54af413b2cb222c52542a396e35be8">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="3b35ac87a77fa09fc0c4696333b00bcc9b9febc1">
+      
+      <h3 class="sourcedoc-section element-name">delay</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; delay(long delayms)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>delay all outputs from this signal by</p>
+ <p>delayms
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="899f856de5cb511f66dfcd8d91929df541e9a77a">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="051965ee5d025e33081791ea44c50f96ce36931e">
+        <td class="sourcedoc-section section-signature">
+          <code>long delayms</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="e27b31574799b4bb79cdbace868e8a462ae055ae">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="472dd250989cfc68b7cb184ce1aca16a4d04d4c2">
+      
+      <h3 class="sourcedoc-section element-name">countDownTimer</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; countDownTimer(long millisInFuture, long countDownInterval)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>Schedule a countdown until a time in the future, with regular notifications on intervals along
+the way.</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="82983529c263f3c8db32ff008ec9f737e5fb3a5a">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="c93853584bf0fdbc67ecc135530555c2d52be04a">
+        <td class="sourcedoc-section section-signature">
+          <code>long millisInFuture</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        <p>Millis since epoch when alarm should stop.</p>
+
+        </td>
+      </tr>
+      
+      <tr class="sourcedoc-section section-element" id="ec2e26a4c344bb642023b681abb09dd94b12bb84">
+        <td class="sourcedoc-section section-signature">
+          <code>long countDownInterval</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        <p>The interval in millis that the user receives callbacks.</p>
+
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="6e924981b33c370d060a5f4814148676f88cdd05">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="32ea918206beae8c6ba7e1185cab010083efbb21">
+      
+      <h3 class="sourcedoc-section element-name">tapError</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; tapError(<a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;Throwable&gt; consumer)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>Forwards errors to the designated callback without causing subscribe side-effects</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="118e60850a22adb6935a2fa7b2add7c94112b698">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="8c88812c545ebd642f0b5c8bcfe4ecd54aa0aaea">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;Throwable&gt; consumer</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="1f5d59e16314981623d9cf5d81c8ddc3e2472f81">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="16d456219eeb010f645fe6a896411688408d0c09">
+      
+      <h3 class="sourcedoc-section element-name">forward</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public final <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a> forward(<a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; signal)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>Forwards all events from this Signal to the target signal</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="0218fc44e2c322b0873f911e677b09a12787eac8">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="c703d8d2aba37ba2f0ed91fb64dfd4916ce3faef">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; signal</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="636699f88d3b973dc196ff55aeb1775639644b61">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="8fde48f31aff21f9652066ed6732f7e7dbae712e">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a></code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="b7568f2eb666baae6e2d8e6aaf4bf71838126689">
+      
+      <h3 class="sourcedoc-section element-name">tap</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; tap(<a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;T&gt; consumer)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>Forwards all next values to the specified consumer for a side-effecting operation.</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="c07807b81582ff531004d6cf1a0f72f726ce69ee">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="bf20dc773ecdb2c7f297c74bea11c7cfedfd59f5">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;T&gt; consumer</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="04711cbcce715689949540f8097a4aa77c3964d4">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="6db3e39b6d036b172e65a83f1c33ca5ec38e9a41">
+      
+      <h3 class="sourcedoc-section element-name">tapCompletion</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; tapCompletion(Runnable consumer)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>Forwards completion to the specified consumer for a side-effecting operation.</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="082db420fa8e8fd56969bc0772a6f4cc37854049">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="8f9cb70556d90ab436932b7a010918a9bfeac340">
+        <td class="sourcedoc-section section-signature">
+          <code>Runnable consumer</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="41eb4b507057565514f70a136f0fad29cc7106c1">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="f70d12ef36b1d44a2912a169ef89215868ab91c8">
+      
+      <h3 class="sourcedoc-section element-name">observeOn</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt; observeOn(Executor executor)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>Executes downstream operators on the providedExecutor.</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="e1d124ea4812855a235febe32aa965cbed3c2b28">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="7cc343415d5631390ff300bcab328f8ca0bc65d8">
+        <td class="sourcedoc-section section-signature">
+          <code>Executor executor</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="60a36d1ce5204feae56c1f4970347efb0f7e9740">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1aa98bedce0722385202ec120c73dd22fdbf8a58">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>&lt;T&gt;</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="18bddb5e8ff067acd7b9b62c5c94ee60e83da025">
+      
+      <h3 class="sourcedoc-section element-name">onNext</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public final <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a> onNext(<a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;? extends T&gt; consumer)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="33e019ff4c76bb815bfef0be999c92764c4173b3">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="146f210bca89c14538edde88147ea9dae8244704">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;? extends T&gt; consumer</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="947d66ea1d6653530772d3c31bc80776c71dc493">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="8fde48f31aff21f9652066ed6732f7e7dbae712e">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a></code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="782893924527f3611f21d70fcc869c512f4045be">
+      
+      <h3 class="sourcedoc-section element-name">onComplete</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public final <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a> onComplete(Runnable completeHandler)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="b3df9a22d7de3a9f9edf495c434b90ef0dc88500">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="fc6f9b576752991392ef2a2d5945849d8dbcfc92">
+        <td class="sourcedoc-section section-signature">
+          <code>Runnable completeHandler</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="1de41728d4e658a591f0692aff5e25d99c979a7a">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="8fde48f31aff21f9652066ed6732f7e7dbae712e">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a></code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="a7c22fe43a58f7139e93d3139b14a871a23606bc">
+      
+      <h3 class="sourcedoc-section element-name">onError</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public final <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a> onError(<a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;? extends Throwable&gt; consumer)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"></div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="19152f571308a76dd74a988a8eabb40fa3d9e41c">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="f0fc22134b05c1c4029e72a3406b2adf40b339b4">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;? extends Throwable&gt; consumer</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="cd517bf69b0076e59be1ecee4f590a38a1a21abb">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="8fde48f31aff21f9652066ed6732f7e7dbae712e">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a></code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="961ca42b8bc15fd512b1f67400930404da796962">
+      
+      <h3 class="sourcedoc-section element-name">onTerminate</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public final <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a> onTerminate(<a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;? extends Throwable&gt; consumer)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>Subscribes to onError and onComplete of this signal.</p>
+ <p><code>consumer</code> will be called with a <code>null</code>Throwableif this
+ has completed successfully, if there is an error, it will be non-<code>null</code>.
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="7c18ebf2016b35a48e95634ae7c0e35545b1e7d3">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="f0fc22134b05c1c4029e72a3406b2adf40b339b4">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;? extends Throwable&gt; consumer</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="5279260d55cef6a1d493c63d0cea9ab5ed4fdbdb">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="8fde48f31aff21f9652066ed6732f7e7dbae712e">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a></code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="46407d4a5423d753d5290278e530b526686300cb">
+      
+      <h3 class="sourcedoc-section element-name">observe</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public final <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a> observe(<a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;? extends T&gt; onNext, <a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;? extends Throwable&gt; onTerminate)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>Observes this signal using the specified <code>onNext</code> and <code>onTerminate</code>.</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="21d314b76e707008597cb7d7fe57f47566640231">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="1c91fa96b75d1e729dbd47a48eddb327afd67bac">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;? extends T&gt; onNext</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        <p>will be called for every value on this signal</p>
+
+        </td>
+      </tr>
+      
+      <tr class="sourcedoc-section section-element" id="0faa9705302069bdc378fe37e990713a374dcc18">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>&lt;? extends Throwable&gt; onTerminate</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        <p>will receive a <code>null</code> when this completes or a
+non-<code>null</code> Throwablewhen an error is encountered</p>
+
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="b09e97ce912176c14bb012c71a1d80f280f4a43e">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="8fde48f31aff21f9652066ed6732f7e7dbae712e">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a></code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="6fb454d61b57f4bc213cccc3ce44a58d2b1b08fb">
+      
+      <h3 class="sourcedoc-section element-name">observe</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public final <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a> observe(<a href="javadoc/com/google/android/jacquard/sdk/rx/signal/observer">Observer</a>&lt;? extends T&gt; obs)</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>observe events on this signal, unsubscribe the Subscription to stop observing</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="da96a1540563412e9116e3768db9d6432d41d871">
+
+
+  <p class="sourcedoc-section section-name"><strong>Parameters</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="794ce8b87d85c49f91631a967689f3680129ea20">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal/observer">Observer</a>&lt;? extends T&gt; obs</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="c4497ee1d122fca6667af74df4b85bec13acf7d7">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="8fde48f31aff21f9652066ed6732f7e7dbae712e">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a></code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+    <div class="sourcedoc-section section-element" id="241f8d94514278df528fde03b0cb5766996118d5">
+      
+      <h3 class="sourcedoc-section element-name">consume</h3>
+      
+      <p class="sourcedoc-section section-signature">
+        <code>public final <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a> consume()</code>
+      </p>
+
+      
+
+      <div class="sourcedoc-section section-comments"><p>convenience method to observe all values on this Signal and ignore them, causes side-effects to
+run.</p>
+</div>
+
+      
+      
+        
+          
+<div class="sourcedoc-section section-root section-level-3" id="5df8dd026d78e4627ded4ccec4de61e9258661a1">
+
+
+  <p class="sourcedoc-section section-name"><strong>ReturnValue</strong></p>
+
+  <div class="table-container">
+    <table class="table is-fullwidth is-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      
+      <tr class="sourcedoc-section section-element" id="8fde48f31aff21f9652066ed6732f7e7dbae712e">
+        <td class="sourcedoc-section section-signature">
+          <code><a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Subscription</a></code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        
+        </td>
+      </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+        
+      
+    </div>
+  
+
+</div>
+
+        
+      
+    </div>
+  
+
+</div>
+
+</div>
+
+
+
+                    
+                
+            
+        
+    
+    <!-- end:inject components -->
+
+
+          </article>
+        </section>
+        
+      </div>
+      <hr>
+
+      <!-- Page Footer -->
+      <div class="inner">
+    <footer id="footer">
+        <div class="clearfix">
+            
+            
+        </div>
+    </footer>
+</div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+    <div class="inner" style="position:relative;">
+
+        <!-- Menu -->
+        <nav id="siteNav" class="menu">
+            <ul class="top-level">
+                
+                    
+    
+    <li>
+        <a class="subheader">Getting Started</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="wiki/tutorial">Tutorial</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="wiki/firmware_update">Update Jacquard Firmware</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="wiki/integration">Integration</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="wiki/apis">API overview</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="wiki/releases">Releases</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="wiki/license">License</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="wiki/contributing">Contributing</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="wiki/conduct">Code of Conduct</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a class="subheader">API Docs</a>
+    </li>
+    
+
+                
+                    
+    <li>
+        <span class="opener">Classes</span>
+        <ul>
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/tag/advertisedjacquardtag">AdvertisedJacquardTag</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/tag/advertisedjacquardtagimpl">AdvertisedJacquardTagImpl</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/attachednotificationsubscription">AttachedNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/batterystatus">BatteryStatus</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/batterystatus/chargingstate">BatteryStatus.ChargingState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/batterystatuscommand">BatteryStatusCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/batterystatusnotificationsubscription">BatteryStatusNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/blequeue">BleQueue</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/blequeue/command">BleQueue.Command</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/blequeue/command/type">BleQueue.Command.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/util/bluetoothsig">BluetoothSig</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/util/bluetoothutils">BluetoothUtils</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/characteristicupdate">CharacteristicUpdate</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/commandrequest">CommandRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/connection/commandresponsestatus">CommandResponseStatus</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/component">Component</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/componentcapability">ComponentCapability</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/componentkey">ComponentKey</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/datastore/componentmetadata">ComponentMetaData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/connectstate">ConnectState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/connectstate/type">ConnectState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/tag/connectedjacquardtag">ConnectedJacquardTag</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/tag/connectedjacquardtagimpl">ConnectedJacquardTagImpl</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/connection/connectionevent">ConnectionEvent</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/connection/connectionevent/type">ConnectionEvent.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/connection/connectionstate">ConnectionState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/connection/connectionstate/type">ConnectionState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/continuoustouchnotificationsubscription">ContinuousTouchNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/datastore/dataprovider">DataProvider</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/deviceconstants">DeviceConstants</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/deviceconstants/fixedcomponent">DeviceConstants.FixedComponent</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/deviceinfo">DeviceInfo</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/deviceinfocommand">DeviceInfoCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/executors">Executors</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/failedtoconnect">FailedToConnect</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/fn">Fn</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/fn2">Fn2</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/util/fragmenter">Fragmenter</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/util/fragmenter/varint">Fragmenter.VarInt</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/util/function">Function</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/gearstate">GearState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/gearstate/type">GearState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/gesture">Gesture</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/gesture/gesturetype">Gesture.GestureType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/gesturenotificationsubscription">GestureNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/hapticcommand">HapticCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/hapticcommand/frame">HapticCommand.Frame</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/hapticcommand/frame/builder">HapticCommand.Frame.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/hapticcommand/pattern">HapticCommand.Pattern</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/initialization/initializationevent">InitializationEvent</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/initialization/initializationevent/type">InitializationEvent.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/initialization/initializationstate">InitializationState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/initialization/initializationstate/type">InitializationState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/innerbatterystatusnotificationsubscription">InnerBatteryStatusNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/innercontinuoustouchnotificationsubscription">InnerContinuousTouchNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/innergesturenotificationsubscription">InnerGestureNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/internalcomponent">InternalComponent</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata">JQGearMetadata</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata">JQGearMetadata.GearMetadata</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata/builder">JQGearMetadata.GearMetadata.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata/capability">JQGearMetadata.GearMetadata.Capability</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata/geardata">JQGearMetadata.GearMetadata.GearData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata/geardata/builder">JQGearMetadata.GearMetadata.GearData.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata/geardata/product">JQGearMetadata.GearMetadata.GearData.Product</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata/geardata/product/builder">JQGearMetadata.GearMetadata.GearData.Product.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata/geardata/productorbuilder">JQGearMetadata.GearMetadata.GearData.ProductOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata/geardata/vendor">JQGearMetadata.GearMetadata.GearData.Vendor</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata/geardata/vendor/builder">JQGearMetadata.GearMetadata.GearData.Vendor.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata/geardata/vendororbuilder">JQGearMetadata.GearMetadata.GearData.VendorOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadata/geardataorbuilder">JQGearMetadata.GearMetadata.GearDataOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadataorbuilder">JQGearMetadata.GearMetadataOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/jacquarderror">JacquardError</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/jacquarderror/type">JacquardError.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/jacquardmanager">JacquardManager</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol">JacquardProtocol</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/apperrfaultrecord">JacquardProtocol.AppErrFaultRecord</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/apperrfaultrecord/builder">JacquardProtocol.AppErrFaultRecord.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/apperrfaultrecordorbuilder">JacquardProtocol.AppErrFaultRecordOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/attachednotification">JacquardProtocol.AttachedNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/attachednotification/builder">JacquardProtocol.AttachedNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/attachednotificationorbuilder">JacquardProtocol.AttachedNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/batterystatusnotification">JacquardProtocol.BatteryStatusNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/batterystatusnotification/builder">JacquardProtocol.BatteryStatusNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/batterystatusnotificationorbuilder">JacquardProtocol.BatteryStatusNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/batterystatusrequest">JacquardProtocol.BatteryStatusRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/batterystatusrequest/builder">JacquardProtocol.BatteryStatusRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/batterystatusrequestorbuilder">JacquardProtocol.BatteryStatusRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/batterystatusresponse">JacquardProtocol.BatteryStatusResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/batterystatusresponse/builder">JacquardProtocol.BatteryStatusResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/batterystatusresponseorbuilder">JacquardProtocol.BatteryStatusResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/beginrequest">JacquardProtocol.BeginRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/beginrequest/builder">JacquardProtocol.BeginRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/beginrequestorbuilder">JacquardProtocol.BeginRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/beginresponse">JacquardProtocol.BeginResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/beginresponse/builder">JacquardProtocol.BeginResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/beginresponseorbuilder">JacquardProtocol.BeginResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/bleconfiguration">JacquardProtocol.BleConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/bleconfiguration/builder">JacquardProtocol.BleConfiguration.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/bleconfigurationorbuilder">JacquardProtocol.BleConfigurationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/bledisconnectrequest">JacquardProtocol.BleDisconnectRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/bledisconnectrequest/builder">JacquardProtocol.BleDisconnectRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/bledisconnectrequestorbuilder">JacquardProtocol.BleDisconnectRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/capacitivetouchpadchar">JacquardProtocol.CapacitiveTouchpadChar</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/capacitivetouchpadchar/builder">JacquardProtocol.CapacitiveTouchpadChar.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/capacitivetouchpadcharorbuilder">JacquardProtocol.CapacitiveTouchpadCharOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/chargingstatus">JacquardProtocol.ChargingStatus</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/color">JacquardProtocol.Color</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/color/builder">JacquardProtocol.Color.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/colororbuilder">JacquardProtocol.ColorOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configelement">JacquardProtocol.ConfigElement</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configelement/builder">JacquardProtocol.ConfigElement.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configelementorbuilder">JacquardProtocol.ConfigElementOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configgetindexrequest">JacquardProtocol.ConfigGetIndexRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configgetindexrequest/builder">JacquardProtocol.ConfigGetIndexRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configgetindexrequestorbuilder">JacquardProtocol.ConfigGetIndexRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configgetrequest">JacquardProtocol.ConfigGetRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configgetrequest/builder">JacquardProtocol.ConfigGetRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configgetrequestorbuilder">JacquardProtocol.ConfigGetRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configgetresponse">JacquardProtocol.ConfigGetResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configgetresponse/builder">JacquardProtocol.ConfigGetResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configgetresponseorbuilder">JacquardProtocol.ConfigGetResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configsetrequest">JacquardProtocol.ConfigSetRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configsetrequest/builder">JacquardProtocol.ConfigSetRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/configsetrequestorbuilder">JacquardProtocol.ConfigSetRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/connectortype">JacquardProtocol.ConnectorType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuexecuterequest">JacquardProtocol.DFUExecuteRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuexecuterequest/builder">JacquardProtocol.DFUExecuteRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuexecuterequestorbuilder">JacquardProtocol.DFUExecuteRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuexecuteupdatenotification">JacquardProtocol.DFUExecuteUpdateNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuexecuteupdatenotification/builder">JacquardProtocol.DFUExecuteUpdateNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuexecuteupdatenotificationorbuilder">JacquardProtocol.DFUExecuteUpdateNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfupreparerequest">JacquardProtocol.DFUPrepareRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfupreparerequest/builder">JacquardProtocol.DFUPrepareRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfupreparerequestorbuilder">JacquardProtocol.DFUPrepareRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfustatusrequest">JacquardProtocol.DFUStatusRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfustatusrequest/builder">JacquardProtocol.DFUStatusRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfustatusrequestorbuilder">JacquardProtocol.DFUStatusRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfustatusresponse">JacquardProtocol.DFUStatusResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfustatusresponse/builder">JacquardProtocol.DFUStatusResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfustatusresponseorbuilder">JacquardProtocol.DFUStatusResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuwriterequest">JacquardProtocol.DFUWriteRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuwriterequest/builder">JacquardProtocol.DFUWriteRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuwriterequestorbuilder">JacquardProtocol.DFUWriteRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuwriteresponse">JacquardProtocol.DFUWriteResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuwriteresponse/builder">JacquardProtocol.DFUWriteResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/dfuwriteresponseorbuilder">JacquardProtocol.DFUWriteResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datachannelnotification">JacquardProtocol.DataChannelNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datachannelnotification/builder">JacquardProtocol.DataChannelNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datachannelnotificationorbuilder">JacquardProtocol.DataChannelNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datachannelrequest">JacquardProtocol.DataChannelRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datachannelrequest/builder">JacquardProtocol.DataChannelRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datachannelrequestorbuilder">JacquardProtocol.DataChannelRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datachannelresponse">JacquardProtocol.DataChannelResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datachannelresponse/builder">JacquardProtocol.DataChannelResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datachannelresponseorbuilder">JacquardProtocol.DataChannelResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datastreamstate">JacquardProtocol.DataStreamState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/deletemodulerequest">JacquardProtocol.DeleteModuleRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/deletemodulerequest/builder">JacquardProtocol.DeleteModuleRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/deletemodulerequestorbuilder">JacquardProtocol.DeleteModuleRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/deviceinforequest">JacquardProtocol.DeviceInfoRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/deviceinforequest/builder">JacquardProtocol.DeviceInfoRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/deviceinforequestorbuilder">JacquardProtocol.DeviceInfoRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/deviceinforesponse">JacquardProtocol.DeviceInfoResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/deviceinforesponse/builder">JacquardProtocol.DeviceInfoResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/deviceinforesponseorbuilder">JacquardProtocol.DeviceInfoResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/devicerebootrequest">JacquardProtocol.DeviceRebootRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/devicerebootrequest/builder">JacquardProtocol.DeviceRebootRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/devicerebootrequestorbuilder">JacquardProtocol.DeviceRebootRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/disconnectnotification">JacquardProtocol.DisconnectNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/disconnectnotification/builder">JacquardProtocol.DisconnectNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/disconnectnotificationorbuilder">JacquardProtocol.DisconnectNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/domain">JacquardProtocol.Domain</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/errornotification">JacquardProtocol.ErrorNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/errornotification/builder">JacquardProtocol.ErrorNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/errornotificationorbuilder">JacquardProtocol.ErrorNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/errorrecord">JacquardProtocol.ErrorRecord</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/errorrecord/builder">JacquardProtocol.ErrorRecord.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/errorrecordorbuilder">JacquardProtocol.ErrorRecordOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/faultrecord">JacquardProtocol.FaultRecord</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/faultrecord/builder">JacquardProtocol.FaultRecord.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/faultrecordorbuilder">JacquardProtocol.FaultRecordOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/faultloggetrequest">JacquardProtocol.FaultlogGetRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/faultloggetrequest/builder">JacquardProtocol.FaultlogGetRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/faultloggetrequestorbuilder">JacquardProtocol.FaultlogGetRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/faultloggetresponse">JacquardProtocol.FaultlogGetResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/faultloggetresponse/builder">JacquardProtocol.FaultlogGetResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/faultloggetresponseorbuilder">JacquardProtocol.FaultlogGetResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/gearchar">JacquardProtocol.GearChar</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/gearchar/builder">JacquardProtocol.GearChar.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/gearcharorbuilder">JacquardProtocol.GearCharOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/genericblobmessagepayload">JacquardProtocol.GenericBlobMessagePayload</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/genericblobmessagepayload/builder">JacquardProtocol.GenericBlobMessagePayload.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/genericblobmessagepayloadorbuilder">JacquardProtocol.GenericBlobMessagePayloadOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/genericblobmsgtype">JacquardProtocol.GenericBlobMsgType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/genericencryptednotification">JacquardProtocol.GenericEncryptedNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/genericencryptednotification/builder">JacquardProtocol.GenericEncryptedNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/genericencryptednotificationorbuilder">JacquardProtocol.GenericEncryptedNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/genericplainnotification">JacquardProtocol.GenericPlainNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/genericplainnotification/builder">JacquardProtocol.GenericPlainNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/genericplainnotificationorbuilder">JacquardProtocol.GenericPlainNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hwgearrequest">JacquardProtocol.HWGearRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hwgearrequest/builder">JacquardProtocol.HWGearRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hwgearrequestorbuilder">JacquardProtocol.HWGearRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hwgearresponse">JacquardProtocol.HWGearResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hwgearresponse/builder">JacquardProtocol.HWGearResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hwgearresponseorbuilder">JacquardProtocol.HWGearResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticnotification">JacquardProtocol.HapticNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticnotification/builder">JacquardProtocol.HapticNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticnotificationdetails">JacquardProtocol.HapticNotificationDetails</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticnotificationdetails/builder">JacquardProtocol.HapticNotificationDetails.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticnotificationdetailsorbuilder">JacquardProtocol.HapticNotificationDetailsOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticnotificationorbuilder">JacquardProtocol.HapticNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticrequest">JacquardProtocol.HapticRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticrequest/builder">JacquardProtocol.HapticRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticrequestorbuilder">JacquardProtocol.HapticRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticresponse">JacquardProtocol.HapticResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticresponse/builder">JacquardProtocol.HapticResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticresponseorbuilder">JacquardProtocol.HapticResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticsymbol">JacquardProtocol.HapticSymbol</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticsymbol/builder">JacquardProtocol.HapticSymbol.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticsymbolorbuilder">JacquardProtocol.HapticSymbolOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/hapticsymboltype">JacquardProtocol.HapticSymbolType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/haptictype">JacquardProtocol.HapticType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/helloresponse">JacquardProtocol.HelloResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/helloresponse/builder">JacquardProtocol.HelloResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/helloresponseorbuilder">JacquardProtocol.HelloResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imuaccelrange">JacquardProtocol.ImuAccelRange</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imuaccelsamplerate">JacquardProtocol.ImuAccelSampleRate</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imuconfiguration">JacquardProtocol.ImuConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imuconfiguration/builder">JacquardProtocol.ImuConfiguration.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imuconfigurationorbuilder">JacquardProtocol.ImuConfigurationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imufiltermode">JacquardProtocol.ImuFilterMode</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imugyrorange">JacquardProtocol.ImuGyroRange</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imugyrosamplerate">JacquardProtocol.ImuGyroSampleRate</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/inferencedata">JacquardProtocol.InferenceData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/inferencedata/builder">JacquardProtocol.InferenceData.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/inferencedataorbuilder">JacquardProtocol.InferenceDataOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledgeometry">JacquardProtocol.LEDGeometry</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledtype">JacquardProtocol.LEDType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledpatternframes">JacquardProtocol.LedPatternFrames</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledpatternframes/builder">JacquardProtocol.LedPatternFrames.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledpatternframesorbuilder">JacquardProtocol.LedPatternFramesOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledpatternnotification">JacquardProtocol.LedPatternNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledpatternnotification/builder">JacquardProtocol.LedPatternNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledpatternnotificationorbuilder">JacquardProtocol.LedPatternNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledpatternrequest">JacquardProtocol.LedPatternRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledpatternrequest/builder">JacquardProtocol.LedPatternRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledpatternrequestorbuilder">JacquardProtocol.LedPatternRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledsarraychar">JacquardProtocol.LedsArrayChar</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledsarraychar/builder">JacquardProtocol.LedsArrayChar.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ledsarraycharorbuilder">JacquardProtocol.LedsArrayCharOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/listmoduleresponse">JacquardProtocol.ListModuleResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/listmoduleresponse/builder">JacquardProtocol.ListModuleResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/listmoduleresponseorbuilder">JacquardProtocol.ListModuleResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/loadmodulenotification">JacquardProtocol.LoadModuleNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/loadmodulenotification/builder">JacquardProtocol.LoadModuleNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/loadmodulenotificationorbuilder">JacquardProtocol.LoadModuleNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/loadmodulerequest">JacquardProtocol.LoadModuleRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/loadmodulerequest/builder">JacquardProtocol.LoadModuleRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/loadmodulerequestorbuilder">JacquardProtocol.LoadModuleRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/loglevel">JacquardProtocol.LogLevel</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/moduledescriptor">JacquardProtocol.ModuleDescriptor</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/moduledescriptor/builder">JacquardProtocol.ModuleDescriptor.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/moduledescriptororbuilder">JacquardProtocol.ModuleDescriptorOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/notification">JacquardProtocol.Notification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/notification/builder">JacquardProtocol.Notification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/notificationorbuilder">JacquardProtocol.NotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/opcode">JacquardProtocol.Opcode</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/orientationtype">JacquardProtocol.OrientationType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/otadfumetadata">JacquardProtocol.OtaDfuMetadata</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/otadfumetadata/builder">JacquardProtocol.OtaDfuMetadata.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/otadfumetadataorbuilder">JacquardProtocol.OtaDfuMetadataOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/patternplaytype">JacquardProtocol.PatternPlayType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/patterntype">JacquardProtocol.PatternType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/request">JacquardProtocol.Request</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/request/builder">JacquardProtocol.Request.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/requestorbuilder">JacquardProtocol.RequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/resetreasonrecord">JacquardProtocol.ResetReasonRecord</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/resetreasonrecord/builder">JacquardProtocol.ResetReasonRecord.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/resetreasonrecordorbuilder">JacquardProtocol.ResetReasonRecordOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/response">JacquardProtocol.Response</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/response/builder">JacquardProtocol.Response.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/responseorbuilder">JacquardProtocol.ResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/skumaterial">JacquardProtocol.SKUMaterial</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/status">JacquardProtocol.Status</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/supportedrequest">JacquardProtocol.SupportedRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/supportedrequest/builder">JacquardProtocol.SupportedRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/supportedrequestorbuilder">JacquardProtocol.SupportedRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/touchconfigdata">JacquardProtocol.TouchConfigData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/touchconfigdata/builder">JacquardProtocol.TouchConfigData.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/touchconfigdataorbuilder">JacquardProtocol.TouchConfigDataOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/touchdata">JacquardProtocol.TouchData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/touchdata/builder">JacquardProtocol.TouchData.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/touchdataorbuilder">JacquardProtocol.TouchDataOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/touchwidgetconfig">JacquardProtocol.TouchWidgetConfig</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/touchwidgetconfig/builder">JacquardProtocol.TouchWidgetConfig.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/touchwidgetconfigorbuilder">JacquardProtocol.TouchWidgetConfigOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ujtconfigreadrequest">JacquardProtocol.UJTConfigReadRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ujtconfigreadrequest/builder">JacquardProtocol.UJTConfigReadRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ujtconfigreadrequestorbuilder">JacquardProtocol.UJTConfigReadRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ujtconfigresponse">JacquardProtocol.UJTConfigResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ujtconfigresponse/builder">JacquardProtocol.UJTConfigResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ujtconfigresponseorbuilder">JacquardProtocol.UJTConfigResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ujtconfigwriterequest">JacquardProtocol.UJTConfigWriteRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ujtconfigwriterequest/builder">JacquardProtocol.UJTConfigWriteRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/ujtconfigwriterequestorbuilder">JacquardProtocol.UJTConfigWriteRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/unloadmodulerequest">JacquardProtocol.UnloadModuleRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/unloadmodulerequest/builder">JacquardProtocol.UnloadModuleRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/unloadmodulerequestorbuilder">JacquardProtocol.UnloadModuleRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/updateschedule">JacquardProtocol.UpdateSchedule</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/vibemotorchar">JacquardProtocol.VibeMotorChar</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/vibemotorchar/builder">JacquardProtocol.VibeMotorChar.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/vibemotorcharorbuilder">JacquardProtocol.VibeMotorCharOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/wombleconnectionpolicy">JacquardProtocol.WomBleConnectionPolicy</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/womconfiguration">JacquardProtocol.WomConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/womconfiguration/builder">JacquardProtocol.WomConfiguration.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/womconfigurationorbuilder">JacquardProtocol.WomConfigurationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/womgearpowercontrolpolicy">JacquardProtocol.WomGearPowerControlPolicy</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/tag/jacquardtag">JacquardTag</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/jqextensionregistry">JqExtensionRegistry</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/util/lists">Lists</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/util/lists/unmodifiablelistbuilder">Lists.UnmodifiableListBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/log/loglevel">LogLevel</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/log/logger">Logger</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/managerscanningexception">ManagerScanningException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/managerscanningexception/bluetoothdevicenotfound">ManagerScanningException.BluetoothDeviceNotFound</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/managerscanningexception/bluetoothunavailableexception">ManagerScanningException.BluetoothUnavailableException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/remote/metadatamodel">MetaDataModel</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/notificationsubscription">NotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/util/objects">Objects</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/peripheral">Peripheral</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/peripheral/writetype">Peripheral.WriteType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand">PlayLedPatternCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand/color">PlayLedPatternCommand.Color</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand/frame">PlayLedPatternCommand.Frame</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand/ledpatterntype">PlayLedPatternCommand.LedPatternType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand/playledpatterncommandbuilder">PlayLedPatternCommand.PlayLedPatternCommandBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand/playtype">PlayLedPatternCommand.PlayType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/pred">Pred</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/log/printlogger">PrintLogger</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/producer">Producer</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/product">Product</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/product/capability">Product.Capability</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/constants/productconstant">ProductConstant</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/progress">Progress</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/initialization/protocolinitializationstatemachine">ProtocolInitializationStateMachine</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/protocolspec">ProtocolSpec</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/remote/remotefactory">RemoteFactory</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/remote/remotefactory/server">RemoteFactory.Server</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/remote/remotefunction">RemoteFunction</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/renametagcommand">RenameTagCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/initialization/requestcallback">RequestCallback</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/pairing/requiredcharacteristics">RequiredCharacteristics</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/initialization/responseresult">ResponseResult</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/initialization/responseresult/type">ResponseResult.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/connection/result">Result</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/connection/result/type">Result.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/revision">Revision</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/sdkinitprovider">SdkInitProvider</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/util/sdktypeadapterfactory">SdkTypeAdapterFactory</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/servicesdiscovered">ServicesDiscovered</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/settouchmodecommand">SetTouchModeCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/forwarderobserver">Signal.ForwarderObserver</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/observer">Signal.Observer</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/observescomplete">Signal.ObservesComplete</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/observeserror">Signal.ObservesError</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/observesnext">Signal.ObservesNext</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/onsubscribe">Signal.OnSubscribe</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Signal.Subscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx/signal/subscriptionfactory">Signal.SubscriptionFactory</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/statemachine">StateMachine</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/util/stringutils">StringUtils</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/connection/tagconnectionstatemachine">TagConnectionStateMachine</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/pairing/tagpairingevent">TagPairingEvent</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/pairing/tagpairingevent/type">TagPairingEvent.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/pairing/tagpairingstate">TagPairingState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/pairing/tagpairingstate/type">TagPairingState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/pairing/tagpairingstatemachine">TagPairingStateMachine</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/touchdata">TouchData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/touchmode">TouchMode</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/initialization/transport">Transport</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/ujtreadconfigcommand">UjtReadConfigCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command/ujtwriteconfigcommand">UjtWriteConfigCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model/vendor">Vendor</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/constants/vendorconstant">VendorConstant</a>
+    </li>
+    
+
+        
+        </ul>
+    </li>
+
+                
+                    
+    <li>
+        <span class="opener">Packages</span>
+        <ul>
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk">com.google.android.jacquard.sdk</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/command">com.google.android.jacquard.sdk.command</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/connection">com.google.android.jacquard.sdk.connection</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/constants">com.google.android.jacquard.sdk.constants</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/datastore">com.google.android.jacquard.sdk.datastore</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/initialization">com.google.android.jacquard.sdk.initialization</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/log">com.google.android.jacquard.sdk.log</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/model">com.google.android.jacquard.sdk.model</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/pairing">com.google.android.jacquard.sdk.pairing</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/remote">com.google.android.jacquard.sdk.remote</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/rx">com.google.android.jacquard.sdk.rx</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/tag">com.google.android.jacquard.sdk.tag</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/android/jacquard/sdk/util">com.google.android.jacquard.sdk.util</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="javadoc/com/google/atap/jacquard/protocol">com.google.atap.jacquard.protocol</a>
+    </li>
+    
+
+        
+        </ul>
+    </li>
+
+                
+            </ul>
+        </nav>
+        
+
+    </div>
+</div>
+
+  </div>
+
+  <div id="jacquard_footer">
+    <div class="left_panel">
+      <h1>Get updates on Jacquard</h1>
+      <div>
+        Join the
+        <a href="https://github.com/google/JacquardSDKAndroid/discussions/">
+          Jacquard Android SDK community discussion
+        </a>
+        on GitHub.
+      </div>
+      <div>
+        Learn more about Google Jaquard and sign up for Jacquard updates at the
+        <a href="https://atap.google.com/jacquard/">Jacquard by Google website</a>.
+      </div>
+    </div>
+    <div class="right_panel">
+      <table cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <th>Sitemap</th>
+            <th>Other</th>
+          </tr>
+          <tr>
+            <td>
+              <a href="/wiki/tutorial">Getting Started</a>
+              <a href="/wiki/tutorial#section7">Connecting to Tags</a>
+              <a href="/wiki/tutorial#section8">Commands</a>
+              <a href="/wiki/tutorial#section9">Notifications</a>
+            </td>
+            <td>
+              <a href="https://github.com/google/JacquardSDKAndroid/discussions/">Jacquard Android SDK Discussions</a>
+              <a href="https://atap.google.com/jacquard/">Jacquard</a>
+              <a href="https://atap.google.com">Google ATAP</a>
+              <a href="/wiki/license">License</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>Copyright 2021-present, Google LLC.</div>
+  </div>
+
+  
+
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+
+<!-- start:inject scripts -->
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
+<script  src="Editorial/528fdff7/assets/js/editorial_util.js"></script>
+<script  src="Editorial/528fdff7/assets/js/editorial_main.js"></script>
+<script  src="Editorial/528fdff7/assets/js/editorial_orchidCustomizations.js"></script>
+<script  src="Editorial/528fdff7/assets/js/jacquard.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script  src="https://unpkg.com/lunr/lunr.js"></script>
+<script  src="assets/js/orchidSearch.js"></script>
+<!-- end:inject scripts -->
+
+
+</body>
+
+</html>
