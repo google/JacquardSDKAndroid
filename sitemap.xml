@@ -4,43 +4,43 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd"
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <sitemap>
-        <loc>sitemap-assets.xml</loc>
-        <lastmod>2021-05-11</lastmod>
+        <loc>/JacquardSDKAndroid/sitemap-assets.xml</loc>
+        <lastmod>2021-05-21</lastmod>
     </sitemap>
     <sitemap>
-        <loc>sitemap-external.xml</loc>
-        <lastmod>2021-05-11</lastmod>
+        <loc>/JacquardSDKAndroid/sitemap-external.xml</loc>
+        <lastmod>2021-05-21</lastmod>
     </sitemap>
     <sitemap>
-        <loc>sitemap-changelog.xml</loc>
-        <lastmod>2021-05-11</lastmod>
+        <loc>/JacquardSDKAndroid/sitemap-changelog.xml</loc>
+        <lastmod>2021-05-21</lastmod>
     </sitemap>
     <sitemap>
-        <loc>sitemap-forms.xml</loc>
-        <lastmod>2021-05-11</lastmod>
+        <loc>/JacquardSDKAndroid/sitemap-forms.xml</loc>
+        <lastmod>2021-05-21</lastmod>
     </sitemap>
     <sitemap>
-        <loc>sitemap-home.xml</loc>
-        <lastmod>2021-05-11</lastmod>
+        <loc>/JacquardSDKAndroid/sitemap-home.xml</loc>
+        <lastmod>2021-05-21</lastmod>
     </sitemap>
     <sitemap>
-        <loc>sitemap-javadoc.xml</loc>
-        <lastmod>2021-05-11</lastmod>
+        <loc>/JacquardSDKAndroid/sitemap-javadoc.xml</loc>
+        <lastmod>2021-05-21</lastmod>
     </sitemap>
     <sitemap>
-        <loc>sitemap-pages.xml</loc>
-        <lastmod>2021-05-11</lastmod>
+        <loc>/JacquardSDKAndroid/sitemap-pages.xml</loc>
+        <lastmod>2021-05-21</lastmod>
     </sitemap>
     <sitemap>
-        <loc>sitemap-wiki.xml</loc>
-        <lastmod>2021-05-11</lastmod>
+        <loc>/JacquardSDKAndroid/sitemap-wiki.xml</loc>
+        <lastmod>2021-05-21</lastmod>
     </sitemap>
     <sitemap>
-        <loc>sitemap-sitemap.xml</loc>
-        <lastmod>2021-05-11</lastmod>
+        <loc>/JacquardSDKAndroid/sitemap-sitemap.xml</loc>
+        <lastmod>2021-05-21</lastmod>
     </sitemap>
     <sitemap>
-        <loc>sitemap-indices.xml</loc>
-        <lastmod>2021-05-11</lastmod>
+        <loc>/JacquardSDKAndroid/sitemap-indices.xml</loc>
+        <lastmod>2021-05-21</lastmod>
     </sitemap>
 </sitemapindex>

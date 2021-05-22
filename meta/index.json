@@ -6,11 +6,11 @@
       {
         "reference": {
           "path": "meta",
-          "baseUrl": "",
+          "baseUrl": "/JacquardSDKAndroid",
           "fileName": "assets.index",
           "extension": "json",
           "usePrettyUrl": false,
-          "link": "meta/assets.index.json"
+          "link": "/JacquardSDKAndroid/meta/assets.index.json"
         },
         "description": "",
         "title": "Assets . Index"
@@ -18,11 +18,11 @@
       {
         "reference": {
           "path": "meta",
-          "baseUrl": "",
+          "baseUrl": "/JacquardSDKAndroid",
           "fileName": "changelog.index",
           "extension": "json",
           "usePrettyUrl": false,
-          "link": "meta/changelog.index.json"
+          "link": "/JacquardSDKAndroid/meta/changelog.index.json"
         },
         "description": "",
         "title": "Changelog . Index"
@@ -30,11 +30,11 @@
       {
         "reference": {
           "path": "meta",
-          "baseUrl": "",
+          "baseUrl": "/JacquardSDKAndroid",
           "fileName": "forms.index",
           "extension": "json",
           "usePrettyUrl": false,
-          "link": "meta/forms.index.json"
+          "link": "/JacquardSDKAndroid/meta/forms.index.json"
         },
         "description": "",
         "title": "Forms . Index"
@@ -42,11 +42,11 @@
       {
         "reference": {
           "path": "meta",
-          "baseUrl": "",
+          "baseUrl": "/JacquardSDKAndroid",
           "fileName": "home.index",
           "extension": "json",
           "usePrettyUrl": false,
-          "link": "meta/home.index.json"
+          "link": "/JacquardSDKAndroid/meta/home.index.json"
         },
         "description": "",
         "title": "Home . Index"
@@ -54,11 +54,11 @@
       {
         "reference": {
           "path": "meta",
-          "baseUrl": "",
+          "baseUrl": "/JacquardSDKAndroid",
           "fileName": "javadoc.index",
           "extension": "json",
           "usePrettyUrl": false,
-          "link": "meta/javadoc.index.json"
+          "link": "/JacquardSDKAndroid/meta/javadoc.index.json"
         },
         "description": "",
         "title": "Javadoc . Index"
@@ -66,11 +66,11 @@
       {
         "reference": {
           "path": "meta",
-          "baseUrl": "",
+          "baseUrl": "/JacquardSDKAndroid",
           "fileName": "pages.index",
           "extension": "json",
           "usePrettyUrl": false,
-          "link": "meta/pages.index.json"
+          "link": "/JacquardSDKAndroid/meta/pages.index.json"
         },
         "description": "",
         "title": "Pages . Index"
@@ -78,11 +78,11 @@
       {
         "reference": {
           "path": "meta",
-          "baseUrl": "",
+          "baseUrl": "/JacquardSDKAndroid",
           "fileName": "wiki.index",
           "extension": "json",
           "usePrettyUrl": false,
-          "link": "meta/wiki.index.json"
+          "link": "/JacquardSDKAndroid/meta/wiki.index.json"
         },
         "description": "",
         "title": "Wiki . Index"
@@ -90,11 +90,11 @@
       {
         "reference": {
           "path": "meta",
-          "baseUrl": "",
+          "baseUrl": "/JacquardSDKAndroid",
           "fileName": "sitemap.index",
           "extension": "json",
           "usePrettyUrl": false,
-          "link": "meta/sitemap.index.json"
+          "link": "/JacquardSDKAndroid/meta/sitemap.index.json"
         },
         "description": "",
         "title": "Sitemap . Index"
@@ -102,11 +102,11 @@
       {
         "reference": {
           "path": "meta",
-          "baseUrl": "",
+          "baseUrl": "/JacquardSDKAndroid",
           "fileName": "indices.index",
           "extension": "json",
           "usePrettyUrl": false,
-          "link": "meta/indices.index.json"
+          "link": "/JacquardSDKAndroid/meta/indices.index.json"
         },
         "description": "",
         "title": "Indices . Index"
@@ -114,11 +114,11 @@
       {
         "reference": {
           "path": "meta",
-          "baseUrl": "",
+          "baseUrl": "/JacquardSDKAndroid",
           "fileName": "all.index",
           "extension": "json",
           "usePrettyUrl": false,
-          "link": "meta/all.index.json"
+          "link": "/JacquardSDKAndroid/meta/all.index.json"
         },
         "description": "",
         "title": "All . Index"

@@ -8,27 +8,27 @@
         "ownPages": [{
           "reference": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "license",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/license"
+            "link": "/JacquardSDKAndroid/wiki/license"
           },
           "next": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "contributing",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/contributing"
+            "link": "/JacquardSDKAndroid/wiki/contributing"
           },
           "previous": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "releases",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/releases"
+            "link": "/JacquardSDKAndroid/wiki/releases"
           },
           "description": "",
           "title": "License",
@@ -40,27 +40,27 @@
         "ownPages": [{
           "reference": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "apis",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/apis"
+            "link": "/JacquardSDKAndroid/wiki/apis"
           },
           "next": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "releases",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/releases"
+            "link": "/JacquardSDKAndroid/wiki/releases"
           },
           "previous": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "integration",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/integration"
+            "link": "/JacquardSDKAndroid/wiki/integration"
           },
           "description": "",
           "title": "API overview",
@@ -72,19 +72,19 @@
         "ownPages": [{
           "reference": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "conduct",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/conduct"
+            "link": "/JacquardSDKAndroid/wiki/conduct"
           },
           "previous": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "contributing",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/contributing"
+            "link": "/JacquardSDKAndroid/wiki/contributing"
           },
           "description": "",
           "title": "Code of Conduct",
@@ -96,27 +96,27 @@
         "ownPages": [{
           "reference": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "integration",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/integration"
+            "link": "/JacquardSDKAndroid/wiki/integration"
           },
           "next": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "apis",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/apis"
+            "link": "/JacquardSDKAndroid/wiki/apis"
           },
           "previous": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "firmware_update",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/firmware_update"
+            "link": "/JacquardSDKAndroid/wiki/firmware_update"
           },
           "description": "",
           "title": "Integration",
@@ -128,27 +128,27 @@
         "ownPages": [{
           "reference": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "contributing",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/contributing"
+            "link": "/JacquardSDKAndroid/wiki/contributing"
           },
           "next": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "conduct",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/conduct"
+            "link": "/JacquardSDKAndroid/wiki/conduct"
           },
           "previous": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "license",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/license"
+            "link": "/JacquardSDKAndroid/wiki/license"
           },
           "description": "",
           "title": "Contributing",
@@ -160,23 +160,23 @@
         "ownPages": [{
           "reference": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "tutorial",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/tutorial"
+            "link": "/JacquardSDKAndroid/wiki/tutorial"
           },
           "next": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "firmware_update",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/firmware_update"
+            "link": "/JacquardSDKAndroid/wiki/firmware_update"
           },
           "description": "",
           "title": "Tutorial",
-          "content": "<p>In this tutorial you will learn how to integrate the Jacquard SDK into\nan Android app, scan and connect to a tag, send commands and respond to\nnotifications.<\/p>\n<p>You will need:<\/p>\n<ol>\n<li>Some Jacquard gear TODO: Link to getting started section/page about\nobtaining gear.<\/li>\n<li>An Android device (since the Jacquard SDK uses Bluetooth to connect to\nyour tag the simulator won't work).<\/li>\n<\/ol>\n<h2 id=\"table-of-contents\"><a href=\"#table-of-contents\" id=\"table-of-contents\" class=\"anchor\"><\/a>Table of contents<\/h2>\n<ol>\n<li><a href=\"#section1\">Prepare your Jacquard Tag<\/a><\/li>\n<li><a href=\"#section2\">Create a new Android project<\/a><\/li>\n<li><a href=\"#section3\">Integrate Jacquard SDK<\/a><\/li>\n<li><a href=\"#section4\">Add the scanning table view<\/a><\/li>\n<li><a href=\"#section5\">Displaying the advertised tags and connecting the TableView Delegate<\/a><\/li>\n<li><a href=\"#section6\">Displaying already connected tags<\/a><\/li>\n<li><a href=\"#section7\">Connecting to tags<\/a><\/li>\n<li><a href=\"#section8\">Sending commands<\/a><\/li>\n<li><a href=\"#section9\">Observing Notifications<\/a><\/li>\n<\/ol>\n<h2 id=\"1-prepare-your-jacquard-tag\"><a href=\"#1-prepare-your-jacquard-tag\" id=\"1-prepare-your-jacquard-tag\" class=\"anchor\"><\/a><a name=\"section1\"><\/a>1. Prepare your Jacquard Tag<\/h2>\n<p>Before continuing, update the Jacquard firmware as per the <a href=\"/wiki/firmware_update\">instructions<\/a>.<\/p>\n<p>To ensure the smoothest path through this tutorial, go to Android\nBluetooth settings, find the entry for your Jacquard Tag and choose\n&quot;Forget this device&quot;.<\/p>\n<h2 id=\"2-create-a-new-android-project\"><a href=\"#2-create-a-new-android-project\" id=\"2-create-a-new-android-project\" class=\"anchor\"><\/a><a name=\"section2\"><\/a>2. Create a new Android project<\/h2>\n<p>In Android Studio, create a new Android project.<\/p>\n<blockquote>\n<p>File menu -&gt; New -&gt; New Project...<\/p>\n<\/blockquote>\n<p><img src=\"../../assets/media/tutorial/create_new_project.png\" alt=\"Android Studio new project dialog\" /><\/p>\n<h2 id=\"3-integrate-jacquard-sdk\"><a href=\"#3-integrate-jacquard-sdk\" id=\"3-integrate-jacquard-sdk\" class=\"anchor\"><\/a><a name=\"section3\"><\/a>3. Integrate Jacquard SDK<\/h2>\n<p>It's easy to integrate the Jacquard SDK using Maven.<\/p>\n<p>You need to include Jacquard in the <code>dependencies<\/code> section of your gradle file:<\/p>\n<pre><code class=\"language-java\">implementation &quot;com.google.jacquard:jacquard-sdk:0.1.0&quot;\n<\/code><\/pre>\n<h2 id=\"4-add-the-scanning-table-view\"><a href=\"#4-add-the-scanning-table-view\" id=\"4-add-the-scanning-table-view\" class=\"anchor\"><\/a><a name=\"section4\"><\/a>4. Add the scanning table view<\/h2>\n<p>The app you will make has two screens. The first is a tableview\nlisting any nearby advertising tags. The second is a screen with a few\nsimple labels and buttons which you will connect to Jacquard\nfunctions.<\/p>\n<p>First lets set up the Scanning activity.<\/p>\n<ol>\n<li>Select <code>File &gt; New &gt; Activity &gt; Empty Activity<\/code>.\nWe'll make this the main activity.<\/li>\n<li>Add a RecyclerView by going to <code>activity_main.xml<\/code>.<\/li>\n<li>Your activity should look something like this:\n<img src=\"../../assets/media/tutorial/activity_main.png\" alt=\"Main activity layout\" /><\/li>\n<\/ol>\n<p>You're now ready to start coding!<\/p>\n<pre><code class=\"language-java\">jacquardManager.startScanning()\n               .distinct()\n               .scan(new ArrayList&lt;AdvertisedJacquardTag&gt;(), \n                      (tagList, tag) -&gt; {\n                        tagList.add(tag);\n                        return tagList;\n                      })\n               .onNext(tagList -&gt; // Notify adapter to update UI);  \n<\/code><\/pre>\n<h3 id=\"put-the-jacquard-tag-into-advertising-mode\"><a href=\"#put-the-jacquard-tag-into-advertising-mode\" id=\"put-the-jacquard-tag-into-advertising-mode\" class=\"anchor\"><\/a>Put the Jacquard Tag into advertising mode<\/h3>\n<p>Press and hold the button on your tag for 3 or 4 seconds. The LED on\nthe tag will start pulsing, and you should see a log entry in Xcode\n<code>Found advertising tag 01ZK<\/code> (your tag's identifier will be\ndifferent).<\/p>\n<h2 id=\"5-displaying-the-advertised-tags-and-populating-the-recyclerview\"><a href=\"#5-displaying-the-advertised-tags-and-populating-the-recyclerview\" id=\"5-displaying-the-advertised-tags-and-populating-the-recyclerview\" class=\"anchor\"><\/a><a name=\"section5\"><\/a>5. Displaying the advertised tags and populating the RecyclerView<\/h2>\n<p>Here we are using a standard Android approach to display the found tag in\na cell and respond to a tapped cell. You may do this yourself.<\/p>\n<p>You should be able to build and run and see advertising tags in the\ntable view (you will need to press and hold the tag button again -\nJacquard tags stop advertising after 60 seconds).<\/p>\n<h2 id=\"6-displaying-already-connected-tag\"><a href=\"#6-displaying-already-connected-tag\" id=\"6-displaying-already-connected-tag\" class=\"anchor\"><\/a><a name=\"section6\"><\/a>6. Displaying already connected tag<\/h2>\n<p>When the tag is paired and connected to Android, it will no longer advertise.\nInstead, the list of tags already known and connected to Android can be retrieved.\nTo achieve this, when user tries to pair to the ujt through sample app,\ntag info should be saved to the shared preferences. Its totally upto you,\nhow you want to implement it.<\/p>\n<pre><code class=\"language-java\">private void savePairedDevices(KnownTag tag) {\n  Set&lt;KnownTag&gt; pairedTags = new HashSet&lt;&gt;(preferences.getPairedTags());\n  pairedTags.add(tag);\n  preferences.putPairedDevices(pairedTags);\n}\n<\/code><\/pre>\n<h2 id=\"7-connecting-to-tags\"><a href=\"#7-connecting-to-tags\" id=\"7-connecting-to-tags\" class=\"anchor\"><\/a><a name=\"section7\"><\/a>7. Connecting to tags<\/h2>\n<p>Connecting to tags is an important step that is fully documented in\n<a href=\"Connecting%20to%20Tags.html\">Connecting to Tags<\/a>.<\/p>\n<h3 id=\"connecting-to-the-tag\"><a href=\"#connecting-to-the-tag\" id=\"connecting-to-the-tag\" class=\"anchor\"><\/a>Connecting to the tag<\/h3>\n<p>When user tries to pair with a selected tag, you can use either of the below apis -<\/p>\n<pre><code class=\"language-java\">jacquardManager.connect(address);\n<\/code><\/pre>\n<p>OR<\/p>\n<pre><code class=\"language-java\">jacquardManager.connect(advertisedJacquardTag);\n<\/code><\/pre>\n<p>Both the apis will emit <code>ConnectionState<\/code>. You should monitor <code>ConnectionState.getType()<\/code> to know\nexact progress of pairing. Your application can get <code>ConnectedJacquardTag<\/code> as per below sample code -<\/p>\n<pre><code class=\"language-java\">public Signal&lt;ConnectedJacquardTag&gt; getConnectedTagSignal() {       \n  return jacquardManager.connect(address)\n          .filter(state -&gt; state.isType(CONNECTED))\n          .map(state -&gt; state.connected());\n}\n<\/code><\/pre>\n<p>Congratulations, your app will now show an advertising tag, connect to\nit. Try it now (and don't forget to press the tag's button for four seconds\nto restart pairing mode).<\/p>\n<h2 id=\"8-sending-commands\"><a href=\"#8-sending-commands\" id=\"8-sending-commands\" class=\"anchor\"><\/a><a name=\"section8\"><\/a>8. Sending commands<\/h2>\n<p>Now we'll explore sending commands to the tag, in this case\n<code>RenameTagCommand<\/code>, but commands are documented fully in the\n<a href=\"Commands.html\">Commands<\/a> documentation.<\/p>\n<p>When you have <code>ConnectedJacquardTag<\/code> available, you can enqueue commands which will be sent to\nthe tag in sequential manner as below -<\/p>\n<pre><code class=\"language-java\">public Signal&lt;String&gt; renameTag(String tagName) {\n  return connectedJacquardTag\n          .enqueue(new RenameTagCommand(tagName)));\n}\n<\/code><\/pre>\n<p>Note - Your app should listen for command success as well as failures both as below -<\/p>\n<pre><code class=\"language-java\">updateTagName(&quot;NewTagName&quot;).observe(new Observer&lt;String&gt;() {\n  @Override\n  public void onNext(@NonNull String s) {\n    // SUCCESS\n  }\n\n  @Override\n  public void onError(@NonNull Throwable t) {\n    // FAILURE\n  }\n\n  @Override\n  public void onComplete() {\n  }\n});\n<\/code><\/pre>\n<p><code>ConnectedJacquardTag.enqueue(Request command, int retries)<\/code> this api will give you ability to retry\nsending same request multiple times if it fails in prior attempt.<\/p>\n<h2 id=\"9-observing-notifications\"><a href=\"#9-observing-notifications\" id=\"9-observing-notifications\" class=\"anchor\"><\/a><a name=\"section9\"><\/a>9. Observing Notifications<\/h2>\n<p>Commands are initiated by the app and sent to the tag (possibly with a\nresponse). Notifications on the other hand originate from the tag at\nany time. We can ask to be notified any time a notification of\ninterest occurs.<\/p>\n<p>To get the tag battery notifiations -<\/p>\n<pre><code class=\"language-java\">private Signal&lt;BatteryStatus&gt; getBatteryNotifications(ConnectedJacquardTag tag) {\n  return tag.subscribe(new BatteryStatusNotificationSubscription());\n}\n<\/code><\/pre>\n<p>To get tag attach-detach notifications -<\/p>\n<pre><code class=\"language-java\">private Signal&lt;GearState&gt; getGearNotifications(ConnectedJacquardTag tag) {\n  return tag.getConnectedGearSignal();\n}\n<\/code><\/pre>\n<p>Once you have <code>ConnectedJacquardTag<\/code>, you can insert tag into  Jacquard gear and\nobserve for the gesture events as below -<\/p>\n<pre><code class=\"language-java\">private Signal&lt;Gesture&gt; getGestures(ConnectedJacquardTag tag) {\n  return tag.subscribe(new GestureNotificationSubscription());\n}\n<\/code><\/pre>\n<p>You have now successfully integrated the Jacquard SDK and learned how\nto connect, send commands and observe notifications. There's more to\nthe SDK which you can see demonstrated in the <a href=\"https://github.com/google/JacquardSDKAndroid\">sample\napp<\/a> and read about in the\nSDK documentation (see the table of contents on the left side of this\npage).<\/p>\n"
+          "content": "<p>In this tutorial you will learn how to integrate the Jacquard SDK into\nan Android app, scan and connect to a tag, send commands and respond to\nnotifications using Android Studio.<\/p>\n<p>You will need:<\/p>\n<ol>\n<li>Some Jacquard gear TODO: Link to getting started section/page about\nobtaining gear.<\/li>\n<li>An Android device (since the Jacquard SDK uses Bluetooth to connect to\nyour tag the simulator won't work).<\/li>\n<\/ol>\n<h2 id=\"table-of-contents\"><a href=\"#table-of-contents\" id=\"table-of-contents\" class=\"anchor\"><\/a>Table of contents<\/h2>\n<ol>\n<li><a href=\"#section1\">Prepare your Jacquard Tag<\/a><\/li>\n<li><a href=\"#section2\">Create a new Android project<\/a><\/li>\n<li><a href=\"#section3\">Integrate Jacquard SDK<\/a><\/li>\n<li><a href=\"#section4\">Add the scanning RecyclerView<\/a><\/li>\n<li><a href=\"#section5\">Displaying the advertised tags and populating the RecyclerView<\/a><\/li>\n<li><a href=\"#section6\">Displaying already connected tags<\/a><\/li>\n<li><a href=\"#section7\">Connecting to tags<\/a><\/li>\n<li><a href=\"#section8\">Sending commands<\/a><\/li>\n<li><a href=\"#section9\">Observing Notifications<\/a><\/li>\n<\/ol>\n<h2 id=\"1-prepare-your-jacquard-tag\"><a href=\"#1-prepare-your-jacquard-tag\" id=\"1-prepare-your-jacquard-tag\" class=\"anchor\"><\/a><a name=\"section1\"><\/a>1. Prepare your Jacquard Tag<\/h2>\n<p>Before continuing, update the Jacquard firmware as per the <a href=\"/wiki/firmware_update\">instructions<\/a>.<\/p>\n<p>To ensure the smoothest path through this tutorial, go to Android\nBluetooth settings, find the entry for your Jacquard Tag and choose\n&quot;Forget this device&quot;.<\/p>\n<h2 id=\"2-create-a-new-android-project\"><a href=\"#2-create-a-new-android-project\" id=\"2-create-a-new-android-project\" class=\"anchor\"><\/a><a name=\"section2\"><\/a>2. Create a new Android project<\/h2>\n<p>In Android Studio, create a new Android project.<\/p>\n<blockquote>\n<p>File menu -&gt; New -&gt; New Project...<\/p>\n<\/blockquote>\n<p><img src=\"../../assets/media/tutorial/create_new_project.png\" alt=\"Android Studio new project dialog\" /><\/p>\n<p>Select <code>No Activity<\/code> as your project template then create the project.<\/p>\n<h2 id=\"3-integrate-jacquard-sdk\"><a href=\"#3-integrate-jacquard-sdk\" id=\"3-integrate-jacquard-sdk\" class=\"anchor\"><\/a><a name=\"section3\"><\/a>3. Integrate Jacquard SDK<\/h2>\n<p>It's easy to integrate the Jacquard SDK using Maven. First, you need to include GMaven into your project gradle file - <code>build.gradle (Project: Jacquard_Tutorial)<\/code>.<\/p>\n<pre><code class=\"language-java\">allprojects {\n  repositories {\n    ...\n    maven {\n        url &quot;https://maven.google.com/&quot;\n    }\n  }\n}\n<\/code><\/pre>\n<p>Then you need to include Jacquard in the <code>dependencies<\/code> section of your application's gradle file - <code>build.gradle (Module: Jacquard_Tutorial.app)<\/code>.\nYou might need to expand the Gradle Scripts dropdown in the Project panel on the left.<\/p>\n<pre><code class=\"language-java\">implementation &quot;com.google.jacquard:jacquard-sdk:0.1.0&quot;\n<\/code><\/pre>\n<h2 id=\"4-add-the-scanning-recyclerview\"><a href=\"#4-add-the-scanning-recyclerview\" id=\"4-add-the-scanning-recyclerview\" class=\"anchor\"><\/a><a name=\"section4\"><\/a>4. Add the scanning RecyclerView<\/h2>\n<p>The app you will make has two screens. The first is a RecyclerView\nlisting any nearby advertising tags. The second is a screen with a few\nsimple labels and buttons which you will connect to Jacquard\nfunctions.<\/p>\n<p>First lets set up the Scanning activity.<\/p>\n<ol class=\"tutorial_list\">\n<li>Select <code>File &gt; New &gt; Activity &gt; Empty Activity<\/code>.\n<img src=\"../../assets/media/tutorial/create_main_activity.png\" alt=\"Create main activity\" />\nWe will also make this the main activity.<\/li>\n<li>Open <code>activity_main.xml<\/code> and add a RecyclerView. Your activity layout file should look something like this if you select &quot;Split&quot; view:\n<img src=\"../../assets/media/tutorial/activity_main.png\" alt=\"Main activity layout\" /><\/li>\n<\/ol>\n<p>Now we can start coding!<\/p>\n<h3 id=\"set-blue-tooth-permissions\"><a href=\"#set-blue-tooth-permissions\" id=\"set-blue-tooth-permissions\" class=\"anchor\"><\/a>Set blue tooth permissions<\/h3>\n<p>First we need to request for blue-tooth permissions, which also requires fine location permission. In <code>AndroidManifest.xml<\/code>, make sure you have these\npermissions:<\/p>\n<pre><code>&lt;uses-permission android:name=&quot;android.permission.BLUETOOTH&quot; /&gt;\n&lt;uses-permission android:name=&quot;android.permission.ACCESS_FINE_LOCATION&quot; /&gt;\n<\/code><\/pre>\n<h3 id=\"create-recyclerview-adapter\"><a href=\"#create-recyclerview-adapter\" id=\"create-recyclerview-adapter\" class=\"anchor\"><\/a>Create RecyclerView adapter<\/h3>\n<p>We have to create an adapter to update the RecycleView's UI. Create a file named <code>TagListAdapter<\/code>. In this adapter, we are going to implement a simple\nitem UI with just the name of the tag:<\/p>\n<pre><code class=\"language-java\">public class TagListAdapter extends RecyclerView.Adapter&lt;TagListAdapter.AdvertisedJacquardTagViewHolder&gt; {\n  private List&lt;AdvertisedJacquardTag&gt; tagList;\n\n  public TagListAdapter(List&lt;AdvertisedJacquardTag&gt; tagList) {\n    this.tagList = tagList;\n  }\n\n  @NonNull\n  @Override\n  public AdvertisedJacquardTagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\n    LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());\n    View view = layoutInflater.inflate(R.layout.tag_item, parent, false);\n    return new AdvertisedJacquardTagViewHolder(view);\n  }\n\n  @Override\n  public int getItemCount() {\n    return tagList.size();\n  }\n\n  @Override\n  public void onBindViewHolder(@NonNull AdvertisedJacquardTagViewHolder holder, int position) {\n    holder.bindView(tagList.get(position).displayName());\n  }\n\n  class AdvertisedJacquardTagViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {\n\n    private final View view;\n\n    AdvertisedJacquardTagViewHolder(View itemView) {\n      super(itemView);\n      view = itemView;\n      view.setOnClickListener(this);\n    }\n\n    void bindView(String name) {\n      TextView tv = view.findViewById(R.id.tag_item_name);\n      tv.setText(name);\n    }\n\n    @Override\n    public void onClick(View v) {\n      // Item click\n    }\n  }\n}\n<\/code><\/pre>\n<p>And the layout file should look something like the following:<\/p>\n<pre><code class=\"language-xml\">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;\n&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;\n    android:layout_width=&quot;match_parent&quot;\n    android:layout_height=&quot;80dp&quot;&gt;\n\n  &lt;TextView\n      android:id=&quot;@+id/tag_item_name&quot;\n      android:layout_width=&quot;match_parent&quot;\n      android:layout_height=&quot;match_parent&quot;\n      android:gravity=&quot;center_vertical&quot; /&gt;\n\n&lt;/RelativeLayout&gt;\n<\/code><\/pre>\n<h3 id=\"setup-recyclerview\"><a href=\"#setup-recyclerview\" id=\"setup-recyclerview\" class=\"anchor\"><\/a>Setup RecyclerView<\/h3>\n<p>Now switching back to your MainActivity file. First, we need to create a private variable to hold our scanned tag list:<\/p>\n<pre><code>private ArrayList&lt;AdvertisedJacquardTag&gt; tags = new ArrayList&lt;&gt;();\n<\/code><\/pre>\n<p>Then, in the <code>onCreate<\/code> method we will set our RecycleView to use the newly created TagListAdapter:<\/p>\n<pre><code>RecyclerView recyclerView = findViewById(R.id.tag_recyclerview);\nrecyclerView.setLayoutManager(new LinearLayoutManager(this));\nrecyclerView.setAdapter(new TagListAdapter(tags));\n<\/code><\/pre>\n<h2 id=\"5-displaying-the-advertised-tags-and-populating-the-recyclerview\"><a href=\"#5-displaying-the-advertised-tags-and-populating-the-recyclerview\" id=\"5-displaying-the-advertised-tags-and-populating-the-recyclerview\" class=\"anchor\"><\/a><a name=\"section5\"><\/a>5. Displaying the advertised tags and populating the RecyclerView<\/h2>\n<p>Before we can scan for tags, we'll need to request for the necessary permissions. Copy and paste the following into MainActivity:<\/p>\n<pre><code class=\"language-java\">private final ActivityResultLauncher&lt;String&gt; requestPermissionLauncher =\n    registerForActivityResult(\n        new ActivityResultContracts.RequestPermission(),\n        isGranted -&gt; {\n          if (isGranted) {\n            startScan();\n          }\n        });\n\nprivate boolean hasPermissions() {\n  if (checkSelfPermission(ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {\n    return true;\n  } else if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {\n    // User has denied the permission. Its time to show rationale.\n    return false;\n  } else {\n    requestPermissionLauncher.launch(ACCESS_FINE_LOCATION);\n    return false;\n  }\n}\n<\/code><\/pre>\n<p>Now create a <code>onResume<\/code> method and put the following in <code>onResume<\/code>. This will request the permission if necessary whenever we come back to this screen.<\/p>\n<pre><code>if (hasPermissions()) {\n  startScan();\n}\n<\/code><\/pre>\n<h3 id=\"scan-for-advertising-jacquard-tags\"><a href=\"#scan-for-advertising-jacquard-tags\" id=\"scan-for-advertising-jacquard-tags\" class=\"anchor\"><\/a>Scan for advertising Jacquard tags<\/h3>\n<p>Now we will create the startScan method that was used in <code>onResume<\/code> and put our tag scanning codes inside.\nThis will start scanning for advertising Jacquard tags whenever the activity is back on screen.<\/p>\n<pre><code class=\"language-java\">private void startScan() {\n    JacquardManager jacquardManager = JacquardManager.getInstance();\n    Signal&lt;List&lt;AdvertisedJacquardTag&gt;&gt; scanningSignal = jacquardManager.startScanning()\n        .distinct()\n        .scan(tags,\n            (tagList, tag) -&gt; {\n              tagList.add(tag);\n              return tagList;\n            });\n    scanningSignal.onNext(tagList -&gt; {\n      // Notify RecyclerView adapter to update the list\n      RecyclerView recyclerView = findViewById(R.id.tag_recyclerview);\n      recyclerView.getAdapter().notifyDataSetChanged();\n    });\n}\n<\/code><\/pre>\n<h3 id=\"put-the-jacquard-tag-into-advertising-mode\"><a href=\"#put-the-jacquard-tag-into-advertising-mode\" id=\"put-the-jacquard-tag-into-advertising-mode\" class=\"anchor\"><\/a>Put the Jacquard Tag into advertising mode<\/h3>\n<p>Press and hold the button on your tag for 3 or 4 seconds. The LED on\nthe tag will start pulsing, and you should see a log entry in Xcode\n<code>Found advertising tag 01ZK<\/code> (your tag's identifier will be\ndifferent).<\/p>\n<p>You should be able to the RecyclerView updated with your Jacquard Tag name.<\/p>\n<h2 id=\"6-displaying-already-connected-tag\"><a href=\"#6-displaying-already-connected-tag\" id=\"6-displaying-already-connected-tag\" class=\"anchor\"><\/a><a name=\"section6\"><\/a>6. Displaying already connected tag<\/h2>\n<p>When the tag is paired and connected to Android, it will no longer advertise.\nInstead, the list of tags already known and connected to Android can be retrieved.\nTo achieve this, when user tries to pair to the ujt through sample app,\ntag info should be saved to the shared preferences. Its totally upto you,\nhow you want to implement it.<\/p>\n<pre><code class=\"language-java\">private void savePairedDevices(KnownTag tag) {\n  Set&lt;KnownTag&gt; pairedTags = new HashSet&lt;&gt;(preferences.getPairedTags());\n  pairedTags.add(tag);\n  preferences.putPairedDevices(pairedTags);\n}\n<\/code><\/pre>\n<h2 id=\"7-connecting-to-tags\"><a href=\"#7-connecting-to-tags\" id=\"7-connecting-to-tags\" class=\"anchor\"><\/a><a name=\"section7\"><\/a>7. Connecting to tags<\/h2>\n<p>Connecting to tags is an important step that is fully documented in\n<a href=\"Connecting%20to%20Tags.html\">Connecting to Tags<\/a>.<\/p>\n<h3 id=\"connecting-to-the-tag\"><a href=\"#connecting-to-the-tag\" id=\"connecting-to-the-tag\" class=\"anchor\"><\/a>Connecting to the tag<\/h3>\n<p>When user tries to pair with a selected tag, you can use either of the below apis -<\/p>\n<pre><code class=\"language-java\">jacquardManager.connect(address);\n<\/code><\/pre>\n<p>OR<\/p>\n<pre><code class=\"language-java\">jacquardManager.connect(advertisedJacquardTag);\n<\/code><\/pre>\n<p>Both the apis will emit <code>ConnectionState<\/code>. You should monitor <code>ConnectionState.getType()<\/code> to know\nexact progress of pairing. Your application can get <code>ConnectedJacquardTag<\/code> as per below sample code -<\/p>\n<pre><code class=\"language-java\">public Signal&lt;ConnectedJacquardTag&gt; getConnectedTagSignal() {       \n  return jacquardManager.connect(address)\n          .filter(state -&gt; state.isType(CONNECTED))\n          .map(state -&gt; state.connected());\n}\n<\/code><\/pre>\n<p>Congratulations, your app will now show an advertising tag, connect to\nit. Try it now (and don't forget to press the tag's button for four seconds\nto restart pairing mode).<\/p>\n<h2 id=\"8-sending-commands\"><a href=\"#8-sending-commands\" id=\"8-sending-commands\" class=\"anchor\"><\/a><a name=\"section8\"><\/a>8. Sending commands<\/h2>\n<p>Now we'll explore sending commands to the tag, in this case\n<code>RenameTagCommand<\/code>, but commands are documented fully in the\n<a href=\"Commands.html\">Commands<\/a> documentation.<\/p>\n<p>When you have <code>ConnectedJacquardTag<\/code> available, you can enqueue commands which will be sent to\nthe tag in sequential manner as below -<\/p>\n<pre><code class=\"language-java\">public Signal&lt;String&gt; renameTag(String tagName) {\n  return connectedJacquardTag\n          .enqueue(new RenameTagCommand(tagName)));\n}\n<\/code><\/pre>\n<p>Note - Your app should listen for command success as well as failures both as below -<\/p>\n<pre><code class=\"language-java\">updateTagName(&quot;NewTagName&quot;).observe(new Observer&lt;String&gt;() {\n  @Override\n  public void onNext(@NonNull String s) {\n    // SUCCESS\n  }\n\n  @Override\n  public void onError(@NonNull Throwable t) {\n    // FAILURE\n  }\n\n  @Override\n  public void onComplete() {\n  }\n});\n<\/code><\/pre>\n<p><code>ConnectedJacquardTag.enqueue(Request command, int retries)<\/code> this api will give you ability to retry\nsending same request multiple times if it fails in prior attempt.<\/p>\n<h2 id=\"9-observing-notifications\"><a href=\"#9-observing-notifications\" id=\"9-observing-notifications\" class=\"anchor\"><\/a><a name=\"section9\"><\/a>9. Observing Notifications<\/h2>\n<p>Commands are initiated by the app and sent to the tag (possibly with a\nresponse). Notifications on the other hand originate from the tag at\nany time. We can ask to be notified any time a notification of\ninterest occurs.<\/p>\n<p>To get the tag battery notifiations -<\/p>\n<pre><code class=\"language-java\">private Signal&lt;BatteryStatus&gt; getBatteryNotifications(ConnectedJacquardTag tag) {\n  return tag.subscribe(new BatteryStatusNotificationSubscription());\n}\n<\/code><\/pre>\n<p>To get tag attach-detach notifications -<\/p>\n<pre><code class=\"language-java\">private Signal&lt;GearState&gt; getGearNotifications(ConnectedJacquardTag tag) {\n  return tag.getConnectedGearSignal();\n}\n<\/code><\/pre>\n<p>Once you have <code>ConnectedJacquardTag<\/code>, you can insert tag into  Jacquard gear and\nobserve for the gesture events as below -<\/p>\n<pre><code class=\"language-java\">private Signal&lt;Gesture&gt; getGestures(ConnectedJacquardTag tag) {\n  return tag.subscribe(new GestureNotificationSubscription());\n}\n<\/code><\/pre>\n<p>You have now successfully integrated the Jacquard SDK and learned how\nto connect, send commands and observe notifications. There's more to\nthe SDK which you can see demonstrated in the <a href=\"https://github.com/google/JacquardSDKAndroid\">sample\napp<\/a> and read about in the\nSDK documentation (see the table of contents on the left side of this\npage).<\/p>\n"
         }]
       },
       "firmware_update": {
@@ -184,27 +184,27 @@
         "ownPages": [{
           "reference": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "firmware_update",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/firmware_update"
+            "link": "/JacquardSDKAndroid/wiki/firmware_update"
           },
           "next": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "integration",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/integration"
+            "link": "/JacquardSDKAndroid/wiki/integration"
           },
           "previous": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "tutorial",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/tutorial"
+            "link": "/JacquardSDKAndroid/wiki/tutorial"
           },
           "description": "",
           "title": "Update Jacquard Firmware",
@@ -216,27 +216,27 @@
         "ownPages": [{
           "reference": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "releases",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/releases"
+            "link": "/JacquardSDKAndroid/wiki/releases"
           },
           "next": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "license",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/license"
+            "link": "/JacquardSDKAndroid/wiki/license"
           },
           "previous": {
             "path": "wiki",
-            "baseUrl": "",
+            "baseUrl": "/JacquardSDKAndroid",
             "fileName": "apis",
             "extension": "html",
             "usePrettyUrl": true,
-            "link": "wiki/apis"
+            "link": "/JacquardSDKAndroid/wiki/apis"
           },
           "description": "",
           "title": "Releases",
@@ -247,15 +247,15 @@
     "ownPages": [{
       "reference": {
         "path": "",
-        "baseUrl": "",
+        "baseUrl": "/JacquardSDKAndroid",
         "fileName": "wiki",
         "extension": "html",
         "usePrettyUrl": true,
-        "link": "wiki"
+        "link": "/JacquardSDKAndroid/wiki"
       },
       "description": "",
       "title": "Wiki",
-      "content": "<html>\n <head><\/head>\n <body>\n  <ul> \n   <li><a href=\"wiki/tutorial\">Tutorial<\/a><\/li> \n   <li><a href=\"wiki/firmware_update\">Update Jacquard Firmware<\/a><\/li> \n   <li><a href=\"wiki/integration\">Integration<\/a><\/li> \n   <li><a href=\"wiki/apis\">API overview<\/a><\/li> \n   <li><a href=\"wiki/releases\">Releases<\/a><\/li> \n   <li><a href=\"wiki/license\">License<\/a><\/li> \n   <li><a href=\"wiki/contributing\">Contributing<\/a><\/li> \n   <li><a href=\"wiki/conduct\">Code of Conduct<\/a><\/li> \n  <\/ul> \n <\/body>\n<\/html>\n"
+      "content": "<html>\n <head><\/head>\n <body>\n  <ul> \n   <li><a href=\"/JacquardSDKAndroid/wiki/tutorial\">Tutorial<\/a><\/li> \n   <li><a href=\"/JacquardSDKAndroid/wiki/firmware_update\">Update Jacquard Firmware<\/a><\/li> \n   <li><a href=\"/JacquardSDKAndroid/wiki/integration\">Integration<\/a><\/li> \n   <li><a href=\"/JacquardSDKAndroid/wiki/apis\">API overview<\/a><\/li> \n   <li><a href=\"/JacquardSDKAndroid/wiki/releases\">Releases<\/a><\/li> \n   <li><a href=\"/JacquardSDKAndroid/wiki/license\">License<\/a><\/li> \n   <li><a href=\"/JacquardSDKAndroid/wiki/contributing\">Contributing<\/a><\/li> \n   <li><a href=\"/JacquardSDKAndroid/wiki/conduct\">Code of Conduct<\/a><\/li> \n  <\/ul> \n <\/body>\n<\/html>\n"
     }]
   }}
 }

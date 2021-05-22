@@ -4,5 +4,5 @@ Disallow: /
 
 
 
-Sitemap: sitemap.xml
+Sitemap: /JacquardSDKAndroid/sitemap.xml
 

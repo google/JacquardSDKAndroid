@@ -133,9 +133,9 @@ blockquote {
   #pageContent img {
     max-width: 100%;
     margin-top: 28px; }
-  #pageContent .firmware_list li img {
+  #pageContent .firmware_list li img, #pageContent .tutorial_list li img {
     margin: 0px; }
-  #pageContent .firmware_list li p {
+  #pageContent .firmware_list li p, #pageContent .tutorial_list li p {
     margin-bottom: 0; }
 
 #jacquard_header_container {
