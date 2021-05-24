@@ -31,6 +31,12 @@ You will need the Jacquard Tag with a supported Jacquard product (all come with 
 - Saint Laurent Cit-e Backpack
 You can find links to purchase these products on the [Google Jacquard website](https://atap.google.com/jacquard/products/).
 
+> If you have just opened a new retail Jacquard product, your tag
+> probably needs a firmware update (and perhaps charging). Review the
+> steps in the [Updating
+> Firmware](https://google.github.io/JacquardSDKAndroid/wiki/firmware_update/)
+> page.
+
 ## Sample App
 To run the example project, clone the repo, and run the Android project from the `sample` directory first. For more detailed instructions, see the full documentation.
 
