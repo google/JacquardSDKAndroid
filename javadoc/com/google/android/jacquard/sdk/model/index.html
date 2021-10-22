@@ -34,10 +34,10 @@
 
 
 <!-- start:inject styles -->
-<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/d689dd60/assets/css/editorial_main.css"  />
-<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/d689dd60/assets/css/editorial_orchidCustomizations.css"  />
-<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/d689dd60/assets/css/orchidSearch.css"  />
-<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/d689dd60/assets/css/jacquard.css"  />
+<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/e2e7e617/assets/css/editorial_main.css"  />
+<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/e2e7e617/assets/css/editorial_orchidCustomizations.css"  />
+<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/e2e7e617/assets/css/orchidSearch.css"  />
+<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/e2e7e617/assets/css/jacquard.css"  />
 <link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/assets/css/orchidSearch.css"  />
 <link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/assets/css/orchidSourceDoc.css"  />
 <!-- end:inject styles -->
@@ -137,7 +137,7 @@
       <div id="header_content">
         <!-- Menu -->
         <ul id="nav_menu">
-          <li>v. 0.1.0</li>
+          <li>v. 0.2.0</li>
           <li><a href="https://github.com/google/JacquardSDKAndroid">View on Github</a></li>
           <li><a id="search_button" href="javascript:JacquardDoc.toggleSearch()"></a></li>
         </ul>
@@ -268,6 +268,17 @@ Product.</p>
         </td>
       </tr>
       
+      <tr class="sourcedoc-section section-element" id="149f1f9f82a22b0fd519959941ce47410d54a700">
+        <td class="sourcedoc-section section-signature">
+          <code>public abstract class <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/rssiupdate">RssiUpdate</a> extends Object</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        <p>Data class emitted byBleAdapterwhen a read remote rssi
+notification callback is received.</p>
+
+        </td>
+      </tr>
+      
       <tr class="sourcedoc-section section-element" id="401ddb3479dc7f464474b85b96783148ff2215f7">
         <td class="sourcedoc-section section-signature">
           <code>public abstract class <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/characteristicupdate">CharacteristicUpdate</a> extends Object</code>
@@ -314,6 +325,16 @@ read, write or notification callback is received.</p>
         </td>
         <td class="sourcedoc-section section-comments content">
         <p>Data class for holdingBluetoothGattServicediscovered for a tag.</p>
+
+        </td>
+      </tr>
+      
+      <tr class="sourcedoc-section section-element" id="2000a2b17d8be5c72496ce84246baea0fc4d9b69">
+        <td class="sourcedoc-section section-signature">
+          <code>public abstract class <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/sdkconfig">SdkConfig</a> extends Object</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        <p>Data class for sdk initialization.</p>
 
         </td>
       </tr>
@@ -377,6 +398,16 @@ read, write or notification callback is received.</p>
         </td>
       </tr>
       
+      <tr class="sourcedoc-section section-element" id="aa0e2769b7b008840f1cf98f6fab979f351fdb17">
+        <td class="sourcedoc-section section-signature">
+          <code>public abstract class <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/module">Module</a> extends Object</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        <p>Model class for loadable module.</p>
+
+        </td>
+      </tr>
+      
       <tr class="sourcedoc-section section-element" id="d508911dc4cc83df7100741371b71bb93cdf58bd">
         <td class="sourcedoc-section section-signature">
           <code>public final enum <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/protocolspec">ProtocolSpec</a> extends Enum</code>
@@ -410,25 +441,6 @@ read, write or notification callback is received.</p>
       <tr class="sourcedoc-section section-element" id="c2698d3f7076128d0105cdefcc36ce3658a64b2e">
         <td class="sourcedoc-section section-signature">
           <code>public static final enum <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/product/capability">Product.Capability</a> extends Enum</code>
-        </td>
-        <td class="sourcedoc-section section-comments content">
-        
-        </td>
-      </tr>
-      
-      <tr class="sourcedoc-section section-element" id="b4b036b3dd3f64c9e9188ecddb46be085de08bb2">
-        <td class="sourcedoc-section section-signature">
-          <code>public class <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/deviceconstants">DeviceConstants</a> extends Object</code>
-        </td>
-        <td class="sourcedoc-section section-comments content">
-        <p>Class holding static component Ids.</p>
-
-        </td>
-      </tr>
-      
-      <tr class="sourcedoc-section section-element" id="9077c45d33ace7ae7b3805057aeba08e6686ae37">
-        <td class="sourcedoc-section section-signature">
-          <code>public static final enum <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/deviceconstants/fixedcomponent">DeviceConstants.FixedComponent</a> extends Enum</code>
         </td>
         <td class="sourcedoc-section section-comments content">
         
@@ -470,6 +482,17 @@ read, write or notification callback is received.</p>
         </td>
         <td class="sourcedoc-section section-comments content">
         <p>Information describing a component.</p>
+
+        </td>
+      </tr>
+      
+      <tr class="sourcedoc-section section-element" id="16f5a638c62bfa06f63c24f16e9566ea3df991e9">
+        <td class="sourcedoc-section section-signature">
+          <code>public abstract class <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/deviceconfigelement">DeviceConfigElement</a> extends Object</code>
+        </td>
+        <td class="sourcedoc-section section-comments content">
+        <p>Model class to write config values to tag.
+See<a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/setconfigcommand">SetConfigCommand</a>.</p>
 
         </td>
       </tr>
@@ -545,7 +568,7 @@ read, write or notification callback is received.</p>
                     
     
     <li>
-        <a href="/JacquardSDKAndroid/wiki/firmware_update">Update Jacquard Firmware</a>
+        <a href="/JacquardSDKAndroid/wiki/codelabs">CodeLabs</a>
     </li>
     
 
@@ -578,6 +601,14 @@ read, write or notification callback is received.</p>
     
     <li>
         <a href="/JacquardSDKAndroid/wiki/license">License</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="/JacquardSDKAndroid/wiki/cloud-api-terms">Cloud API Terms</a>
     </li>
     
 
@@ -846,6 +877,46 @@ read, write or notification callback is received.</p>
             
     
     <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/dcerrornotificationsubscription">DCErrorNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/exception/dcexception">DCException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/dfuinfo">DFUInfo</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/dfuinfo/upgradestatus">DFUInfo.UpgradeStatus</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/datacollectionstatuscommand">DataCollectionStatusCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/datastore/dataprovider">DataProvider</a>
     </li>
     
@@ -854,15 +925,7 @@ read, write or notification callback is received.</p>
             
     
     <li>
-        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/deviceconstants">DeviceConstants</a>
-    </li>
-    
-
-        
-            
-    
-    <li>
-        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/deviceconstants/fixedcomponent">DeviceConstants.FixedComponent</a>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/deviceconfigelement">DeviceConfigElement</a>
     </li>
     
 
@@ -886,6 +949,38 @@ read, write or notification callback is received.</p>
             
     
     <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/dfuexecuteupdatenotificationsubscription">DfuExecuteUpdateNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/dfumanager">DfuManager</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/dfumanagerimpl">DfuManagerImpl</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/eraseimusessioncommand">EraseImuSessionCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/executors">Executors</a>
     </li>
     
@@ -895,6 +990,38 @@ read, write or notification callback is received.</p>
     
     <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/failedtoconnect">FailedToConnect</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/model/filedescriptor">FileDescriptor</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/filelogger">FileLogger</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/firmwareupdatestate">FirmwareUpdateState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/firmwareupdatestate/type">FirmwareUpdateState.Type</a>
     </li>
     
 
@@ -982,6 +1109,22 @@ read, write or notification callback is received.</p>
             
     
     <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/getconfigcommand">GetConfigCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/getimusessiondatacommand">GetImuSessionDataCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/hapticcommand">HapticCommand</a>
     </li>
     
@@ -1007,6 +1150,102 @@ read, write or notification callback is received.</p>
     
     <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/hapticcommand/pattern">HapticCommand.Pattern</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/imumodule">ImuModule</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/imuparser">ImuParser</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/imuparserexception">ImuParserException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/imuparserimpl">ImuParserImpl</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/imusessiondata">ImuSessionData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/imusessiondata/imusamplecollection">ImuSessionData.ImuSampleCollection</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/model/imusessioninfo">ImuSessionInfo</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/model/imusessioninfo/builder">ImuSessionInfo.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/imusessionlistcommand">ImuSessionListCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/imusessionlistnotification">ImuSessionListNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/initstate">InitState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/initstate/type">InitState.Type</a>
     </li>
     
 
@@ -1062,7 +1301,31 @@ read, write or notification callback is received.</p>
             
     
     <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/innerdcerrornotificationsubscription">InnerDCErrorNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/innerdfuexecuteupdatenotificationsubscription">InnerDfuExecuteUpdateNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/innergesturenotificationsubscription">InnerGestureNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/execption/insufficientbatteryexception">InsufficientBatteryException</a>
     </li>
     
 
@@ -1183,6 +1446,14 @@ read, write or notification callback is received.</p>
     
     <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jqgearmetadata/gearmetadataorbuilder">JQGearMetadata.GearMetadataOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/jqimuparser">JQImuParser</a>
     </li>
     
 
@@ -1862,6 +2133,526 @@ read, write or notification callback is received.</p>
             
     
     <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionactionheader">JacquardProtocol.DataCollectionActionHeader</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionactionheader/builder">JacquardProtocol.DataCollectionActionHeader.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionactionheaderorbuilder">JacquardProtocol.DataCollectionActionHeaderOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasealldatarequest">JacquardProtocol.DataCollectionEraseAllDataRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasealldatarequest/builder">JacquardProtocol.DataCollectionEraseAllDataRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasealldatarequestorbuilder">JacquardProtocol.DataCollectionEraseAllDataRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasealldataresponse">JacquardProtocol.DataCollectionEraseAllDataResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasealldataresponse/builder">JacquardProtocol.DataCollectionEraseAllDataResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasealldataresponseorbuilder">JacquardProtocol.DataCollectionEraseAllDataResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasetrialdatarequest">JacquardProtocol.DataCollectionEraseTrialDataRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasetrialdatarequest/builder">JacquardProtocol.DataCollectionEraseTrialDataRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasetrialdatarequestorbuilder">JacquardProtocol.DataCollectionEraseTrialDataRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasetrialdataresponse">JacquardProtocol.DataCollectionEraseTrialDataResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasetrialdataresponse/builder">JacquardProtocol.DataCollectionEraseTrialDataResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionerasetrialdataresponseorbuilder">JacquardProtocol.DataCollectionEraseTrialDataResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionmetadata">JacquardProtocol.DataCollectionMetadata</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionmetadata/builder">JacquardProtocol.DataCollectionMetadata.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionmetadataorbuilder">JacquardProtocol.DataCollectionMetadataOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionmode">JacquardProtocol.DataCollectionMode</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionprogressnotification">JacquardProtocol.DataCollectionProgressNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionprogressnotification/builder">JacquardProtocol.DataCollectionProgressNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionprogressnotificationorbuilder">JacquardProtocol.DataCollectionProgressNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstartrequest">JacquardProtocol.DataCollectionStartRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstartrequest/builder">JacquardProtocol.DataCollectionStartRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstartrequestorbuilder">JacquardProtocol.DataCollectionStartRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstartresponse">JacquardProtocol.DataCollectionStartResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstartresponse/builder">JacquardProtocol.DataCollectionStartResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstartresponseorbuilder">JacquardProtocol.DataCollectionStartResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstatus">JacquardProtocol.DataCollectionStatus</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstatusrequest">JacquardProtocol.DataCollectionStatusRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstatusrequest/builder">JacquardProtocol.DataCollectionStatusRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstatusrequestorbuilder">JacquardProtocol.DataCollectionStatusRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstatusresponse">JacquardProtocol.DataCollectionStatusResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstatusresponse/builder">JacquardProtocol.DataCollectionStatusResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstatusresponseorbuilder">JacquardProtocol.DataCollectionStatusResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstoprequest">JacquardProtocol.DataCollectionStopRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstoprequest/builder">JacquardProtocol.DataCollectionStopRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstoprequestorbuilder">JacquardProtocol.DataCollectionStopRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstopresponse">JacquardProtocol.DataCollectionStopResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstopresponse/builder">JacquardProtocol.DataCollectionStopResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectionstopresponseorbuilder">JacquardProtocol.DataCollectionStopResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialdata">JacquardProtocol.DataCollectionTrialData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialdata/builder">JacquardProtocol.DataCollectionTrialData.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialdataorbuilder">JacquardProtocol.DataCollectionTrialDataOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialdatarequest">JacquardProtocol.DataCollectionTrialDataRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialdatarequest/builder">JacquardProtocol.DataCollectionTrialDataRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialdatarequestorbuilder">JacquardProtocol.DataCollectionTrialDataRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialdataresponse">JacquardProtocol.DataCollectionTrialDataResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialdataresponse/builder">JacquardProtocol.DataCollectionTrialDataResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialdataresponseorbuilder">JacquardProtocol.DataCollectionTrialDataResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallist">JacquardProtocol.DataCollectionTrialList</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallist/builder">JacquardProtocol.DataCollectionTrialList.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallistnotification">JacquardProtocol.DataCollectionTrialListNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallistnotification/builder">JacquardProtocol.DataCollectionTrialListNotification.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallistnotificationorbuilder">JacquardProtocol.DataCollectionTrialListNotificationOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallistorbuilder">JacquardProtocol.DataCollectionTrialListOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallistrequest">JacquardProtocol.DataCollectionTrialListRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallistrequest/builder">JacquardProtocol.DataCollectionTrialListRequest.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallistrequestorbuilder">JacquardProtocol.DataCollectionTrialListRequestOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallistresponse">JacquardProtocol.DataCollectionTrialListResponse</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallistresponse/builder">JacquardProtocol.DataCollectionTrialListResponse.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontriallistresponseorbuilder">JacquardProtocol.DataCollectionTrialListResponseOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialsensordata">JacquardProtocol.DataCollectionTrialSensorData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialsensordata/builder">JacquardProtocol.DataCollectionTrialSensorData.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datacollectiontrialsensordataorbuilder">JacquardProtocol.DataCollectionTrialSensorDataOrBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/datastreamstate">JacquardProtocol.DataStreamState</a>
     </li>
     
@@ -2487,6 +3278,30 @@ read, write or notification callback is received.</p>
     
     <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imugyrosamplerate">JacquardProtocol.ImuGyroSampleRate</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imusample">JacquardProtocol.ImuSample</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imusample/builder">JacquardProtocol.ImuSample.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/atap/jacquard/protocol/jacquardprotocol/imusampleorbuilder">JacquardProtocol.ImuSampleOrBuilder</a>
     </li>
     
 
@@ -3182,6 +3997,14 @@ read, write or notification callback is received.</p>
             
     
     <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/listmodulescommand">ListModulesCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/lists">Lists</a>
     </li>
     
@@ -3191,6 +4014,22 @@ read, write or notification callback is received.</p>
     
     <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/lists/unmodifiablelistbuilder">Lists.UnmodifiableListBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/loadmodulecommand">LoadModuleCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/loadmodulenotificationsubscription">LoadModuleNotificationSubscription</a>
     </li>
     
 
@@ -3238,7 +4077,23 @@ read, write or notification callback is received.</p>
             
     
     <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/memorycache">MemoryCache</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/remote/metadatamodel">MetaDataModel</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/module">Module</a>
     </li>
     
 
@@ -3271,6 +4126,14 @@ read, write or notification callback is received.</p>
     
     <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/peripheral/writetype">Peripheral.WriteType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/model/platformsettings">PlatformSettings</a>
     </li>
     
 
@@ -3366,14 +4229,6 @@ read, write or notification callback is received.</p>
             
     
     <li>
-        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/constants/productconstant">ProductConstant</a>
-    </li>
-    
-
-        
-            
-    
-    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/progress">Progress</a>
     </li>
     
@@ -3430,31 +4285,7 @@ read, write or notification callback is received.</p>
             
     
     <li>
-        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/requestcallback">RequestCallback</a>
-    </li>
-    
-
-        
-            
-    
-    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/pairing/requiredcharacteristics">RequiredCharacteristics</a>
-    </li>
-    
-
-        
-            
-    
-    <li>
-        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/responseresult">ResponseResult</a>
-    </li>
-    
-
-        
-            
-    
-    <li>
-        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/responseresult/type">ResponseResult.Type</a>
     </li>
     
 
@@ -3486,6 +4317,22 @@ read, write or notification callback is received.</p>
             
     
     <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/rssiupdate">RssiUpdate</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/sdkconfig">SdkConfig</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/sdkinitprovider">SdkInitProvider</a>
     </li>
     
@@ -3502,7 +4349,31 @@ read, write or notification callback is received.</p>
             
     
     <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/sensors">Sensors</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/servicesdiscovered">ServicesDiscovered</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/setconfigcommand">SetConfigCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/setconfigcommand/settingstype">SetConfigCommand.SettingsType</a>
     </li>
     
 
@@ -3590,7 +4461,23 @@ read, write or notification callback is received.</p>
             
     
     <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/startimusessioncommand">StartImuSessionCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/statemachine">StateMachine</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/stopimusessioncommand">StopImuSessionCommand</a>
     </li>
     
 
@@ -3670,6 +4557,14 @@ read, write or notification callback is received.</p>
             
     
     <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/model/transferstate">TransferState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
         <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/transport">Transport</a>
     </li>
     
@@ -3694,7 +4589,7 @@ read, write or notification callback is received.</p>
             
     
     <li>
-        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/vendor">Vendor</a>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/unloadmodulecommand">UnloadModuleCommand</a>
     </li>
     
 
@@ -3702,7 +4597,15 @@ read, write or notification callback is received.</p>
             
     
     <li>
-        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/constants/vendorconstant">VendorConstant</a>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/execption/updatedfirmwarenotfoundexception">UpdatedFirmwareNotFoundException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/vendor">Vendor</a>
     </li>
     
 
@@ -3743,7 +4646,7 @@ read, write or notification callback is received.</p>
             
     
     <li>
-        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/constants">com.google.android.jacquard.sdk.constants</a>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/datastore">com.google.android.jacquard.sdk.datastore</a>
     </li>
     
 
@@ -3751,7 +4654,55 @@ read, write or notification callback is received.</p>
             
     
     <li>
-        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/datastore">com.google.android.jacquard.sdk.datastore</a>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu">com.google.android.jacquard.sdk.dfu</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/execption">com.google.android.jacquard.sdk.dfu.execption</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/model">com.google.android.jacquard.sdk.dfu.model</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu">com.google.android.jacquard.sdk.imu</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/exception">com.google.android.jacquard.sdk.imu.exception</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/model">com.google.android.jacquard.sdk.imu.model</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser">com.google.android.jacquard.sdk.imu.parser</a>
     </li>
     
 
@@ -3911,10 +4862,10 @@ read, write or notification callback is received.</p>
 <!-- start:inject scripts -->
 <script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script  src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
-<script  src="/JacquardSDKAndroid/Editorial/d689dd60/assets/js/editorial_util.js"></script>
-<script  src="/JacquardSDKAndroid/Editorial/d689dd60/assets/js/editorial_main.js"></script>
-<script  src="/JacquardSDKAndroid/Editorial/d689dd60/assets/js/editorial_orchidCustomizations.js"></script>
-<script  src="/JacquardSDKAndroid/Editorial/d689dd60/assets/js/jacquard.js"></script>
+<script  src="/JacquardSDKAndroid/Editorial/e2e7e617/assets/js/editorial_util.js"></script>
+<script  src="/JacquardSDKAndroid/Editorial/e2e7e617/assets/js/editorial_main.js"></script>
+<script  src="/JacquardSDKAndroid/Editorial/e2e7e617/assets/js/editorial_orchidCustomizations.js"></script>
+<script  src="/JacquardSDKAndroid/Editorial/e2e7e617/assets/js/jacquard.js"></script>
 <script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script  src="https://unpkg.com/lunr/lunr.js"></script>
 <script  src="/JacquardSDKAndroid/assets/js/orchidSearch.js"></script>

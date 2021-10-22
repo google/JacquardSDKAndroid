@@ -4,73 +4,63 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>/JacquardSDKAndroid/assets/media</loc>
-        <lastmod>2021-05-21</lastmod>
-        <priority>0.5</priority>
-    </url>
-    <url>
         <loc>/JacquardSDKAndroid/assets/media/logo.svg</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>/JacquardSDKAndroid/assets/media/search-icon.svg</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>/JacquardSDKAndroid/assets/media/apis/connect.png</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>/JacquardSDKAndroid/assets/media/apis/connected.png</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>/JacquardSDKAndroid/assets/media/dfu/dfu_complete.png</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>/JacquardSDKAndroid/assets/media/dfu/dfu_progress.png</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>/JacquardSDKAndroid/assets/media/dfu/fw_check.png</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>/JacquardSDKAndroid/assets/media/dfu/jq_onboarding_complete.png</loc>
-        <lastmod>2021-05-21</lastmod>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>/JacquardSDKAndroid/assets/media/tutorial</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>/JacquardSDKAndroid/assets/media/tutorial/activity_main.png</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>/JacquardSDKAndroid/assets/media/tutorial/create_conected_activity.png</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>/JacquardSDKAndroid/assets/media/tutorial/create_main_activity.png</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
     <url>
         <loc>/JacquardSDKAndroid/assets/media/tutorial/create_new_project.png</loc>
-        <lastmod>2021-05-21</lastmod>
+        <lastmod>2021-10-21</lastmod>
         <priority>0.5</priority>
     </url>
 </urlset>
