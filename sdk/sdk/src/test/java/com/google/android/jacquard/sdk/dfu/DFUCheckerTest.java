@@ -34,6 +34,7 @@ import com.google.common.base.Optional;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -87,7 +88,7 @@ public class DFUCheckerTest {
 
   @Test
   public void givenCheckUpdate_whenAllParametersCorrect_thenDFUDownloadCorrect()
-      throws FileNotFoundException, InterruptedException {
+      throws IOException, InterruptedException {
 
     // Assign
     RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
@@ -96,8 +97,8 @@ public class DFUCheckerTest {
     //Create file.
     byte[] outBytes = "abcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.UTF_8);
     InputStream in = new ByteArrayInputStream(outBytes);
-    File file = new File(/* pathname= */context.getFilesDir() + "/dummy");
-    DfuUtil.inputStreamToFile(in, file).consume();
+    File file = new File(/* pathname= */context.getFilesDir() + "/fakeFile");
+    DfuUtil.inputStreamToFile(in, file, in.available()).consume();
 
     DFUChecker dfuChecker = new DummyDFUChecker<>(remoteDfuInfo, true)
         .createDownloadManager(file);
@@ -128,15 +129,15 @@ public class DFUCheckerTest {
 
   @Test
   public void givenCheckUpdate_whenModuleIdEmptyAndGearIdNotEmpty_thenDFUDownloadCorrect()
-      throws InterruptedException, FileNotFoundException {
+      throws InterruptedException, IOException {
     // Assign
     CountDownLatch latch = new CountDownLatch(1);
 
     //Create file.
     byte[] outBytes = "abcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.UTF_8);
     InputStream in = new ByteArrayInputStream(outBytes);
-    File file = new File(/* pathname= */context.getFilesDir() + "/dummy");
-    DfuUtil.inputStreamToFile(in, file).consume();
+    File file = new File(/* pathname= */context.getFilesDir() + "/fakeFile");
+    DfuUtil.inputStreamToFile(in, file, in.available()).consume();
 
     RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
         dfuStatus, downloadUrl.toString(), vendorId, productId, "");
@@ -162,15 +163,15 @@ public class DFUCheckerTest {
 
   @Test
   public void givenCheckUpdate_whenModuleIdEmptyAndGearIdEmpty_thenDFUDownloadCorrect()
-      throws InterruptedException, FileNotFoundException {
+      throws InterruptedException, IOException {
     // Assign
     CountDownLatch latch = new CountDownLatch(1);
 
     //Create file.
     byte[] outBytes = "abcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.UTF_8);
     InputStream in = new ByteArrayInputStream(outBytes);
-    File file = new File(/* pathname= */context.getFilesDir() + "/dummy");
-    DfuUtil.inputStreamToFile(in, file).consume();
+    File file = new File(/* pathname= */context.getFilesDir() + "/fakeFile");
+    DfuUtil.inputStreamToFile(in, file, in.available()).consume();
 
     RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
         dfuStatus, downloadUrl.toString(), vendorId, productId, "");
@@ -228,7 +229,7 @@ public class DFUCheckerTest {
 
   @Test
   public void givenCheckUpdateNoForceUpdate_whenCachedDFUExist_thenReturnDFU()
-      throws FileNotFoundException {
+      throws IOException {
 
     // Assign
     AtomicReference<List<DFUInfo>> atomicReference = new AtomicReference<>();
@@ -251,7 +252,7 @@ public class DFUCheckerTest {
         cacheRepository.createParentDir(context.getFilesDir() + File.separator + "DfuImages")
             + File.separator +
             cacheRepository.descriptorFileName(dfuInfo));
-    DfuUtil.inputStreamToFile(in, file).consume();
+    DfuUtil.inputStreamToFile(in, file, in.available()).consume();
     cacheRepository.cacheDescriptor(dfuInfo, FileDescriptor.create(in, file.length()));
 
     // DFU Checker
@@ -272,7 +273,7 @@ public class DFUCheckerTest {
 
     // Assign
     JacquardManager jacquardManager = JacquardManager.getInstance();
-    jacquardManager.init(SdkConfig.of("ClientId", ""));
+    jacquardManager.init(SdkConfig.of("ClientId", "", /* cloudEndpointUrl= */ null));
 
     AtomicReference<Throwable> atomicReference = new AtomicReference<>();
     RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
@@ -296,7 +297,7 @@ public class DFUCheckerTest {
 
     // Assign
     JacquardManager jacquardManager = JacquardManager.getInstance();
-    jacquardManager.init(SdkConfig.of("", "ApiKey"));
+    jacquardManager.init(SdkConfig.of("", "ApiKey", /* cloudEndpointUrl= */ null));
 
     AtomicReference<Throwable> atomicReference = new AtomicReference<>();
     RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,

@@ -23,8 +23,7 @@ import java.io.Serializable;
 public interface JacquardTag extends Serializable {
 
   /** The bluetooth address of the tag.  */
-  //TODO(b/201270706): Consider renaming to address.
-  String identifier();
+  String address();
 
   /** The name of the tag to display in the UI.  */
   String displayName();

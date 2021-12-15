@@ -42,7 +42,7 @@ public final class GestureNotificationSubscriptionTest {
 
     @Before
     public void setUp() {
-        DataProvider.create(new HashMap<>(), StringUtils.getInstance());
+        DataProvider.create(new HashMap<>());
         notificationSubscription = new GestureNotificationSubscription();
     }
 

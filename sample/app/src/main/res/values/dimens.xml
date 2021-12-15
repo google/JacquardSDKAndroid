@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright 2021-present Google LLC. All Rights Reserved.
+  ~ Copyright 2021 Google LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -17,16 +17,12 @@
 <resources>
 
   <!-- Text Sizes-->
-  <dimen name="text_size_9">9sp</dimen>
   <dimen name="text_size_12">12sp</dimen>
   <dimen name="text_size_14">14sp</dimen>
   <dimen name="text_size_16">16sp</dimen>
   <dimen name="text_size_18">18sp</dimen>
   <dimen name="text_size_20">20sp</dimen>
-  <dimen name="text_size_22">22sp</dimen>
   <dimen name="text_size_24">24sp</dimen>
-  <dimen name="text_size_26">26sp</dimen>
-  <dimen name="text_size_28">28sp</dimen>
   <dimen name="text_size_30">30sp</dimen>
 
   <!-- Margins-->
@@ -43,10 +39,10 @@
   <dimen name="margin_36dp">36dp</dimen>
 
   <!-- Padding -->
+  <dimen name="padding_4dp">4dp</dimen>
   <dimen name="padding_5dp">5dp</dimen>
   <dimen name="padding_10dp">10dp</dimen>
   <dimen name="padding_12dp">12dp</dimen>
-  <dimen name="padding_14dp">14dp</dimen>
   <dimen name="padding_15dp">15dp</dimen>
   <dimen name="padding_20dp">20dp</dimen>
   <dimen name="padding_24dp">24dp</dimen>

@@ -15,7 +15,9 @@
  */
 package com.google.android.jacquard.sample.home;
 
-import static com.google.android.jacquard.sample.MainActivity.COMPANION_DEVICE_REQUEST;
+import static com.google.android.jacquard.sdk.dfu.FirmwareUpdateState.Type.ERROR;
+import static com.google.android.jacquard.sdk.dfu.FirmwareUpdateState.Type.TRANSFERRED;
+import static com.google.android.jacquard.sdk.dfu.FirmwareUpdateState.Type.TRANSFER_PROGRESS;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,6 +25,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +36,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.jacquard.sample.ConnectivityManager.Events;
 import com.google.android.jacquard.sample.MainActivity;
@@ -41,11 +44,13 @@ import com.google.android.jacquard.sample.ViewModelFactory;
 import com.google.android.jacquard.sample.dialog.DefaultDialog;
 import com.google.android.jacquard.sample.home.HomeViewModel.Notification;
 import com.google.android.jacquard.sample.home.HomeViewModel.State;
+import com.google.android.jacquard.sample.utilities.CustomBottomProgress;
 import com.google.android.jacquard.sample.utilities.JacquardRelativeLayout;
 import com.google.android.jacquard.sample.utilities.Util;
 import com.google.android.jacquard.sdk.BuildConfig;
 import com.google.android.jacquard.sdk.command.BatteryStatus;
 import com.google.android.jacquard.sdk.command.BatteryStatus.ChargingState;
+import com.google.android.jacquard.sdk.dfu.FirmwareUpdateState;
 import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.model.GearState;
 import com.google.android.jacquard.sdk.rx.Signal.ObservesNext;
@@ -84,6 +89,8 @@ public class HomeFragment extends Fragment implements JacquardRelativeLayout.OnD
   private TextView txtBattery;
   private TextView txtRssi;
   private ImageView imgProduct;
+  private CustomBottomProgress viewDownloadProgress;
+  private View viewTop;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +101,7 @@ public class HomeFragment extends Fragment implements JacquardRelativeLayout.OnD
                 new ViewModelFactory(requireActivity().getApplication(), getNavController()))
             .get(HomeViewModel.class);
     homeViewModel.connect(requireActivity(), intentSender -> ((MainActivity) requireActivity())
-        .startForResult(intentSender, COMPANION_DEVICE_REQUEST)
+        .startForResult(intentSender, MainActivity.COMPANION_DEVICE_REQUEST)
         .map(result -> result.resultCode() == Activity.RESULT_OK));
   }
 
@@ -120,6 +127,8 @@ public class HomeFragment extends Fragment implements JacquardRelativeLayout.OnD
     txtBattery = view.findViewById(R.id.txtBattery);
     txtRssi = view.findViewById(R.id.txtRssi);
     recyclerView = view.findViewById(R.id.recyclerGearOptions);
+    viewDownloadProgress = view.findViewById(R.id.customBottomProgress);
+    viewTop = view.findViewById(R.id.relTop);
     GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), /* spanCount= */ 2);
     layoutManager.setSpanSizeLookup(spanSizeLookup);
     recyclerView.setLayoutManager(layoutManager);
@@ -130,6 +139,7 @@ public class HomeFragment extends Fragment implements JacquardRelativeLayout.OnD
     subscribeToNotifications();
     subscriptions.add(homeViewModel.getBatteryStatus().onNext(this::onBatteryStatus));
     subscribeEvents();
+    fwUpdateStateListener();
   }
 
   @Override
@@ -198,7 +208,7 @@ public class HomeFragment extends Fragment implements JacquardRelativeLayout.OnD
     if (recyclerView.getAdapter() == null) {
       recyclerView.setAdapter(new HomeTilesListAdapter(requireContext(), itemClickListener));
     }
-    ((ListAdapter) recyclerView.getAdapter()).submitList(list);
+    ((HomeTilesListAdapter) recyclerView.getAdapter()).submitList(list);
   }
 
   private NavController getNavController() {
@@ -261,7 +271,7 @@ public class HomeFragment extends Fragment implements JacquardRelativeLayout.OnD
     PrintLogger.d(TAG, "onGearState: " + gearState);
     if (gearState.getType() == GearState.Type. ATTACHED) {
       updateGearImage(gearState.attached().product().image());
-      homeViewModel.onTagAttached(gearState.attached());
+      homeViewModel.onTagAttached();
       txtGearState.setText(gearState.attached().product().name());
       txtGearState.setTextColor(requireContext().getColor(R.color.grey_700));
       txtTagName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.green_indicator, 0);
@@ -331,5 +341,62 @@ public class HomeFragment extends Fragment implements JacquardRelativeLayout.OnD
         showSnackbar(getString(R.string.gear_detached));
         break;
     }
+  }
+
+  private void firmwareUpdatePositiveUI(FirmwareUpdateState firmwareUpdateState) {
+    if (firmwareUpdateState.getType().equals(ERROR)) {
+      hideBottomDownloadProgress();
+      return;
+    }
+
+    if (firmwareUpdateState.getType().equals(TRANSFER_PROGRESS)) {
+      showBottomDownloadProgress(firmwareUpdateState.transferProgress());
+    } else if (firmwareUpdateState.getType().equals(TRANSFERRED)) {
+      hideBottomDownloadProgress();
+    }
+  }
+
+  private void firmwareUpdateNegativeUI(Throwable error) {
+    PrintLogger.e(TAG, "applyFirmware error: " + error.getMessage());
+    hideBottomDownloadProgress();
+  }
+
+  private void fwUpdateStateListener() {
+    subscriptions.add(homeViewModel.getState().tapError(error -> {
+      PrintLogger.d(TAG, "isResumed: " + isResumed());
+      firmwareUpdateNegativeUI(error);
+    }).onNext(firmwareUpdateState -> {
+      PrintLogger.d(TAG, "isResumed: " + isResumed());
+      firmwareUpdatePositiveUI(firmwareUpdateState);
+    }));
+  }
+
+  private void showBottomDownloadProgress(int progress) {
+    viewDownloadProgress.setVisibility(View.VISIBLE);
+    viewDownloadProgress.setProgress(progress);
+    shiftUpRecycleView();
+  }
+
+  private void hideBottomDownloadProgress() {
+    if (viewDownloadProgress.getVisibility() != View.VISIBLE) {
+      return;
+    }
+    viewDownloadProgress.setVisibility(View.GONE);
+    shiftDownRecycleView();
+  }
+
+  private void shiftUpRecycleView() {
+    RelativeLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
+        LayoutParams.WRAP_CONTENT);
+    params.addRule(RelativeLayout.BELOW, viewTop.getId());
+    params.addRule(RelativeLayout.ABOVE, viewDownloadProgress.getId());
+    recyclerView.setLayoutParams(params);
+  }
+
+  private void shiftDownRecycleView() {
+    RelativeLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
+        LayoutParams.WRAP_CONTENT);
+    params.addRule(RelativeLayout.BELOW, viewTop.getId());
+    recyclerView.setLayoutParams(params);
   }
 }

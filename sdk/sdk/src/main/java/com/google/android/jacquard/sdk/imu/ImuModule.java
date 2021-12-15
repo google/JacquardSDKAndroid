@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.google.android.jacquard.sdk.imu;
 
 import static com.google.android.jacquard.sdk.connection.ConnectionState.Type.CONNECTED;
@@ -27,17 +26,24 @@ import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.jacquard.sdk.JacquardManager;
+import com.google.android.jacquard.sdk.command.CommandRequest;
 import com.google.android.jacquard.sdk.command.DCErrorNotificationSubscription;
 import com.google.android.jacquard.sdk.command.DataCollectionStatusCommand;
 import com.google.android.jacquard.sdk.command.EraseImuSessionCommand;
+import com.google.android.jacquard.sdk.command.GetConfigCommand;
 import com.google.android.jacquard.sdk.command.GetImuSessionDataCommand;
 import com.google.android.jacquard.sdk.command.ImuSessionListCommand;
 import com.google.android.jacquard.sdk.command.ImuSessionListNotification;
 import com.google.android.jacquard.sdk.command.ListModulesCommand;
 import com.google.android.jacquard.sdk.command.LoadModuleCommand;
 import com.google.android.jacquard.sdk.command.LoadModuleNotificationSubscription;
+import com.google.android.jacquard.sdk.command.NotificationSubscription;
+import com.google.android.jacquard.sdk.command.SetConfigCommand;
+import com.google.android.jacquard.sdk.command.SetConfigCommand.SettingsType;
 import com.google.android.jacquard.sdk.command.StartImuSessionCommand;
+import com.google.android.jacquard.sdk.command.StartImuStreamingCommand;
 import com.google.android.jacquard.sdk.command.StopImuSessionCommand;
+import com.google.android.jacquard.sdk.command.UjtReadConfigCommand;
 import com.google.android.jacquard.sdk.command.UjtWriteConfigCommand;
 import com.google.android.jacquard.sdk.command.UnloadModuleCommand;
 import com.google.android.jacquard.sdk.connection.CommandResponseStatus;
@@ -45,20 +51,25 @@ import com.google.android.jacquard.sdk.connection.ConnectionState;
 import com.google.android.jacquard.sdk.dfu.DFUInfo.UpgradeStatus;
 import com.google.android.jacquard.sdk.dfu.FirmwareUpdateState;
 import com.google.android.jacquard.sdk.dfu.FirmwareUpdateState.Type;
-import com.google.android.jacquard.sdk.imu.exception.DCException;
+import com.google.android.jacquard.sdk.imu.exception.InprogressDCException;
+import com.google.android.jacquard.sdk.imu.exception.InvalidStateDCException;
 import com.google.android.jacquard.sdk.imu.model.ImuSessionInfo;
+import com.google.android.jacquard.sdk.imu.model.ImuStream;
+import com.google.android.jacquard.sdk.imu.parser.ImuParser;
 import com.google.android.jacquard.sdk.imu.parser.ImuParserException;
 import com.google.android.jacquard.sdk.imu.parser.ImuParserImpl;
 import com.google.android.jacquard.sdk.imu.parser.ImuSessionData;
 import com.google.android.jacquard.sdk.imu.parser.ImuSessionData.ImuSampleCollection;
 import com.google.android.jacquard.sdk.imu.parser.JQImuParser;
 import com.google.android.jacquard.sdk.log.PrintLogger;
+import com.google.android.jacquard.sdk.model.DeviceConfigElement;
 import com.google.android.jacquard.sdk.model.Module;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.rx.Signal.Subscription;
 import com.google.android.jacquard.sdk.tag.ConnectedJacquardTag;
 import com.google.android.jacquard.sdk.util.FileLogger;
 import com.google.android.jacquard.sdk.util.StringUtils;
+import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionMode;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionStatus;
 import com.google.atap.jacquard.protocol.JacquardProtocol.ImuAccelRange;
 import com.google.atap.jacquard.protocol.JacquardProtocol.ImuAccelSampleRate;
@@ -96,6 +107,8 @@ public class ImuModule {
    * Erasing imu session(s) may take longer time.
    */
   private static final long ERASE_TIMEOUT_DURATION = 60 * 1000; // 60 seconds
+  private static final String CURRENT_SESSION_TS = "current_imu_session_ts";
+  private static final String DC_MODE = "current_dc_mode";
   private final String identifier;
   private final String tagSerialNumber;
   private final Signal<ConnectionState> disconnectedSignal = Signal.<ConnectionState>create()
@@ -106,7 +119,7 @@ public class ImuModule {
   private final List<Subscription> subscriptions = new ArrayList<>();
 
   public ImuModule(ConnectedJacquardTag tag) {
-    this.identifier = tag.identifier();
+    this.identifier = tag.address();
     this.tagSerialNumber = tag.serialNumber();
     observeTagDisconnections();
     PrintLogger.i(TAG, "Don't forget to call initialize() api.");
@@ -172,96 +185,118 @@ public class ImuModule {
     });
   }
 
-  private Subscription performDfu(Signal<InitState> signal) {
-    PrintLogger.d(TAG, "perform DFU # ");
-    return  performUjtDfu(signal) // tag dfu done
-        .flatMap(tagUpdateDone -> performLmDfu(signal)) // dfu done
-        .flatMap(ignore -> {
-          signal.next(InitState.ofActivate());
-          return loadModule();
-        }).first()
-        .observe(loaded -> {
-          isInitialized = true;
-          signal.next(InitState.ofInitialized());
-          signal.complete();
-        }, error -> {
-          if (error != null) {
-            signal.error(error);
-          }
-        });
-  }
-
-  private Signal<FirmwareUpdateState> performLmDfu(Signal<InitState> signal) {
-    PrintLogger.d(TAG, "Perform Module Dfu # ");
-    signal.next(InitState.ofCheckForUpdates());
-    return getConnectedJacquardTag().first().flatMap(tag ->
-        tag.dfuManager().checkModuleUpdate(IMU_MODULE)
-            .flatMap(dfuInfo ->
-                tag.dfuManager().applyModuleUpdate(dfuInfo)))
-        .tap(firmwareUpdateState -> {
-          PrintLogger.d(TAG, "LM DFU # State # " + firmwareUpdateState);
-          if (firmwareUpdateState.getType().equals(Type.ERROR)) {
-            PrintLogger.e(TAG, "Error in module dfu #", firmwareUpdateState.error());
-            signal.error(firmwareUpdateState.error());
-          } else {
-            signal.next(InitState.ofModuleDfu(firmwareUpdateState));
-          }
-        })
-        .filter(status -> status.getType().equals(COMPLETED));
-  }
-
-  private Signal<FirmwareUpdateState> performUjtDfu(Signal<InitState> signal) {
-    PrintLogger.d(TAG, "Perform Ujt DFU # ");
-    signal.next(InitState.ofCheckForUpdates());
-    return getConnectedJacquardTag().first().flatMap(tag ->
-        tag.dfuManager().checkFirmware(ImmutableList.of(tag.tagComponent()), false)
-            .flatMap(updates -> {
-              if (updates.isEmpty() || updates.get(0).dfuStatus()
-                  .equals(UpgradeStatus.NOT_AVAILABLE)) {
-                return Signal.from(FirmwareUpdateState.ofCompleted());
-              }
-              return tag.dfuManager().applyUpdates(updates, true);
-            }))
-        .tap(firmwareUpdateState -> {
-          PrintLogger.d(TAG, "Ujt Dfu # " + firmwareUpdateState.getType().name());
-          if (firmwareUpdateState.getType().equals(Type.ERROR)) {
-            PrintLogger.e(TAG, "Error in ujt dfu #", firmwareUpdateState.error());
-            signal.error(firmwareUpdateState.error());
-          } else {
-            signal.next(InitState.ofTagDfu(firmwareUpdateState));
-          }
-        })
-        .filter(status -> status.getType().equals(COMPLETED))
-        .first();
-  }
-
   /**
    * Starts IMU Session.
    *
    * @return sessionId if successful.
    */
   public Signal<String> startImuSession() {
-    return preconditionToStartImuSession()
-        .flatMap(ignore ->
-            getConnectedJacquardTag().first()
-                .flatMap(tag -> tag.enqueue(new StartImuSessionCommand())));
+    return preconditionToStartImuCollection()
+        .flatMap(ignore -> enqueue(new StartImuSessionCommand()))
+        .flatMap(sessionId ->
+            setCurrentSessionIdToTag(sessionId).map(config -> sessionId))
+        .flatMap(sessionId -> setDCMode(DataCollectionMode.DATA_COLLECTION_MODE_STORE.getNumber())
+            .map(config -> sessionId));
+  }
+
+  /**
+   * Reads current session id stored on the tag. Returns empty string if no session id found.
+   */
+  public Signal<String> getCurrentSessionId() {
+    return Signal.create(signal -> {
+      getConfig(CURRENT_SESSION_TS).observe(value -> signal.next(value.toString()), error -> {
+        if (error != null) {
+          PrintLogger.w(TAG, "Current Session Id not found");
+          signal.next("0");
+        }
+      });
+      return new Subscription();
+    });
+  }
+
+  /**
+   * Returns current {@link DataCollectionMode} and null if mode is not found or error occurred.
+   */
+  public Signal<DataCollectionMode> getCurrentDataCollectionMode() {
+    return Signal.create(signal -> {
+      getConfig(DC_MODE).observe(value -> {
+        if (value != null) {
+          signal.next(DataCollectionMode.forNumber(Integer.valueOf(value.toString())));
+        } else {
+          signal.next(null);
+        }
+      }, error -> {
+        if (error != null) {
+          signal.next(null);
+        }
+      });
+      return new Subscription();
+    });
+  }
+
+  /**
+   * Starts collecting Imu samples.
+   *
+   * @return Stream of {@link ImuStream}
+   */
+  public Signal<ImuStream> startImuStreaming() {
+    return Signal.create(signal -> {
+      disconnectedSubscription = disconnectedSignal
+          .onNext(disconnected -> {
+            signal.error(new IllegalStateException("Tag disconnected."));
+            disconnectedSubscription.unsubscribe();
+          });
+      subscriptions.add(disconnectedSubscription);
+
+      // Trigger
+      Subscription outer = isImuStreamingInProgress().flatMap(isInProgress -> {
+        if (isInProgress) {
+          return getImuStream();
+        } else {
+          return preconditionToStartImuCollection()
+              .flatMap(ignore -> enqueue(new StartImuStreamingCommand()))
+              .filter(result -> result)
+              .flatMap(
+                  ignore -> setDCMode(
+                      DataCollectionMode.DATA_COLLECTION_MODE_STREAMING.getNumber()))
+              .flatMap(ignore -> getImuStream());
+        }
+      }).forward(signal);
+
+      return new Subscription() {
+        @Override
+        protected void onUnsubscribe() {
+          PrintLogger.d(TAG, "Unsubscribe Imu Streaming #");
+          if (outer != null) {
+            outer.unsubscribe();
+          }
+          if (disconnectedSubscription != null) {
+            disconnectedSubscription.unsubscribe();
+          }
+        }
+      };
+    });
+  }
+
+  /**
+   * Stops imu streaming.
+   */
+  public Signal<Boolean> stopImuStreaming() {
+    return stopImuCollection();
   }
 
   /**
    * Stops currently active imu session.
    */
   public Signal<Boolean> stopImuSession() {
-    return getConnectedJacquardTag().first()
-        .flatMap(tag -> tag.enqueue(new StopImuSessionCommand()))
-        .delay(1000); // Give some extra time to dc lm to finish stop imu session operation.
+    return stopImuCollection();
   }
 
   /**
    * Gives you current imu data collection status.
    */
   public Signal<DataCollectionStatus> getDataCollectionStatus() {
-    return getConnectedJacquardTag().first()
-        .flatMap(tag -> tag.enqueue(new DataCollectionStatusCommand()));
+    return enqueue(new DataCollectionStatusCommand());
   }
 
   /**
@@ -289,8 +324,7 @@ public class ImuModule {
           });
 
       // Trigger
-      getConnectedJacquardTag().first()
-          .flatMap(jacquardTag -> jacquardTag.enqueue(new ImuSessionListCommand()))
+      enqueue(new ImuSessionListCommand())
           .map(isSuccess -> {
             if (!isSuccess) {
               return Signal
@@ -411,8 +445,7 @@ public class ImuModule {
    * Unloads imu module.
    */
   public Signal<Boolean> unloadModule() {
-    return getConnectedJacquardTag().first()
-        .flatMap(tag -> tag.enqueue(new UnloadModuleCommand(IMU_MODULE)));
+    return enqueue(new UnloadModuleCommand(IMU_MODULE));
   }
 
   /**
@@ -461,10 +494,8 @@ public class ImuModule {
               .empty(new IllegalStateException("Ujt has active imu session. Can't proceed."));
         }
         return Signal.from(false);
-      }).flatMap(ignore -> getConnectedJacquardTag().first())
-          .flatMap(tag -> tag
-              .enqueue(new EraseImuSessionCommand(selectedTrialData), /* retries= */0,
-                  ERASE_TIMEOUT_DURATION))
+      }).flatMap(ignore -> enqueue(new EraseImuSessionCommand(selectedTrialData), /* retries= */0,
+          ERASE_TIMEOUT_DURATION))
           .onError(error -> signal.error(error));
       return new Subscription() {
         @Override
@@ -517,10 +548,9 @@ public class ImuModule {
               .empty(new IllegalStateException("Ujt has active imu session. Can't proceed."));
         }
         return Signal.from(false);
-      }).flatMap(ignore -> getConnectedJacquardTag().first())
-          .flatMap(tag -> tag
-              .enqueue(new EraseImuSessionCommand(/* trialData= */null), /* retries= */ 0,
-                  ERASE_TIMEOUT_DURATION))
+      }).flatMap(
+          ignore -> enqueue(new EraseImuSessionCommand(/* trialData= */null), /* retries= */ 0,
+              ERASE_TIMEOUT_DURATION))
           .onError(error -> signal.error(error));
       return new Subscription() {
         @Override
@@ -540,26 +570,175 @@ public class ImuModule {
    * Loads IMU module.
    */
   public Signal<Module> loadModule() {
-    return getConnectedJacquardTag().first()
-        .flatMap(tag -> tag.enqueue(new LoadModuleCommand(IMU_MODULE))
-            .flatMap(response -> {
-              if (response.getStatus() != Status.STATUS_OK) {
-                return Signal.empty(CommandResponseStatus.from(response.getStatus().getNumber()));
-              }
-              return tag.subscribe(new LoadModuleNotificationSubscription());
-            }));
+    return enqueue(new LoadModuleCommand(IMU_MODULE))
+        .flatMap(response -> {
+          if (response.getStatus() != Status.STATUS_OK) {
+            return Signal.empty(CommandResponseStatus.from(response.getStatus().getNumber()));
+          }
+          return subscribe(new LoadModuleNotificationSubscription());
+        });
   }
 
   /**
    * Release resources.
    */
   public void destroy() {
+    if (disconnectedSubscription != null) {
+      disconnectedSubscription.unsubscribe();
+    }
     for (Subscription s : subscriptions) {
       if (s != null) {
         s.unsubscribe();
       }
     }
     subscriptions.clear();
+  }
+
+  private Signal<Boolean> setCurrentSessionIdToTag(String sessionId) {
+    return setConfig(CURRENT_SESSION_TS, sessionId);
+  }
+
+  private Signal<Boolean> resetFlags() {
+    return setCurrentSessionIdToTag("0").flatMap(ignore -> setDCMode(-1));
+  }
+
+  private Signal<Boolean> setDCMode(int mode) {
+    return setConfig(DC_MODE, String.valueOf(mode));
+  }
+
+  private Signal<ImuConfiguration> getImuConfig() {
+    return enqueue(new UjtReadConfigCommand())
+        .map(ujtConfigResponse -> ujtConfigResponse.getImuConfig());
+  }
+
+  private <Res, Request extends CommandRequest<Res>> Signal<Res> enqueue(Request request) {
+    return getConnectedJacquardTag().first().flatMap(tag -> tag.enqueue(request));
+  }
+
+  private <Res, Request extends CommandRequest<Res>> Signal<Res> enqueue(Request request, int retries,
+      long timeout) {
+    return getConnectedJacquardTag().first().flatMap(tag -> tag.enqueue(request, retries, timeout));
+  }
+
+  private <Res> Signal<Res> subscribe(NotificationSubscription<Res> notificationSubscription) {
+    return getConnectedJacquardTag().first()
+        .flatMap(tag -> tag.subscribe(notificationSubscription));
+  }
+
+  private Signal<Boolean> isImuStreamingInProgress() {
+    return getDataCollectionStatus().flatMap(status -> {
+      if (!DataCollectionStatus.DATA_COLLECTION_LOGGING.equals(status)) {
+        return Signal.from(false);
+      } else {
+        return getCurrentDataCollectionMode()
+            .map(mode -> DataCollectionMode.DATA_COLLECTION_MODE_STREAMING.equals(mode));
+      }
+    });
+  }
+
+  private Signal<ImuStream> getImuStream() {
+    return Signal.create(signal -> {
+      ImuParser parser = new ImuParserImpl();
+      AtomicReference<ImuConfiguration> imuConfig = new AtomicReference<>();
+      Subscription outer = getImuConfig().flatMap(imuConfiguration -> {
+        imuConfig.set(imuConfiguration);
+        return getConnectedJacquardTag();
+      }).flatMap(tag -> tag.getRawData()).onNext(data -> {
+        byte[] raw = new byte[data.length - 2];
+        System.arraycopy(data, 2, raw, 0, data.length - 2);
+        for (ImuSample sample : parser.parseImuSamples(raw)) {
+          signal.next(ImuStream.of(sample, imuConfig.get(), Sensors.forId(data[1])));
+        }
+      });
+      return new Subscription() {
+        @Override
+        protected void onUnsubscribe() {
+          if (outer != null) {
+            outer.unsubscribe();
+          }
+        }
+      };
+    });
+  }
+
+  private Signal<Boolean> setConfig(String key, String config) {
+    PrintLogger.d(TAG, "SetConfig # " + key + " => " + config);
+    DeviceConfigElement element = DeviceConfigElement
+        .create(stringUtils.hexStringToInteger(VENDOR_ID),
+            stringUtils.hexStringToInteger(PRODUCT_ID), key,
+            SettingsType.STRING, config);
+    return enqueue(new SetConfigCommand(element))
+        .tap(result -> PrintLogger.d(TAG, "SetConfig Result # " + key + " => " + result));
+  }
+
+  private Signal<Object> getConfig(String key) {
+    PrintLogger.d(TAG, "getConfig # " + key);
+    return enqueue(new GetConfigCommand(stringUtils.hexStringToInteger(VENDOR_ID)
+        , stringUtils.hexStringToInteger(PRODUCT_ID), key))
+        .tap(result -> PrintLogger.d(TAG, "GetConfig Result # " + key + " => " + result))
+        .tapError(error -> error.printStackTrace());
+  }
+
+  private Subscription performDfu(Signal<InitState> signal) {
+    PrintLogger.d(TAG, "perform DFU # ");
+    return performUjtDfu(signal) // tag dfu done
+        .flatMap(tagUpdateDone -> performLmDfu(signal)) // dfu done
+        .flatMap(ignore -> {
+          signal.next(InitState.ofActivate());
+          return loadModule();
+        }).first()
+        .observe(loaded -> {
+          isInitialized = true;
+          signal.next(InitState.ofInitialized());
+          signal.complete();
+        }, error -> {
+          if (error != null) {
+            signal.error(error);
+          }
+        });
+  }
+
+  private Signal<FirmwareUpdateState> performLmDfu(Signal<InitState> signal) {
+    PrintLogger.d(TAG, "Perform Module Dfu # ");
+    signal.next(InitState.ofCheckForUpdates());
+    return getConnectedJacquardTag().first().flatMap(tag ->
+        tag.dfuManager().checkModuleUpdate(IMU_MODULE)
+            .flatMap(dfuInfo -> tag.dfuManager().applyModuleUpdate(dfuInfo))).first()
+        .tap(firmwareUpdateState -> {
+          PrintLogger.d(TAG, "LM DFU # State # " + firmwareUpdateState);
+          if (firmwareUpdateState.getType().equals(Type.ERROR)) {
+            PrintLogger.e(TAG, "Error in module dfu #", firmwareUpdateState.error());
+            signal.error(firmwareUpdateState.error());
+          } else {
+            signal.next(InitState.ofModuleDfu(firmwareUpdateState));
+          }
+        })
+        .filter(status -> status.getType().equals(COMPLETED));
+  }
+
+  private Signal<FirmwareUpdateState> performUjtDfu(Signal<InitState> signal) {
+    PrintLogger.d(TAG, "Perform Ujt DFU # ");
+    signal.next(InitState.ofCheckForUpdates());
+    return getConnectedJacquardTag().first().flatMap(tag ->
+        tag.dfuManager().checkFirmware(ImmutableList.of(tag.tagComponent()), false)
+            .flatMap(updates -> {
+              if (updates.isEmpty() || updates.get(0).dfuStatus()
+                  .equals(UpgradeStatus.NOT_AVAILABLE)) {
+                return Signal.from(FirmwareUpdateState.ofCompleted());
+              }
+              return tag.dfuManager().applyUpdates(updates, true);
+            })).first()
+        .tap(firmwareUpdateState -> {
+          PrintLogger.d(TAG, "Ujt Dfu # " + firmwareUpdateState.getType().name());
+          if (firmwareUpdateState.getType().equals(Type.ERROR)) {
+            PrintLogger.e(TAG, "Error in ujt dfu #", firmwareUpdateState.error());
+            signal.error(firmwareUpdateState.error());
+          } else {
+            signal.next(InitState.ofTagDfu(firmwareUpdateState));
+          }
+        })
+        .filter(status -> status.getType().equals(COMPLETED))
+        .first();
   }
 
   @Nullable
@@ -577,12 +756,18 @@ public class ImuModule {
     });
   }
 
+  private Signal<Boolean> stopImuCollection() {
+    PrintLogger.d(TAG, "stopImuCollection #");
+    return enqueue(new StopImuSessionCommand())
+        .flatMap(ignore -> resetFlags());
+  }
+
   private Signal<Boolean> checkIfActiveSession() {
     return getDataCollectionStatus()
         .map(status -> status.equals(DataCollectionStatus.DATA_COLLECTION_LOGGING));
   }
 
-  private Signal<Boolean> preconditionToStartImuSession() {
+  private Signal<Boolean> preconditionToStartImuCollection() {
     return getDataCollectionStatus()
         .map(status -> {
           boolean isTagReady = status.equals(DataCollectionStatus.DATA_COLLECTION_IDLE)
@@ -590,10 +775,21 @@ public class ImuModule {
           PrintLogger.d(TAG,
               "preconditionToStartImuSession # status # " + status + ", isTagReady for DC ? "
                   + isTagReady);
-          if (!isTagReady) {
-            throw new DCException(status); // Can't proceed.
+          return Pair.create(status, isTagReady); // DATA_COLLECTION_IDLE
+        }).map(pair -> {
+          DataCollectionStatus status = pair.first;
+          boolean isTagReady = pair.second;
+          if (isTagReady) {
+            return true;
+          } else {
+            if (status.equals(DataCollectionStatus.DATA_COLLECTION_LOGGING)) {
+              return getCurrentDataCollectionMode().map(mode -> {
+                throw new InprogressDCException(status, mode);
+              });
+            } else {
+              throw new InvalidStateDCException(status);
+            }
           }
-          return true; // DATA_COLLECTION_IDLE
         })
         .flatMap(ignore -> setImuConfig());
   }
@@ -611,14 +807,13 @@ public class ImuModule {
         .setSensorId(Sensors.IMU.id()) // 0 = IMU, 1 = GEAR
         .build();
     UjtWriteConfigCommand configCommand = new UjtWriteConfigCommand(config);
-    return getConnectedJacquardTag().first().flatMap(tag -> tag.enqueue(configCommand))
+    return enqueue(configCommand)
         .map(response -> response.getStatus() == Status.STATUS_OK);
   }
 
   private Signal<Module> getImuModule() {
     PrintLogger.d(TAG, "getImuModule ## ");
-    return getConnectedJacquardTag().first()
-        .flatMap(tag -> tag.enqueue(new ListModulesCommand()))
+    return enqueue(new ListModulesCommand())
         .map(loadableModules -> {
           Module dclm = null;
           for (Module des : loadableModules) {

@@ -19,6 +19,7 @@ package com.google.android.jacquard.sdk.initialization;
 import static com.google.atap.jacquard.protocol.JacquardProtocol.Opcode.DATA_COLLECTION_TRIAL_LIST;
 
 import android.util.Pair;
+import com.google.android.jacquard.sdk.connection.CommandResponseStatus;
 import com.google.android.jacquard.sdk.model.Component;
 import com.google.android.jacquard.sdk.model.FakeDCTrialListNotification;
 import com.google.android.jacquard.sdk.model.FakeImuModule;
@@ -31,11 +32,14 @@ import com.google.atap.jacquard.protocol.JacquardProtocol.BatteryStatusResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.BleConfiguration;
 import com.google.atap.jacquard.protocol.JacquardProtocol.ChargingStatus;
 import com.google.atap.jacquard.protocol.JacquardProtocol.ConfigElement;
+import com.google.atap.jacquard.protocol.JacquardProtocol.ConfigGetRequest;
 import com.google.atap.jacquard.protocol.JacquardProtocol.ConfigGetResponse;
+import com.google.atap.jacquard.protocol.JacquardProtocol.ConfigSetRequest;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DFUStatusResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DFUWriteResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionEraseAllDataRequest;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionEraseTrialDataRequest;
+import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionMode;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionStartRequest;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionStartResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionStatus;
@@ -50,6 +54,9 @@ import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionTrialLis
 import com.google.atap.jacquard.protocol.JacquardProtocol.DeviceInfoResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.Domain;
 import com.google.atap.jacquard.protocol.JacquardProtocol.ErrorNotification;
+import com.google.atap.jacquard.protocol.JacquardProtocol.ImuAccelRange;
+import com.google.atap.jacquard.protocol.JacquardProtocol.ImuConfiguration;
+import com.google.atap.jacquard.protocol.JacquardProtocol.ImuGyroRange;
 import com.google.atap.jacquard.protocol.JacquardProtocol.ListModuleResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.LoadModuleNotification;
 import com.google.atap.jacquard.protocol.JacquardProtocol.Notification;
@@ -62,6 +69,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Fake implementation of {@link TransportImpl}.
@@ -79,7 +88,9 @@ public class FakeTransportImpl extends TransportImpl {
   private boolean shouldThrowErrorDfuPrepare, shouldThrowErrorDfuWrite, shouldThrowErrorDfuStatus;
   private Response dfuStatusResponse, dfuWriteResponse;
   private int batteryLevel = 10;
-  private boolean isModulePresent;
+  private boolean isModulePresent, isModuleActive;
+  private Map<String, ConfigElement> configValues = new HashMap<>();
+  private DataCollectionStatus dcStatus = DataCollectionStatus.DATA_COLLECTION_IDLE;
 
   public FakeTransportImpl(Peripheral peripheral,
       RequiredCharacteristics characteristics,
@@ -125,10 +136,12 @@ public class FakeTransportImpl extends TransportImpl {
               break;
             }
             case HELLO: { // DATA_COLLECTION_START
+              dcStatus = DataCollectionStatus.DATA_COLLECTION_LOGGING;
               sendDataCollectionStartResponse(request, responseSignal);
               break;
             }
             case BEGIN: { // DATA_COLLECTION_STOP
+              dcStatus = DataCollectionStatus.DATA_COLLECTION_IDLE;
               sendDataCollectionStopResponse(request, responseSignal);
               break;
             }
@@ -167,9 +180,12 @@ public class FakeTransportImpl extends TransportImpl {
               sendDeviceBatteryResponse(responseSignal);
               break;
             case CONFIG_GET:
-              sendConfigGetResponse(responseSignal);
+              sendConfigGetResponse(request, responseSignal);
               break;
             case CONFIG_SET:
+              ConfigSetRequest req = request.getExtension(ConfigSetRequest.configSetRequest);
+              configValues.put(getConfigKey(req.getVid(), req.getPid(), req.getConfig().getKey()),
+                  req.getConfig());
               sendConfigSetResponse(responseSignal);
               break;
           }
@@ -185,6 +201,10 @@ public class FakeTransportImpl extends TransportImpl {
       // Send out dummy responses.
       return new Subscription();
     });
+  }
+
+  private String getConfigKey(int vid, int pid, String key) {
+    return vid + "#" + pid + "#" + key;
   }
 
   private void sendImuSessionData(){
@@ -204,6 +224,13 @@ public class FakeTransportImpl extends TransportImpl {
     } catch (URISyntaxException | IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private void sendImuSamples() {
+    // Length = 18
+    byte[] sample = new byte[]{-64, 0, 2, 23, 4, 50, 12, 22, -8, -33, 4, 99, -11, 23, -45, -21, 34,
+        12};
+    rawData.next(sample);
   }
 
   public Signal<Notification> getNotifySignal() {
@@ -255,10 +282,14 @@ public class FakeTransportImpl extends TransportImpl {
     isModulePresent = present;
   }
 
+  public void setModuleActive(boolean active) {
+    isModuleActive = active;
+  }
+
   private void sendListModuleResponse(Signal<Response> responseSignal) {
     ListModuleResponse.Builder builder = ListModuleResponse.newBuilder();
     if (isModulePresent) {
-      builder.addModules(FakeImuModule.getModuleDescriptor());
+      builder.addModules(FakeImuModule.getModuleDescriptor(isModuleActive));
     }
     Response response = Response.newBuilder()
         .setExtension(ListModuleResponse.listModules, builder.build()).setId(1)
@@ -293,7 +324,7 @@ public class FakeTransportImpl extends TransportImpl {
   private void sendLoadModuleNotification() {
     LoadModuleNotification loadModuleNotification = LoadModuleNotification
         .newBuilder()
-        .setModule(FakeImuModule.getModuleDescriptor())
+        .setModule(FakeImuModule.getModuleDescriptor(false))
         .build();
 
     Notification notification = Notification.newBuilder().setOpcode(Opcode.ATTACHED)
@@ -368,6 +399,10 @@ public class FakeTransportImpl extends TransportImpl {
         .setExtension(DataCollectionStartResponse.start, startResponse)
         .setComponentId(1).setStatus(Status.STATUS_OK).build();
     responseSignal.next(response);
+    DataCollectionMode mode = request.getExtension(DataCollectionStartRequest.start).getMetadata().getMode();
+    if (mode.equals(DataCollectionMode.DATA_COLLECTION_MODE_STREAMING)) {
+      sendImuSamples();
+    }
   }
 
   private void sendDataCollectionStopResponse(Request request, Signal<Response> responseSignal) {
@@ -388,7 +423,7 @@ public class FakeTransportImpl extends TransportImpl {
       throw new IllegalStateException("Invalid request.");
     }
     DataCollectionStatusResponse statusResponse = DataCollectionStatusResponse.newBuilder()
-        .setDcStatus(DataCollectionStatus.DATA_COLLECTION_IDLE)
+        .setDcStatus(dcStatus)
         .build();
     Response response = Response.newBuilder().setId(3)
         .setExtension(DataCollectionStatusResponse.status, statusResponse)
@@ -434,7 +469,9 @@ public class FakeTransportImpl extends TransportImpl {
 
   private void sendConfigReadResponse(Signal<Response> signal) {
     UJTConfigResponse ujtConfigResponse = UJTConfigResponse.newBuilder()
-        .setBleConfig(BleConfiguration.newBuilder().setCustomAdvName(TAG_RENAME).build()).build();
+        .setBleConfig(BleConfiguration.newBuilder().setCustomAdvName(TAG_RENAME).build())
+        .setImuConfig(ImuConfiguration.newBuilder().setAccelRange(ImuAccelRange.IMU_ACCEL_RANGE_16G)
+            .setGyroRange(ImuGyroRange.IMU_GYRO_RANGE_2000DPS).build()).build();
     Response rr = Response.newBuilder()
         .setExtension(UJTConfigResponse.configResponse, ujtConfigResponse).setId(1)
         .setComponentId(1).setStatus(
@@ -448,14 +485,21 @@ public class FakeTransportImpl extends TransportImpl {
     responseSignal.next(rr);
   }
 
-  private void sendConfigGetResponse(Signal<Response> responseSignal) {
-    ConfigGetResponse getResponse = ConfigGetResponse.newBuilder()
-        .setConfig(ConfigElement.newBuilder().setStringVal("12345").build())
-        .build();
-    Response rr = Response.newBuilder()
-        .setExtension(ConfigGetResponse.configGetResponse, getResponse).setId(1)
-        .setComponentId(1).setStatus(Status.STATUS_OK).build();
-    responseSignal.next(rr);
+  private void sendConfigGetResponse(Request request, Signal<Response> responseSignal) {
+    ConfigGetRequest req = request.getExtension(ConfigGetRequest.configGetRequest);
+    String key = getConfigKey(req.getVid(), req.getPid(), req.getKey());
+    ConfigElement element = configValues.get(key);
+    if (element == null) {
+      responseSignal.error(new Exception(CommandResponseStatus.ERROR_APP_UNKNOWN.toString()));
+    } else {
+      ConfigGetResponse getResponse = ConfigGetResponse.newBuilder()
+          .setConfig(element)
+          .build();
+      Response rr = Response.newBuilder()
+          .setExtension(ConfigGetResponse.configGetResponse, getResponse).setId(1)
+          .setComponentId(1).setStatus(Status.STATUS_OK).build();
+      responseSignal.next(rr);
+    }
   }
 
   private void sendSetTouchModeResponse(Signal<Response> signal) {

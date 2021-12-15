@@ -38,6 +38,7 @@ import com.google.android.jacquard.sdk.datastore.DataProvider;
 import com.google.android.jacquard.sdk.initialization.FakeTransportImpl;
 import com.google.android.jacquard.sdk.initialization.FakeTransportState;
 import com.google.android.jacquard.sdk.log.PrintLogger;
+import com.google.android.jacquard.sdk.model.Component;
 import com.google.android.jacquard.sdk.model.DeviceConfigElement;
 import com.google.android.jacquard.sdk.model.FakeImuModule;
 import com.google.android.jacquard.sdk.model.FakePeripheral;
@@ -50,7 +51,6 @@ import com.google.android.jacquard.sdk.model.TouchMode;
 import com.google.android.jacquard.sdk.model.Vendor;
 import com.google.android.jacquard.sdk.pairing.RequiredCharacteristics;
 import com.google.android.jacquard.sdk.util.FakeFragmenter;
-import com.google.android.jacquard.sdk.util.StringUtils;
 import com.google.atap.jacquard.protocol.JacquardProtocol.AttachedNotification;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DeviceInfoResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.Domain;
@@ -92,17 +92,17 @@ public class ConnectedJacquardTagImplTest {
       notificationFragmenter, dataFragmenter);
 
   private final FakePeripheral peripheral = new FakePeripheral(null);
-  private final RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics(
-      null, null, null, null, /* rawCharacteristic= */null);
+  private final RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics();
   private FakeTransportImpl transport = null;
   private ConnectedJacquardTagImpl connectedJacquardTag;
 
   @Before
   public void setUp() {
     PrintLogger.initialize(ApplicationProvider.getApplicationContext());
-    DataProvider.create(getVendors(), StringUtils.getInstance());
+    DataProvider.create(getVendors());
     JacquardManagerInitialization.initJacquardManager();
-    JacquardManager.getInstance().init(SdkConfig.of(CLIENT_ID, API_KEY));
+    JacquardManager.getInstance()
+        .init(SdkConfig.of(CLIENT_ID, API_KEY, /* cloudEndpointUrl= */ null));
     transport = new FakeTransportImpl(peripheral, requiredCharacteristics, transportState);
     transport.setModulePresent(true);
     transport.assertCommandFailure(false);
@@ -180,9 +180,8 @@ public class ConnectedJacquardTagImplTest {
   @Test
   public void setGestureTouchMode() throws InterruptedException {
     CountDownLatch latch = new CountDownLatch(1);
-    connectedJacquardTag.setTouchMode(TouchMode.GESTURE).filter(result -> result)
-        .onNext(ignore -> latch.countDown());
-    sendAttachNotification();
+    connectedJacquardTag.setTouchMode(getGearDeviceInfo(), TouchMode.GESTURE)
+        .filter(result -> result).onNext(ignore -> latch.countDown());
     boolean countReached = latch.await(5, TimeUnit.SECONDS);
     assertThat(countReached).isTrue();
   }
@@ -199,13 +198,10 @@ public class ConnectedJacquardTagImplTest {
   }
 
   @Test
-  public void setContinousTouchMode() throws InterruptedException {
+  public void setContinuousTouchMode() throws InterruptedException {
     CountDownLatch latch = new CountDownLatch(1);
-    connectedJacquardTag.setTouchMode(TouchMode.CONTINUOUS).filter(result -> result)
-        .onNext(ignore ->
-            latch.countDown()
-        );
-    sendAttachNotification();
+    connectedJacquardTag.setTouchMode(getGearDeviceInfo(), TouchMode.CONTINUOUS)
+        .filter(result -> result).onNext(ignore -> latch.countDown());
     boolean countReached = latch.await(5, TimeUnit.SECONDS);
     assertThat(countReached).isTrue();
   }
@@ -217,7 +213,7 @@ public class ConnectedJacquardTagImplTest {
 
   @Test
   public void getTagIdentifier() {
-    assertThat(connectedJacquardTag.identifier()).isEqualTo("C2:04:1C:6F:02:BA");
+    assertThat(connectedJacquardTag.address()).isEqualTo("C2:04:1C:6F:02:BA");
   }
 
   @Test
@@ -279,9 +275,13 @@ public class ConnectedJacquardTagImplTest {
   @Test
   public void testGetConfig() throws InterruptedException {
     CountDownLatch latch = new CountDownLatch(1);
-    connectedJacquardTag.enqueue(
-        new GetConfigCommand(1, 1, "key"))
-        .filter(value -> value.toString().equals("12345"))
+    DeviceConfigElement element = DeviceConfigElement
+        .create(123, 456, "key", SettingsType.STRING, "testString");
+    connectedJacquardTag.enqueue(new SetConfigCommand(element))
+        .flatMap(ignore ->
+            connectedJacquardTag.enqueue(
+                new GetConfigCommand(123, 456, "key")))
+        .filter(value -> value.toString().equals("testString"))
         .onNext(value -> latch.countDown());
     boolean countReached = latch.await(2, TimeUnit.SECONDS);
     assertThat(countReached).isTrue();
@@ -318,5 +318,16 @@ public class ConnectedJacquardTagImplTest {
             .setMlVersion("").setBootloaderMajor(0).setBootloaderMinor(0)
             .setFirmwarePoint(0).setFirmwareMinor(0).setFirmwareMajor(0)
             .build());
+  }
+
+  private static Component getGearDeviceInfo() {
+    List<Capability> capabilities = new ArrayList<>();
+    List<Product> products = new ArrayList<>();
+    Product product = Product.of(PRODUCT_ID, "Product 1", "jq_image", capabilities);
+    products.add(product);
+    Vendor vendor = Vendor.of(VENDOR_ID, "Vendor 1", products);
+    return Component
+        .of(/* componentId= */ 1, vendor, product, capabilities, /* revision= */
+            null, /* serialNumber= */ null);
   }
 }

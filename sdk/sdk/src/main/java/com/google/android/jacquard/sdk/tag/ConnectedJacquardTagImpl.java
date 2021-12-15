@@ -71,28 +71,22 @@ public class ConnectedJacquardTagImpl implements ConnectedJacquardTag {
   public ConnectedJacquardTagImpl(Transport transport, DeviceInfo deviceInfo) {
     this.transport = transport;
     componentSignal = subscribe(new AttachedNotificationSubscription())
-        .flatMap((Fn<GearState, Signal<GearState>>) gearState -> {
+        .distinctUntilChanged()
+        .flatMap(gearState -> {
           PrintLogger
-              .d(TAG, "## AttachedNotificationSubscription: " + gearState);
+              .d(TAG, "## AttachedNotificationSubscription: "
+                  + " GearState: " + gearState);
           if (gearState.getType() == GearState.Type.ATTACHED) {
             // Enable touch mode when the gear is attached.
-            return setTouchMode(gearState.attached(), TouchMode.GESTURE).flatMap(
-                response -> enqueue(new DeviceInfoCommand(gearState.attached().componentId()))
-                    .map(gearDeviceInfo -> {
-                      PrintLogger.d(TAG, "## DeviceInfoCommand response: " + gearDeviceInfo);
-                      gearComponent = DataProvider.getDataProvider()
-                          .getComponent(gearState.attached().componentId(), gearDeviceInfo);
-                      PrintLogger.d(TAG, "## Extracted gearComponent: " + gearComponent);
-                      return gearState;
-                    }));
+            return setGestureTouchMode(gearState);
           } else {
             gearComponent = null;
           }
           return Signal.just(gearState);
         }).sticky();
 
-    dfuManager = new DfuManagerImpl(identifier());
-    tagComponent = DataProvider.getDataProvider().getComponent(Component.TAG_ID, deviceInfo);
+    dfuManager = new DfuManagerImpl(address());
+    tagComponent = DataProvider.getDataProvider().getTagComponent(deviceInfo);
     updateTagComponent();
     requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
   }
@@ -110,7 +104,8 @@ public class ConnectedJacquardTagImpl implements ConnectedJacquardTag {
 
   @Override
   public Signal<String> getCustomAdvName() {
-    return enqueue(new UjtReadConfigCommand()).map(response -> response.getCustomAdvName());
+    return enqueue(new UjtReadConfigCommand())
+        .map(response -> response.getBleConfig().getCustomAdvName());
   }
 
   @Override
@@ -142,18 +137,9 @@ public class ConnectedJacquardTagImpl implements ConnectedJacquardTag {
   }
 
   @Override
-  public Signal<Boolean> setTouchMode(final TouchMode touchMode) {
-    return componentSignal
-        .filter(gearState -> gearState.getType() == GearState.Type.ATTACHED)
-        .distinctUntilChanged()
-        .flatMap(gearState
-            -> setTouchMode(gearState.attached(), touchMode));
-  }
-
-  @Override
-  public Signal<Boolean> setTouchMode(Component component, TouchMode touchMode) {
+  public Signal<Boolean> setTouchMode(Component gearComponent, TouchMode touchMode) {
     PrintLogger.d(TAG, "## setTouchMode # " + touchMode);
-    return enqueue(new SetTouchModeCommand(component, touchMode)).flatMap(
+    return enqueue(new SetTouchModeCommand(gearComponent, touchMode)).flatMap(
         (Fn<Response, Signal<Response>>) response -> {
           PrintLogger.d(TAG, "## setTouchModeCommand response: " + response);
           BleConfiguration.Builder builder = BleConfiguration.newBuilder();
@@ -223,7 +209,14 @@ public class ConnectedJacquardTagImpl implements ConnectedJacquardTag {
   }
 
   @Override
-  public String identifier() {
+  public Signal<byte[]> getRawData() {
+    return transport.getRawData()
+        .filter(Objects::nonNull)
+        .shared();
+  }
+
+  @Override
+  public String address() {
     return transport.getPeripheralIdentifier();
   }
 
@@ -250,11 +243,53 @@ public class ConnectedJacquardTagImpl implements ConnectedJacquardTag {
   /** Fetching the tag deviceInfo and update the tag component with updated data. */
   private void updateTagComponent() {
     PrintLogger.d(TAG, "updateTagComponent");
-    enqueue(new DeviceInfoCommand(Component.TAG_ID)).onNext(deviceInfo -> {
-      PrintLogger.d(TAG, "updateTagComponent deviceInfo: " + deviceInfo);
-      JacquardManager.getInstance().getMemoryCache()
-          .putDeviceInfo(transport.getPeripheralIdentifier(), deviceInfo);
-      tagComponent = DataProvider.getDataProvider().getComponent(Component.TAG_ID, deviceInfo);
+    // Added delay to call tagDeviceInfo, so that ProtocolInitializationStateMachine can complete
+    // the tag creation process.
+    Signal.just(true).delay(100).onNext(ignore ->
+        enqueue(new DeviceInfoCommand(Component.TAG_ID)).onNext(deviceInfo -> {
+          PrintLogger.d(TAG, "updateTagComponent deviceInfo: " + deviceInfo);
+          JacquardManager.getInstance().getMemoryCache()
+              .putDeviceInfo(transport.getPeripheralIdentifier(), deviceInfo);
+          tagComponent = DataProvider.getDataProvider().getTagComponent(deviceInfo);
+        }));
+  }
+
+  /**
+   * Sets the gesture touch mode for gear.
+   *
+   * @return a {@link Signal} emitting {@link GearState} after setting touch mode.
+   */
+  private Signal<GearState> setGestureTouchMode(GearState gearState) {
+    PrintLogger.d(TAG, "setGestureTouchMode");
+    return Signal.create(signal -> {
+      Subscription subscription = setTouchMode(gearState.attached(), TouchMode.GESTURE)
+          .flatMap(response -> enqueue(new DeviceInfoCommand(gearState.attached().componentId())))
+          .observe(gearDeviceInfo -> {
+            PrintLogger.d(TAG, "## DeviceInfoCommand response: " + gearDeviceInfo);
+            gearComponent = DataProvider.getDataProvider()
+                .getGearComponent(gearState.attached().componentId(), gearDeviceInfo.vendorId(),
+                    gearDeviceInfo.productId(), gearDeviceInfo.version(),
+                    gearDeviceInfo.serialNumber());
+            PrintLogger.d(TAG, "## Extracted gearComponent: " + gearComponent);
+            signal.next(gearState);
+            // This method is called from inside flatMap and until inner signal is not completed,
+            // flatMap will not execute any signal event, so called signal complete here.
+            signal.complete();
+          }, error -> {
+            if (error != null) {
+              PrintLogger.d(TAG, "setGestureTouchMode error: " + error);
+              // In one cases not getting any response from UJT for SetTouchModeCommand.
+              // TODO: Created b/200988181 ticket for firmware team regarding this issue.
+              signal.complete();
+            }
+          });
+      return new Subscription() {
+        @Override
+        protected void onUnsubscribe() {
+          subscription.unsubscribe();
+          super.onUnsubscribe();
+        }
+      };
     });
   }
 }

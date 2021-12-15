@@ -15,8 +15,10 @@
  */
 package com.google.android.jacquard.sdk.dfu;
 
+import static android.os.Looper.getMainLooper;
 import static com.google.android.jacquard.sdk.dfu.DfuUtil.SEPARATOR;
 import static com.google.common.truth.Truth.assertThat;
+import static org.robolectric.Shadows.shadowOf;
 
 import android.content.Context;
 import android.os.Build.VERSION_CODES;
@@ -34,8 +36,10 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -145,7 +149,7 @@ public final class DfuUtilTest {
     byte[] outBytes = "abcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.UTF_8);
     PrintLogger.initialize(context);
     InputStream in = new ByteArrayInputStream(outBytes);
-    File file = new File(/* pathname= */context.getFilesDir() + "/dummy");
+    File file = new File(/* pathname= */context.getFilesDir() + "/fakeFile");
     Signal<Boolean> signal = Signal.create();
 
     // Assert
@@ -156,7 +160,7 @@ public final class DfuUtilTest {
 
 
     // Act
-    DfuUtil.inputStreamToFile(in, file).forward(signal);
+    DfuUtil.inputStreamToFile(in, file, in.available()).forward(signal);
     latch.await(/* timeout= */5, TimeUnit.SECONDS);
   }
 
@@ -185,7 +189,8 @@ public final class DfuUtilTest {
     file.createNewFile();
     byte[] outBytes = "WriteThisForTest".getBytes(StandardCharsets.UTF_8);
     InputStream in = new ByteArrayInputStream(outBytes);
-    DfuUtil.inputStreamToFile(in, file);
+    DfuUtil.inputStreamToFile(in, file, in.available()).consume();
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(1));
 
     // Act
     Pair<InputStream, Long> pair = DfuUtil.getFileInputStream(file.getPath());
@@ -194,5 +199,28 @@ public final class DfuUtilTest {
     // Assert
     assertThat(pair.first).isNotNull();
     assertThat(pair.second).isEqualTo(file.length());
+  }
+
+  @Test
+  public void givenCorrectFilePath_whenFileLengthDoesNotMatch_thenError() throws IOException {
+    // Assign
+    Context context = Robolectric.setupService(CommonContextStub.class);
+    PrintLogger.initialize(context);
+
+    File file = new File(/* pathname= */context.getFilesDir() + "/FileExists");
+    file.createNewFile();
+    byte[] outBytes = "WriteThisForTest".getBytes(StandardCharsets.UTF_8);
+    InputStream in = new ByteArrayInputStream(outBytes);
+    AtomicReference<Throwable> atomicReference = new AtomicReference<>();
+    Signal<Boolean> signal = Signal.create();
+    signal.onError(atomicReference::set);
+
+    // Act
+    DfuUtil.inputStreamToFile(in, file, 100L).forward(signal);
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(1));
+
+    // Assert
+    assertThat(atomicReference.get().getMessage())
+        .isEqualTo("Cached file length does not match with ContentLength");
   }
 }

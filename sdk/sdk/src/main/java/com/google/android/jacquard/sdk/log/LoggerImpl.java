@@ -29,6 +29,7 @@ import android.content.Context;
 import android.text.format.DateFormat;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,6 +38,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 /**
@@ -62,6 +65,8 @@ class LoggerImpl implements Logger {
   private static final Object m_lock = new Object();
   private BufferedWriter logWriter;
 
+  private List<String> ignoreStringList = new ArrayList<>();
+
   /**
    * Creates a LoggerImpl instance.
    *
@@ -77,6 +82,10 @@ class LoggerImpl implements Logger {
       Log.e(TAG, "failed to init log writer", e);
     }
     enableCrashReporting();
+  }
+
+  public void addToIgnoreList(String ignoreText) {
+    ignoreStringList.add(ignoreText);
   }
 
   @Override
@@ -132,10 +141,11 @@ class LoggerImpl implements Logger {
   @Override
   public void log(LogLevel logLevel, String tag, String message) {
     synchronized (m_lock) {
-      if (!logLevels.contains(logLevel) && logWriter == null) {
+      if (!logLevels.contains(logLevel)) {
         return;
       }
-      if (message.toLowerCase().contains("rssi")) {
+      if (shouldIgnore(message)) {
+        // do not print the logs containing ignore texts.
         return;
       }
       println(logLevel.getLogLevel(), tag, message);
@@ -148,16 +158,30 @@ class LoggerImpl implements Logger {
     }
   }
 
+  private boolean shouldIgnore(String message) {
+    for (String ignore : ignoreStringList) {
+      if (message.contains(ignore)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @Override
   public File getLogFile(Context context) {
     instanceFlush();
     return assembleLogFile(context, 0, 0);
   }
 
+  @VisibleForTesting
+  BufferedWriter getLogWriter(){
+    return logWriter;
+  }
+
   /**
    * Flush the current instance log file out to storage.
    */
-  public void instanceFlush() {
+  private void instanceFlush() {
     synchronized (m_lock) {
       if (logWriter == null) {
         return;

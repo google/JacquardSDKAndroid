@@ -38,7 +38,6 @@ import com.google.android.jacquard.sdk.initialization.InitializationState;
 import com.google.android.jacquard.sdk.initialization.ProtocolInitializationStateMachine;
 import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.model.JacquardError;
-import com.google.android.jacquard.sdk.model.Progress;
 import com.google.android.jacquard.sdk.pairing.TagPairingState;
 import com.google.android.jacquard.sdk.pairing.TagPairingStateMachine;
 import com.google.android.jacquard.sdk.rx.Signal;
@@ -184,8 +183,7 @@ public class TagConnectionStateMachine implements StateMachine<ConnectionState, 
     }
     PrintLogger.d(TAG, "onTagPairedEvent enter");
 
-    stateMachineContext.incrementProgress();
-    updateState(ofInitializing(stateMachineContext.progress));
+    updateState(ofInitializing());
     ProtocolInitializationStateMachine protocolInitializationStateMachine = new ProtocolInitializationStateMachine(
         event.tagPaired().first, event.tagPaired().second);
     initializeConnection(protocolInitializationStateMachine);
@@ -201,8 +199,7 @@ public class TagConnectionStateMachine implements StateMachine<ConnectionState, 
       return;
     }
     PrintLogger.d(TAG, "onTagInitializedEvent enter");
-    stateMachineContext.incrementProgress();
-    updateState(ofConfiguring(stateMachineContext.progress));
+    updateState(ofConfiguring());
     configureTag(event.tagInitialized());
   }
 
@@ -214,8 +211,7 @@ public class TagConnectionStateMachine implements StateMachine<ConnectionState, 
     }
     PrintLogger.d(TAG, "onTagInitializedEvent enter");
 
-    stateMachineContext.incrementProgress();
-    updateState(ofInitializing(stateMachineContext.progress));
+    updateState(ofInitializing());
   }
 
   /** Called when a {@link ConnectionEvent#ofConnectionProgress()} event is received. */
@@ -223,11 +219,8 @@ public class TagConnectionStateMachine implements StateMachine<ConnectionState, 
     PrintLogger.d(TAG, "onConnectionProgressEvent with state:" + state);
     switch (state.getType()) {
       case PREPARING_TO_CONNECT:
-        updateState(ofConnecting(stateMachineContext.progress));
-        break;
       case CONNECTING:
-        stateMachineContext.incrementProgress();
-        updateState(ofConnecting(stateMachineContext.progress));
+        updateState(ofConnecting());
         break;
     }
   }
@@ -332,10 +325,10 @@ public class TagConnectionStateMachine implements StateMachine<ConnectionState, 
    *
    * @param tagPairingStateMachine state machine for managing state during the pairing phase
    */
-   void connect(TagPairingStateMachine tagPairingStateMachine) {
+  void connect(TagPairingStateMachine tagPairingStateMachine) {
     PrintLogger.d(TAG, "connect");
-    stateMachineContext.resetProgress();
-
+    // Reset state for new connection call.
+    state = ofPreparingToConnect();
     stateMachineContext.childStateMachine = tagPairingStateMachine;
     stateMachineContext.childStateMachineSubscription = tagPairingStateMachine.getState()
         .observe(new ObservesNext<TagPairingState>() {
@@ -379,21 +372,9 @@ public class TagConnectionStateMachine implements StateMachine<ConnectionState, 
 
   /** Holds context for the state machine. */
   private static class StateMachineContext {
-
-    // TODO(b/201269968): Check if we can rid of the total steps
-    private static final int TOTAL_STEPS = 14;
-    private Progress progress = Progress.of(TOTAL_STEPS);
     private StateMachine<?, ConnectState> childStateMachine = new EmptyChildStateMachine();
     private Subscription childStateMachineSubscription = new Subscription();
     private Subscription configureSubscription = new Subscription();
-
-    private void incrementProgress() {
-      progress = progress.increment();
-    }
-
-    private void resetProgress() {
-      progress = Progress.of(TOTAL_STEPS);
-    }
   }
 
   private static class EmptyChildStateMachine implements StateMachine<Void, ConnectState> {

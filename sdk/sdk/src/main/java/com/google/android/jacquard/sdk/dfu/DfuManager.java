@@ -36,7 +36,7 @@ public interface DfuManager {
   Signal<FirmwareUpdateState> applyUpdates(List<DFUInfo> dfuInfos, boolean autoExecute);
 
   /** execute the firmware updated. */
-  Signal<FirmwareUpdateState> executeUpdates();
+  void executeUpdates();
 
   /**
    * Apply the module updated.
@@ -54,4 +54,9 @@ public interface DfuManager {
 
   /** Stops the dfu process. If the dfu process is going on and also reset the dfu process. */
   void stop();
+
+  /**
+   * Returns the current state of {@link FirmwareUpdateStateMachine}.
+   */
+  Signal<FirmwareUpdateState> getCurrentState();
 }

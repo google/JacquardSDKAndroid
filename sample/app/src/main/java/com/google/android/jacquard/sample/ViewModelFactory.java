@@ -26,6 +26,7 @@ import com.google.android.jacquard.sample.gesture.GestureViewModel;
 import com.google.android.jacquard.sample.haptics.HapticsViewModel;
 import com.google.android.jacquard.sample.home.HomeViewModel;
 import com.google.android.jacquard.sample.imu.ImuSamplesListViewModel;
+import com.google.android.jacquard.sample.imu.ImuStreamingViewModel;
 import com.google.android.jacquard.sample.imu.ImuViewModel;
 import com.google.android.jacquard.sample.ledpattern.LedPatternViewModel;
 import com.google.android.jacquard.sample.musicalthreads.MusicalThreadsViewModel;
@@ -66,21 +67,22 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
       return (T) new ScanViewModel(connectivityManager, preferences, navController);
     }
     if (modelClass == TouchDataViewModel.class) {
-      return (T) new TouchDataViewModel(connectivityManager, navController);
+      return (T) new TouchDataViewModel(connectivityManager, navController, preferences, resourceLocator.getResources());
     }
     if (modelClass == MusicalThreadsViewModel.class) {
       ThreadsPlayer threadsPlayer = resourceLocator.getThreadsPlayer();
-      return (T) new MusicalThreadsViewModel(connectivityManager, threadsPlayer, navController);
+      return (T) new MusicalThreadsViewModel(connectivityManager, threadsPlayer, navController,
+          preferences, resourceLocator.getResources());
     }
     if (modelClass == GestureViewModel.class) {
       return (T) new GestureViewModel(connectivityManager, navController, preferences);
     }
     if (modelClass == MainActivityViewModel.class) {
-      return (T) new MainActivityViewModel(preferences);
+      return (T) new MainActivityViewModel(preferences, resourceLocator.getFirmwareManager());
     }
     if (modelClass == HapticsViewModel.class) {
       return (T) new HapticsViewModel(connectivityManager, navController,
-          resourceLocator.getResources());
+          resourceLocator.getResources(), preferences);
     }
 
     if (modelClass == LedPatternViewModel.class) {
@@ -89,7 +91,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     if (modelClass == HomeViewModel.class) {
       return (T) new HomeViewModel(preferences, navController, connectivityManager,
-          resourceLocator.getRecipeManager());
+          resourceLocator.getRecipeManager(), resourceLocator.getFirmwareManager(),
+          resourceLocator.getResources());
     }
 
     if (modelClass == SplashViewModel.class) {
@@ -105,25 +108,16 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     }
 
     if (modelClass == TagDetailsViewModel.class) {
-      return (T)
-          new TagDetailsViewModel(
-              connectivityManager,
-              connectivityManager.getConnectedJacquardTag(),
-              preferences,
-              navController);
+      return (T) new TagDetailsViewModel(connectivityManager, preferences, navController);
     }
 
     if (modelClass == FirmwareUpdateViewModel.class) {
       return (T)
           new FirmwareUpdateViewModel(resourceLocator.getFirmwareManager(), navController,
-              connectivityManager);
+              connectivityManager, preferences);
     }
     if (modelClass == PlacesConfigViewModel.class) {
-      return (T)
-          new PlacesConfigViewModel(
-              navController,
-              resourceLocator.getRecipeManager()
-          );
+      return (T) new PlacesConfigViewModel(navController, resourceLocator.getRecipeManager());
     }
     if (modelClass == PlacesListViewModel.class) {
       return (T)
@@ -131,7 +125,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
               connectivityManager,
               navController,
               resourceLocator.geocoder(),
-              new PlacesRepository(application)
+              new PlacesRepository(application),
+              preferences
           );
     }
     if (modelClass == ImuViewModel.class) {
@@ -140,12 +135,14 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
               resourceLocator.getImuSessionDownloadDirectory(),
               new ImuSessionsRepository(application), preferences);
     }
+    if (modelClass == ImuStreamingViewModel.class) {
+      return (T) new ImuStreamingViewModel(connectivityManager, navController, preferences);
+    }
     if (modelClass == ImuSamplesListViewModel.class) {
       return (T) new ImuSamplesListViewModel(navController);
     }
-    if(modelClass == PlacesDetailsViewModel.class){
-      return (T)
-          new PlacesDetailsViewModel(navController, new PlacesRepository(application));
+    if (modelClass == PlacesDetailsViewModel.class) {
+      return (T) new PlacesDetailsViewModel(navController, new PlacesRepository(application));
     }
     return super.create(modelClass);
   }

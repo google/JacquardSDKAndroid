@@ -43,7 +43,7 @@ public final class InnerContinuousTouchNotificationSubscriptionTest {
 
     @Before
     public void setUp() {
-        DataProvider.create(new HashMap<>(), StringUtils.getInstance());
+        DataProvider.create(new HashMap<>());
         notificationSubscription = new InnerContinuousTouchNotificationSubscription();
     }
 

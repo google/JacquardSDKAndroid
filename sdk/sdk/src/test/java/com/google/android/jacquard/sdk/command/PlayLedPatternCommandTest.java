@@ -62,7 +62,7 @@ public class PlayLedPatternCommandTest {
   @Before
   public void setup() {
     PrintLogger.initialize(ApplicationProvider.getApplicationContext());
-    DataProvider.create(getVendors(), StringUtils.getInstance());
+    DataProvider.create(getVendors());
     List<Frame> frames = new ArrayList<>();
     frames.add(Frame.of(Color.of(100, 200, 300), 1000));
     frames.add(Frame.of(Color.of(200, 0, 0), 1000));
@@ -170,11 +170,11 @@ public class PlayLedPatternCommandTest {
     capabilities.add(Capability.GESTURE);
     capabilities.add(Capability.LED);
     List<Product> products = new ArrayList<>();
-    Product product = Product.of("2", "Product 1", "jq_image", capabilities);
+    Product product = Product.of("00-00-00-02", "Product 1", "jq_image", capabilities);
     products.add(product);
     Map<String, Vendor> vendors = new HashMap<>();
-    Vendor vendor = Vendor.of("1", "Vendor 1", products);
-    vendors.put("1", vendor);
+    Vendor vendor = Vendor.of("00-00-00-01", "Vendor 1", products);
+    vendors.put("00-00-00-01", vendor);
     component = Component
         .of(/* componentId= */ 0, vendor, product, capabilities, /* revision= */
             null, /* serialNumber= */ null);

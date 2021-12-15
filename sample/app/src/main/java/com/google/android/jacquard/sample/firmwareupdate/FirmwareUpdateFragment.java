@@ -18,14 +18,14 @@ package com.google.android.jacquard.sample.firmwareupdate;
 
 import static com.google.android.jacquard.sdk.dfu.FirmwareUpdateState.Type.COMPLETED;
 import static com.google.android.jacquard.sdk.dfu.FirmwareUpdateState.Type.ERROR;
-import static com.google.android.jacquard.sdk.dfu.FirmwareUpdateState.Type.TRANSFERRED;
-import static com.google.android.jacquard.sdk.dfu.FirmwareUpdateState.Type.TRANSFER_PROGRESS;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,12 +37,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import com.google.android.jacquard.sample.R;
 import com.google.android.jacquard.sample.ViewModelFactory;
+import com.google.android.jacquard.sample.dialog.DFUUtil;
 import com.google.android.jacquard.sample.dialog.DefaultDialog;
-import com.google.android.jacquard.sample.dialog.DefaultDialog.DefaultDialogBuilder;
 import com.google.android.jacquard.sample.dialog.DefaultDialog.DefaultDialogButtonClickListener;
 import com.google.android.jacquard.sample.firmwareupdate.FirmwareUpdateViewModel.State;
+import com.google.android.jacquard.sample.utilities.CustomBottomProgress;
 import com.google.android.jacquard.sdk.dfu.DFUInfo;
 import com.google.android.jacquard.sdk.dfu.DFUInfo.UpgradeStatus;
+import com.google.android.jacquard.sdk.dfu.FirmwareUpdateState;
 import com.google.android.jacquard.sdk.dfu.execption.InsufficientBatteryException;
 import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.model.GearState;
@@ -57,12 +59,17 @@ public class FirmwareUpdateFragment extends Fragment {
   private static final String TAG = FirmwareUpdateFragment.class.getSimpleName();
 
   private final List<Subscription> dfuSubscriptionList = new ArrayList<>();
+  private Subscription stateSubscription;
   private FirmwareUpdateViewModel viewModel;
   private View progressBarHolder;
   private Subscription navSubscription;
   private TextView productVersionTv,tagVersionTv;
   private Subscription gearNotificationSub;
   private SwitchCompat autoUpdateSw, forceUpdateSw;
+  private Button checkForFirmwareBtn;
+  private CustomBottomProgress viewDownloadProgress;
+  private DefaultDialog defaultDialog;
+  private ApplyFirmwareListener applyFirmwareListener;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,6 +95,25 @@ public class FirmwareUpdateFragment extends Fragment {
     initView(view);
     navSubscription = viewModel.stateSignal.onNext(this::onNavigation);
     viewModel.init();
+    fwUpdateStateListener();
+  }
+
+  @Override
+  public void onAttach(@NonNull Context context) {
+    super.onAttach(context);
+    applyFirmwareListener = (ApplyFirmwareListener) context;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    fwUpdateStateListener();
+  }
+
+  @Override
+  public void onPause() {
+    unSubscribeState();
+    super.onPause();
   }
 
   @Override
@@ -133,8 +159,10 @@ public class FirmwareUpdateFragment extends Fragment {
     tagVersionTv = view.findViewById(R.id.tag_version_tv);
     autoUpdateSw = view.findViewById(R.id.auto_update_sw);
     forceUpdateSw = view.findViewById(R.id.force_update_sw);
+    viewDownloadProgress = view.findViewById(R.id.includeLayout);
+    checkForFirmwareBtn = view.findViewById(R.id.check_for_firmware_btn);
     handleBackPress(view);
-    view.findViewById(R.id.check_for_firmware_btn).setOnClickListener(v -> checkFirmware());
+    checkForFirmwareBtn.setOnClickListener(v -> checkFirmware());
   }
 
   private void handleBackPress(View view) {
@@ -180,34 +208,10 @@ public class FirmwareUpdateFragment extends Fragment {
 
   private void applyFirmware() {
     PrintLogger.d(TAG, "applyFirmware");
-    DefaultDialog defaultDialog = showApplyFirmwareProgress();
-    dfuSubscriptionList.add(viewModel.applyFirmware(autoUpdateSw.isChecked()).
-        tapError(error -> {
-          PrintLogger.e(TAG, "applyFirmware error: " + error.getMessage());
-          defaultDialog.dismiss();
-          showErrorDialog(error);
-        })
-        .onNext(firmwareUpdateState -> {
-          PrintLogger.d(TAG, "applyFirmware firmwareUpdateState = " + firmwareUpdateState);
-          if (firmwareUpdateState.getType().equals(ERROR)) {
-            defaultDialog.dismiss();
-            showErrorDialog(firmwareUpdateState.error());
-            return;
-          }
-          if (firmwareUpdateState.getType().equals(TRANSFER_PROGRESS)) {
-            defaultDialog.updateProgress(firmwareUpdateState.transferProgress());
-          } else if (firmwareUpdateState.getType().equals(TRANSFERRED)) {
-            defaultDialog.dismiss();
-            if (autoUpdateSw.isChecked()) {
-              showProgressLoader(R.string.execute_updates_progress);
-            } else {
-              showAlmostReadyDialog();
-            }
-          } else if (firmwareUpdateState.getType().equals(COMPLETED)) {
-            hideProgressLoader();
-            showUpdateCompleteDialog();
-          }
-        }));
+    defaultDialog = showApplyFirmwareProgress();
+    dfuSubscriptionList.add(viewModel.applyFirmware(autoUpdateSw.isChecked()).consume());
+    applyFirmwareListener.applyFirmwareInitiated();
+    fwUpdateStateListener();
   }
 
   private void showErrorDialog(Throwable error) {
@@ -227,7 +231,7 @@ public class FirmwareUpdateFragment extends Fragment {
           }
           if (firmwareUpdateState.getType().equals(COMPLETED)) {
             hideProgressLoader();
-            showUpdateCompleteDialog();
+            DFUUtil.showUpdateCompleteDialog(getParentFragmentManager());
           }
         },
         error -> showErrorDialog(error)));
@@ -275,121 +279,62 @@ public class FirmwareUpdateFragment extends Fragment {
 
   private void showMandatoryDialog() {
     PrintLogger.d(TAG, "showMandatoryDialog");
-    new DefaultDialogBuilder()
-        .setTitle(R.string.optional_update_dialog_title)
-        .setSubtitle(R.string.optional_update_dialog_subtitle)
-        .setPositiveButtonTitleId(R.string.optional_update_dialog_positive_btn)
-        .setShowNegativeButton(false)
-        .setShowPositiveButton(true)
-        .setCancellable(true)
-        .setShowSubtitle(true)
-        .setShowProgress(false)
-        .setPositiveButtonClick(new DefaultDialogButtonClickListener() {
-
+    DFUUtil.showMandatoryDialog(getParentFragmentManager(),
+        new DefaultDialogButtonClickListener() {
           @Override
           public void buttonClick() {
             applyFirmware();
           }
-        }).build().show(getParentFragmentManager(), /* tag= */null);
+        });
   }
 
   private void showOptionalDialog() {
     PrintLogger.d(TAG, "showOptionalDialog");
-    new DefaultDialogBuilder()
-        .setTitle(R.string.optional_update_dialog_title)
-        .setSubtitle(R.string.optional_update_dialog_subtitle)
-        .setPositiveButtonTitleId(R.string.optional_update_dialog_positive_btn)
-        .setNegativeButtonTitle(R.string.optional_update_dialog_negative_btn)
-        .setShowNegativeButton(true)
-        .setShowPositiveButton(true)
-        .setCancellable(true)
-        .setShowSubtitle(true)
-        .setShowProgress(false)
-        .setPositiveButtonClick(new DefaultDialogButtonClickListener() {
-
+    DFUUtil.showOptionalDialog(getParentFragmentManager(),
+        new DefaultDialogButtonClickListener() {
           @Override
           public void buttonClick() {
             applyFirmware();
           }
-        }).build().show(getParentFragmentManager(), /* tag= */null);
+        });
   }
 
   private void showNoDFUDialog() {
     PrintLogger.d(TAG, "showNoDFUDialog");
-    new DefaultDialogBuilder()
-        .setTitle(R.string.no_update_available_title)
-        .setPositiveButtonTitleId(R.string.no_update_available_positive_btn)
-        .setShowNegativeButton(false)
-        .setShowPositiveButton(true)
-        .setCancellable(true)
-        .setShowSubtitle(false)
-        .setShowProgress(false)
-        .build().show(getParentFragmentManager(), /* tag= */null);
+    DFUUtil.showNoDFUDialog(getParentFragmentManager());
   }
 
   private DefaultDialog showApplyFirmwareProgress() {
     PrintLogger.d(TAG, "showApplyFirmwareProgress");
-    DefaultDialog defaultDialog = new DefaultDialogBuilder()
-        .setTitle(R.string.apply_update_dialog_title)
-        .setSubtitle(R.string.apply_update_dialog_subtitle)
-        .setShowNegativeButton(false)
-        .setShowPositiveButton(false)
-        .setCancellable(false)
-        .setShowSubtitle(true)
-        .setShowProgress(true)
-        .build();
-
-    defaultDialog.show(getParentFragmentManager(), /* tag= */null);
-    return defaultDialog;
+    return DFUUtil.showApplyFirmwareProgress(getParentFragmentManager(),
+        new DefaultDialogButtonClickListener() {
+          @Override
+          public void buttonClick() {
+            PrintLogger.d(TAG, "Update progress ok clicked.");
+            showBottomDownloadProgress(0);
+          }
+        });
   }
 
   private void showAlmostReadyDialog() {
     PrintLogger.d(TAG, "showAlmostReadyDialog");
-    new DefaultDialogBuilder()
-        .setTitle(R.string.almost_ready_title)
-        .setSubtitle(R.string.almost_ready_subtitle)
-        .setPositiveButtonTitleId(R.string.almost_ready_update_dialog_positive_btn)
-        .setShowNegativeButton(false)
-        .setShowPositiveButton(true)
-        .setCancellable(true)
-        .setShowSubtitle(true)
-        .setShowProgress(false)
-        .setPositiveButtonClick(new DefaultDialogButtonClickListener() {
+    if (viewModel.isAlmostReadyShown()) {
+      return;
+    }
 
+    viewModel.saveAlmostReadyShown();
+    DFUUtil.showAlmostReadyDialog(getParentFragmentManager(),
+        new DefaultDialogButtonClickListener() {
           @Override
           public void buttonClick() {
             executeFirmware();
-
           }
-        }).build().show(getParentFragmentManager(), /* tag= */null);
-  }
-
-  private void showUpdateCompleteDialog() {
-    PrintLogger.d(TAG, "showUpdateCompleteDialog");
-    new DefaultDialogBuilder()
-        .setTitle(R.string.update_complete_dialog_title)
-        .setSubtitle(R.string.update_complete_dialog_subtitle)
-        .setPositiveButtonTitleId(R.string.update_complete_dialog_positive_btn)
-        .setShowNegativeButton(false)
-        .setShowPositiveButton(true)
-        .setCancellable(true)
-        .setShowSubtitle(true)
-        .setShowProgress(false)
-        .build().show(getParentFragmentManager(), /* tag= */null);
+        });
   }
 
   private void showErrorDialog(int title, int subTitle, int positiveBtn) {
     PrintLogger.d(TAG, "showErrorDialog");
-    new DefaultDialogBuilder()
-        .setTitle(title)
-        .setSubtitle(subTitle)
-        .setPositiveButtonTitleId(positiveBtn)
-        .setShowNegativeButton(false)
-        .setShowPositiveButton(true)
-        .setCancellable(true)
-        .setShowSubtitle(true)
-        .setShowProgress(false)
-        .build().show(getParentFragmentManager(), /* tag= */null);
+    DFUUtil.showErrorDialog(title, subTitle, positiveBtn, getParentFragmentManager());
   }
 
   private void showProgressLoader(int loaderMessageId) {
@@ -414,5 +359,98 @@ public class FirmwareUpdateFragment extends Fragment {
     showErrorDialog(R.string.dfu_error_generic_title,
         R.string.dfu_error_generic_subtitle,
         R.string.dfu_error_generic_positive_btn);
+  }
+
+  private void enable() {
+    autoUpdateSw.setEnabled(true);
+    forceUpdateSw.setEnabled(true);
+    checkForFirmwareBtn.setEnabled(true);
+  }
+
+  private void disable() {
+    autoUpdateSw.setEnabled(false);
+    forceUpdateSw.setEnabled(false);
+    checkForFirmwareBtn.setEnabled(false);
+  }
+
+  private void hideBottomDownloadProgress() {
+    if (viewDownloadProgress.getVisibility() != View.VISIBLE) {
+      return;
+    }
+    viewDownloadProgress.setVisibility(View.GONE);
+    enable();
+  }
+
+  private void showBottomDownloadProgress(int progress) {
+    viewDownloadProgress.setVisibility(View.VISIBLE);
+    viewDownloadProgress.setProgress(progress);
+    disable();
+  }
+
+  private void hideDefaultDialog(DefaultDialog defaultDialog) {
+    if (defaultDialog == null || !defaultDialog.isAdded()) {
+      return;
+    }
+    defaultDialog.dismiss();
+  }
+
+  private void firmwareUpdatePositiveUI(FirmwareUpdateState firmwareUpdateState) {
+    PrintLogger.d(TAG, "applyFirmware firmwareUpdateState = " + firmwareUpdateState);
+    switch (firmwareUpdateState.getType()) {
+      case ERROR:
+        firmwareUpdateNegativeUI(firmwareUpdateState.error());
+        break;
+      case TRANSFER_PROGRESS:
+        autoUpdateSw.setChecked(viewModel.isAutoUpdateChecked());
+        if (defaultDialog != null && defaultDialog.isAdded()) {
+          defaultDialog.updateProgress(firmwareUpdateState.transferProgress());
+        } else {
+          showBottomDownloadProgress(firmwareUpdateState.transferProgress());
+        }
+        break;
+      case TRANSFERRED:
+        hideDefaultDialog(defaultDialog);
+        hideBottomDownloadProgress();
+
+        if (autoUpdateSw.isChecked()) {
+          showProgressLoader(R.string.execute_updates_progress);
+        } else {
+          showAlmostReadyDialog();
+        }
+        break;
+      case COMPLETED:
+        hideProgressLoader();
+        DFUUtil.showUpdateCompleteDialog(getParentFragmentManager());
+        break;
+      default:
+        break;
+    }
+  }
+
+  private void firmwareUpdateNegativeUI(Throwable error) {
+    PrintLogger.e(TAG, "applyFirmware error: " + error.getMessage());
+    hideDefaultDialog(defaultDialog);
+    hideBottomDownloadProgress();
+    showErrorDialog(error);
+  }
+
+  private void unSubscribeState() {
+    if (stateSubscription != null) {
+      stateSubscription.unsubscribe();
+      stateSubscription = null;
+    }
+  }
+
+  private void fwUpdateStateListener() {
+    PrintLogger.d(TAG, "Register FirmwareUpdateState Signal: " + viewModel.getState().hashCode());
+    unSubscribeState();
+    stateSubscription = viewModel.getState().tapError(error -> {
+      PrintLogger.d(TAG, "State Error: " + error);
+      firmwareUpdateNegativeUI(error);
+    }).onNext(firmwareUpdateState -> {
+      PrintLogger
+          .d(TAG, "isResumed: " + isResumed() + " firmwareUpdateState: " + firmwareUpdateState);
+      firmwareUpdatePositiveUI(firmwareUpdateState);
+    });
   }
 }

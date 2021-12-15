@@ -40,31 +40,37 @@ public class DfuManagerImpl implements DfuManager {
   private final String identifier;
   private final FirmwareUpdateStateMachine fwUpdateStateMachine;
   private final DFUChecker dfuChecker;
+  private final Signal<FirmwareUpdateState> stateSignal;
 
   public DfuManagerImpl(String identifier) {
     this.identifier = identifier;
     fwUpdateStateMachine = new FirmwareUpdateStateMachine();
     dfuChecker = new DFUChecker();
+    stateSignal = Signal.<FirmwareUpdateState>create().sticky();
   }
 
   @VisibleForTesting
-  DfuManagerImpl(String identifier, DFUChecker dfuChecker, FirmwareUpdateStateMachine fwUpdateStateMachine) {
+  DfuManagerImpl(String identifier, DFUChecker dfuChecker, FirmwareUpdateStateMachine fwUpdateStateMachine,
+      Signal<FirmwareUpdateState> signal) {
     this.identifier = identifier;
     this.fwUpdateStateMachine = fwUpdateStateMachine;
     this.dfuChecker = dfuChecker;
+    this.stateSignal = signal;
   }
 
   @Override
   public Signal<FirmwareUpdateState> applyUpdates(List<DFUInfo> dfuInfos, boolean autoExecute) {
     PrintLogger.d(TAG, "applyFirmware");
-    return applyUpdates(dfuInfos, autoExecute, /* isOnlyModule= */false);
+    applyUpdates(dfuInfos, autoExecute, /* isOnlyModule= */false);
+    return getCurrentState();
   }
 
   @Override
   public Signal<FirmwareUpdateState> applyModuleUpdate(DFUInfo dfuInfo) {
     PrintLogger.d(TAG, "applyModuleUpdate");
-    return applyUpdates(Lists.newArrayList(dfuInfo),/* autoExecute= */ false, /* isOnlyModule= */
+    applyUpdates(Lists.newArrayList(dfuInfo),/* autoExecute= */ false, /* isOnlyModule= */
         true);
+    return getCurrentState();
   }
 
   @Override
@@ -109,16 +115,16 @@ public class DfuManagerImpl implements DfuManager {
   }
 
   @Override
-  public Signal<FirmwareUpdateState> executeUpdates() {
+  public void executeUpdates() {
     PrintLogger.d(TAG, "executeFirmware");
-    return fwUpdateStateMachine.getState().first().flatMap(state -> {
+    fwUpdateStateMachine.getState().first().flatMap(state -> {
       if (!state.getType().equals(Type.TRANSFERRED)) {
         return Signal.empty(
             new IllegalStateException(
                 "FirmwareUpdateStateMachine is not in Transferred state, state: " + state));
       }
       return executeFirmware();
-    });
+    }).tapError(error -> stateSignal.next(FirmwareUpdateState.ofError(error))).consume();
   }
 
   @Override
@@ -127,41 +133,35 @@ public class DfuManagerImpl implements DfuManager {
     fwUpdateStateMachine.stop();
   }
 
-  private Signal<FirmwareUpdateState> applyUpdates(List<DFUInfo> dfuInfos, boolean autoExecute,
+  @Override
+  public Signal<FirmwareUpdateState> getCurrentState() {
+    return stateSignal.distinctUntilChanged();
+  }
+
+  private void applyUpdates(List<DFUInfo> dfuInfos, boolean autoExecute,
       boolean isOnlyModule) {
     PrintLogger.d(TAG, "applyFirmware");
-    return Signal.create(signal -> {
-      Subscription subscription = fwUpdateStateMachine.getState().first().flatMap(stateCheck -> {
-        if (stateCheck.getType().equals(Type.PREPARING_TO_TRANSFER) || stateCheck.getType()
-            .equals(Type.TRANSFER_PROGRESS) || stateCheck.getType().equals(Type.EXECUTING)) {
-          return Signal.empty(new IllegalStateException(
-              "FirmwareUpdateStateMachine is in" + stateCheck + "  state."));
-        }
+    fwUpdateStateMachine.getState().flatMap(stateCheck -> {
+      if (stateCheck.getType().equals(Type.PREPARING_TO_TRANSFER) || stateCheck.getType()
+          .equals(Type.TRANSFER_PROGRESS) || stateCheck.getType().equals(Type.EXECUTING)) {
+        return Signal.empty(new IllegalStateException(
+            "FirmwareUpdateStateMachine is in" + stateCheck + "  state."));
+      }
+      return fwUpdateStateMachine.getState();
+    }).flatMap(ignore -> {
+      if (dfuInfos == null || dfuInfos.isEmpty()) {
+        return Signal.empty(new IllegalStateException("DfuInfo list is empty."));
+      }
+      return getConnectedJacquardTag().flatMap(connectedTag -> {
+        fwUpdateStateMachine.applyFirmware(dfuChecker, dfuInfos, connectedTag);
         return fwUpdateStateMachine.getState();
-      }).flatMap(ignore -> {
-        if (dfuInfos == null || dfuInfos.isEmpty()) {
-          return Signal.empty(new IllegalStateException("DfuInfo list is empty."));
-        }
-        return getConnectedJacquardTag().flatMap(connectedTag -> {
-          fwUpdateStateMachine.applyFirmware(dfuChecker, dfuInfos, connectedTag);
-          return fwUpdateStateMachine.getState();
-        });
-      })
-      .tapError(signal::error)
-      .onNext(state -> {
-        PrintLogger.d(TAG, "applyFirmware State: " + state);
-        updateState(state, signal, autoExecute, isOnlyModule);
       });
-
-      return new Subscription() {
-        @Override
-        protected void onUnsubscribe() {
-          fwUpdateStateMachine.destroy();
-          subscription.unsubscribe();
-          signal.complete();
-        }
-      };
-    });
+    })
+        .tapError(error -> stateSignal.next(FirmwareUpdateState.ofError(error)))
+        .onNext(state -> {
+          PrintLogger.d(TAG, "applyFirmware State: " + state);
+          updateState(state, autoExecute, isOnlyModule);
+        });
   }
 
   private Signal<FirmwareUpdateState> executeFirmware() {
@@ -189,26 +189,17 @@ public class DfuManagerImpl implements DfuManager {
     });
   }
 
-  private void updateState(FirmwareUpdateState state, Signal<FirmwareUpdateState> signal,
-      boolean autoExecute, boolean isOnlyModule) {
-    signal.next(state);
-    if (isOnlyModule){
-      if (state.getType().equals(Type.COMPLETED)) {
-        signal.complete();
-      }
+  private void updateState(FirmwareUpdateState state, boolean autoExecute, boolean isOnlyModule) {
+    stateSignal.next(state);
+    if (isOnlyModule) {
       return;
     }
     if (state.getType().equals(Type.TRANSFERRED)) {
       if (!autoExecute) {
-        signal.complete();
         return;
       }
-      executeFirmware().tapError(signal::error).onNext(fwState -> {
-        signal.next(fwState);
-        if (fwState.getType().equals(Type.COMPLETED)) {
-          signal.complete();
-        }
-      });
+      executeFirmware().tapError(error -> stateSignal.next(FirmwareUpdateState.ofError(error)))
+          .onNext(stateSignal::next);
     }
   }
 

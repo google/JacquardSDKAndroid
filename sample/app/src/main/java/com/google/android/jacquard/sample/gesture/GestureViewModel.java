@@ -26,7 +26,6 @@ import com.google.android.jacquard.sample.ConnectivityManager.Events;
 import com.google.android.jacquard.sample.Preferences;
 import com.google.android.jacquard.sample.R;
 import com.google.android.jacquard.sdk.command.GestureNotificationSubscription;
-import com.google.android.jacquard.sdk.connection.ConnectionState;
 import com.google.android.jacquard.sdk.model.Gesture;
 import com.google.android.jacquard.sdk.rx.Fn;
 import com.google.android.jacquard.sdk.rx.Signal;
@@ -40,18 +39,24 @@ import java.util.List;
 public class GestureViewModel extends ViewModel {
 
   private final ConnectivityManager connectivityManager;
-  private final Signal<ConnectedJacquardTag> tag;
   private final NavController navController;
   private final Preferences preferences;
   private final List<GestureViewItem> gestures = new LinkedList<>();
+  private Signal<ConnectedJacquardTag> tag;
 
   public GestureViewModel(
       ConnectivityManager connectivityManager,
       NavController navController, Preferences preferences) {
     this.connectivityManager = connectivityManager;
-    this.tag = connectivityManager.getConnectedJacquardTag();
     this.navController = navController;
     this.preferences = preferences;
+  }
+
+  /**
+   * Initialize view model, It should be called from onViewCreated.
+   */
+  public void init() {
+    tag = connectivityManager.getConnectedJacquardTag(preferences.getCurrentTag().address());
   }
 
   /** Emits a list of all performed gestures when a gesture is detected. */
@@ -74,7 +79,8 @@ public class GestureViewModel extends ViewModel {
    * Emits connectivity events {@link Events}.
    */
   public Signal<Events> getConnectivityEvents() {
-    return connectivityManager.getEventsSignal().distinctUntilChanged();
+    return connectivityManager.getEventsSignal(preferences.getCurrentTag().address())
+        .distinctUntilChanged();
   }
 
   private int getDrawableResId(Gesture gesture) {

@@ -16,13 +16,12 @@ package com.google.android.jacquard.sdk.model;
  */
 
 import com.google.auto.value.AutoValue;
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
-
+import com.ryanharter.auto.value.gson.GenerateTypeAdapter;
 import java.util.List;
 
 /** Defines Product type of the Gear. */
+@GenerateTypeAdapter
 @AutoValue
 public abstract class Product {
 
@@ -42,10 +41,6 @@ public abstract class Product {
 
   public static Product of(String id, String name, String image, List<Capability> capabilities) {
     return new AutoValue_Product(id, name, image, capabilities);
-  }
-
-  public static TypeAdapter<Product> typeAdapter(Gson gson) {
-    return new AutoValue_Product.GsonTypeAdapter(gson);
   }
 
   public enum Capability {

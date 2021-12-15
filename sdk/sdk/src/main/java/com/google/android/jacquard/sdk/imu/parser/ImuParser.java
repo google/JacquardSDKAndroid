@@ -18,6 +18,7 @@ package com.google.android.jacquard.sdk.imu.parser;
 
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionActionHeader;
 import com.google.atap.jacquard.protocol.JacquardProtocol.ImuSample;
+import java.util.List;
 
 /**
  * Interface to parse Imu Samples raw file.
@@ -28,6 +29,8 @@ public interface ImuParser {
    * Parse to get {@link ImuSample}.
    */
   ImuSample parseImuSample(byte[] bytes);
+
+  List<ImuSample> parseImuSamples(byte[] bytes);
 
   /**
    * Parse to get {@link DataCollectionActionHeader}.

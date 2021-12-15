@@ -20,22 +20,10 @@ import android.bluetooth.BluetoothGattCharacteristic;
 /** Data class for holding the required characteristic for a jacquard tag. */
 public class RequiredCharacteristics {
 
-  public final BluetoothGattCharacteristic commandCharacteristic;
-  public final BluetoothGattCharacteristic responseCharacteristic;
-  public final BluetoothGattCharacteristic notifyCharacteristic;
-  public final BluetoothGattCharacteristic batteryCharacteristic;
-  public final BluetoothGattCharacteristic rawCharacteristic;
-
-  public RequiredCharacteristics(
-      BluetoothGattCharacteristic commandCharacteristic,
-      BluetoothGattCharacteristic responseCharacteristic,
-      BluetoothGattCharacteristic notifyCharacteristic,
-      BluetoothGattCharacteristic batteryCharacteristic,
-      BluetoothGattCharacteristic rawCharacteristic) {
-    this.commandCharacteristic = commandCharacteristic;
-    this.responseCharacteristic = responseCharacteristic;
-    this.notifyCharacteristic = notifyCharacteristic;
-    this.batteryCharacteristic = batteryCharacteristic;
-    this.rawCharacteristic = rawCharacteristic;
-  }
+  public BluetoothGattCharacteristic commandCharacteristic;
+  public BluetoothGattCharacteristic rawCharacteristic;
+  BluetoothGattCharacteristic deviceNameCharacteristic;
+  BluetoothGattCharacteristic responseCharacteristic;
+  BluetoothGattCharacteristic notifyCharacteristic;
+  BluetoothGattCharacteristic batteryCharacteristic;
 }

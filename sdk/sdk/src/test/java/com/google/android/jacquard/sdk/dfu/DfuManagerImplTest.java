@@ -50,14 +50,13 @@ import com.google.android.jacquard.sdk.pairing.RequiredCharacteristics;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.tag.ConnectedJacquardTagInitialization;
 import com.google.android.jacquard.sdk.util.FakeFragmenter;
-import com.google.android.jacquard.sdk.util.StringUtils;
-import com.google.atap.jacquard.protocol.JacquardProtocol.DFUStatusResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DFUWriteResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DeviceInfoResponse;
 import com.google.common.base.Optional;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -101,7 +100,7 @@ public class DfuManagerImplTest {
   public void setup() {
     context = Robolectric.setupService(CommonContextStub.class);
     PrintLogger.initialize(context);
-    DataProvider.create(getVendors(), StringUtils.getInstance());
+    DataProvider.create(getVendors());
   }
 
   @Test
@@ -158,14 +157,14 @@ public class DfuManagerImplTest {
 
   @Test
   public void assignCheckFirmware_actCheckUpdate_assertDataCorrect()
-      throws FileNotFoundException {
+      throws IOException {
 
     // Assign
     // Create file.
     byte[] outBytes = "abcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.UTF_8);
     InputStream in = new ByteArrayInputStream(outBytes);
-    File file = new File(/* pathname= */context.getFilesDir() + "/dummy");
-    DfuUtil.inputStreamToFile(in, file).consume();
+    File file = new File(/* pathname= */context.getFilesDir() + "/fakeFile");
+        DfuUtil.inputStreamToFile(in, file, in.available()).consume();
 
     Component component = FakeComponent.getTagComponent();
     RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
@@ -175,7 +174,8 @@ public class DfuManagerImplTest {
 
     DFUChecker dfuChecker = new DummyDFUChecker<>(remoteDfuInfo, /* success= */true)
         .createDownloadManager(file);
-    DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker, new FirmwareUpdateStateMachine());
+    DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
+        new FirmwareUpdateStateMachine(), Signal.empty());
     CacheRepository cacheRepository = new CacheRepositoryImpl(context);
     AtomicReference<List<DFUInfo>> atomicReference = new AtomicReference<>();
 
@@ -198,7 +198,7 @@ public class DfuManagerImplTest {
     for (DFUInfo dfu : atomicReference.get()) {
       Optional<DFUInfo> optional = cacheRepository.getUpdateInformation(component.vendor().id(),
           component.product().id(), /* mid= */"", component.serialNumber());
-      Optional<FileDescriptor> fileDescriptorOptional = cacheRepository.getDescriptor(dfu);
+          Optional<FileDescriptor> fileDescriptorOptional = cacheRepository.getDescriptor(dfu);
 
       assertThat(optional.isPresent()).isTrue();
       assertThat(fileDescriptorOptional.isPresent()).isTrue();
@@ -246,7 +246,7 @@ public class DfuManagerImplTest {
     // Act
     dfuManager
         .checkFirmware(
-            Collections.singletonList(FakeComponent.getTagComponent()), /* forceUpdate= */false)
+            Collections.singletonList(FakeComponent.getTagComponent()), /* forceUpdate= */ false)
         .forward(signal);
 
     // Assert
@@ -256,14 +256,14 @@ public class DfuManagerImplTest {
 
   @Test
   public void assignCheckModuleUpdate_actCheckUpdate_assertDataCorrect()
-      throws FileNotFoundException {
+      throws IOException {
 
     // Assign
     // Create file.
     byte[] outBytes = "abcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.UTF_8);
     InputStream in = new ByteArrayInputStream(outBytes);
-    File file = new File(/* pathname= */context.getFilesDir() + "/dummy");
-    DfuUtil.inputStreamToFile(in, file).consume();
+    File file = new File(/* pathname= */ context.getFilesDir() + "/fakeFile");
+        DfuUtil.inputStreamToFile(in, file, in.available()).consume();
 
     Module module = FakeImuModule.getImuModule();
     RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
@@ -273,7 +273,8 @@ public class DfuManagerImplTest {
 
     DFUChecker dfuChecker = new DummyDFUChecker<>(remoteDfuInfo, /* success= */true)
         .createDownloadManager(file);
-    DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker, new FirmwareUpdateStateMachine());
+    DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
+        new FirmwareUpdateStateMachine(), Signal.empty());
     CacheRepository cacheRepository = new CacheRepositoryImpl(context);
     AtomicReference<DFUInfo> atomicReference = new AtomicReference<>();
     Signal<DFUInfo> signal = Signal.create();
@@ -300,9 +301,11 @@ public class DfuManagerImplTest {
   }
 
   @Test
-  public void assignApplyUpdatesAutoExecuteFalse_actIllegalState_assertError() {
+  public void assignApplyUpdatesAutoExecuteFalse_actIllegalState_assertError()
+      throws InterruptedException {
 
     // Assign
+    CountDownLatch countDownLatch = new CountDownLatch(1);
     Component component = FakeComponent.getTagComponent();
     RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
         dfuStatus, downloadUrl.toString(), component.vendor().id(), component.product().id(),
@@ -311,23 +314,31 @@ public class DfuManagerImplTest {
         ApplicationProvider.getApplicationContext()));
     DFUChecker dfuChecker = new DummyDFUChecker<>(remoteDfuInfo, /* success= */true);
     FirmwareUpdateStateMachine fwStateMachine = new FirmwareUpdateStateMachine();
-    DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker, fwStateMachine);
-    AtomicReference<Throwable> atomicError = new AtomicReference<>();
     Signal<FirmwareUpdateState> signal = Signal.create();
-    signal.onError(atomicError::set);
+    DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
+        fwStateMachine, signal);
+    AtomicReference<Throwable> atomicError = new AtomicReference<>();
+    signal.filter(state -> state.getType().equals(FirmwareUpdateState.Type.ERROR))
+        .onNext(state -> {
+          atomicError.set(state.error());
+          countDownLatch.countDown();
+        });
 
     // Act
     fwStateMachine.getState().next(FirmwareUpdateState.ofPreparingToTransfer());
-    dfuManager.applyUpdates(Collections.emptyList(), false).forward(signal);
+    dfuManager.applyUpdates(Collections.emptyList(), false);
+    countDownLatch.await(5, TimeUnit.SECONDS);
 
     // Assert
     assertThat(atomicError.get()).isInstanceOf(IllegalStateException.class);
   }
 
   @Test
-  public void assignApplyUpdatesAutoExecuteFalse_actEmptyDfuList_assertError() {
+  public void assignApplyUpdatesAutoExecuteFalse_actEmptyDfuList_assertError()
+      throws InterruptedException {
 
     // Assign
+    CountDownLatch countDownLatch = new CountDownLatch(1);
     Component component = FakeComponent.getTagComponent();
     RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(component.version().toZeroString(),
         dfuStatus, downloadUrl.toString(), component.vendor().id(), component.product().id(),
@@ -336,14 +347,20 @@ public class DfuManagerImplTest {
         ApplicationProvider.getApplicationContext()));
     DFUChecker dfuChecker = new DummyDFUChecker<>(remoteDfuInfo, /* success= */true);
     FirmwareUpdateStateMachine fwStateMachine = new FirmwareUpdateStateMachine();
-    DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker, fwStateMachine);
-    AtomicReference<Throwable> atomicError = new AtomicReference<>();
     Signal<FirmwareUpdateState> signal = Signal.create();
-    signal.onError(atomicError::set);
+    DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
+        fwStateMachine, signal);
+    AtomicReference<Throwable> atomicError = new AtomicReference<>();
+    signal.filter(state -> state.getType().equals(FirmwareUpdateState.Type.ERROR))
+        .onNext(state -> {
+          atomicError.set(state.error());
+          countDownLatch.countDown();
+        });
 
     // Act
     fwStateMachine.getState().next(FirmwareUpdateState.ofIdle());
-    dfuManager.applyUpdates(Collections.emptyList(), false).forward(signal);
+    dfuManager.applyUpdates(Collections.emptyList(), false);
+    countDownLatch.await(5, TimeUnit.SECONDS);
 
     // Assert
     assertThat(atomicError.get()).isInstanceOf(IllegalStateException.class);
@@ -352,7 +369,7 @@ public class DfuManagerImplTest {
 
   @Test
   public void assignApplyUpdatesAutoExecuteFalse_actApplyFirmware_assertStateCorrect()
-      throws InterruptedException, FileNotFoundException {
+      throws InterruptedException, IOException {
 
     // Assign
     Signal<FirmwareUpdateState> signal = Signal.create();
@@ -377,7 +394,7 @@ public class DfuManagerImplTest {
         .createDownloadManager(file);
     FirmwareUpdateStateMachine fwStateMachine = new FirmwareUpdateStateMachine();
     DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
-        fwStateMachine);
+        fwStateMachine, signal);
 
     // Fake Connected Tag
     fakeJacquardManager.setState(ConnectionState
@@ -387,7 +404,6 @@ public class DfuManagerImplTest {
     List<FirmwareUpdateState> list = new ArrayList<>();
     CountDownLatch countDownLatch = new CountDownLatch(1);
     fwStateMachine.getState().distinctUntilChanged().onNext(state -> {
-      System.out.println("state: " + state);
       list.add(state);
       if (state.getType().equals(FirmwareUpdateState.Type.TRANSFER_PROGRESS)) {
         fakeTransport.setDfuWriteResponse(getDfuWriteResponse(43062, 4));
@@ -401,7 +417,7 @@ public class DfuManagerImplTest {
 
     // Act
     fwStateMachine.getState().next(FirmwareUpdateState.ofIdle());
-    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false).forward(signal);
+    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false);
     countDownLatch.await(5, TimeUnit.SECONDS);
 
     // Assert
@@ -415,12 +431,12 @@ public class DfuManagerImplTest {
 
   @Test
   public void assignApplyUpdatesAutoExecuteFalse_actApplyFirmware_stop()
-      throws InterruptedException, FileNotFoundException {
+      throws InterruptedException, IOException {
 
     // Assign
     Signal<FirmwareUpdateState> signal = Signal.create();
     Component component = FakeComponent.getGearComponent(/* componentId= */1);
-    RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
+        RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
         dfuStatus, downloadUrl.toString(), component.vendor().id(), component.product().id(),
         "");
     DFUInfo dfuInfo = DFUInfo.create(remoteDfuInfo);
@@ -440,7 +456,7 @@ public class DfuManagerImplTest {
         .createDownloadManager(file);
     FirmwareUpdateStateMachine fwStateMachine = new FirmwareUpdateStateMachine();
     DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
-        fwStateMachine);
+        fwStateMachine, signal);
 
     // Fake Connected Tag
     fakeJacquardManager.setState(ConnectionState
@@ -463,7 +479,7 @@ public class DfuManagerImplTest {
 
     // Act
     fwStateMachine.getState().next(FirmwareUpdateState.ofIdle());
-    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false).forward(signal);
+    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false);
     countDownLatch.await(5, TimeUnit.SECONDS);
 
     // Assert
@@ -477,12 +493,12 @@ public class DfuManagerImplTest {
 
   @Test
   public void assignApplyUpdatesAutoExecuteTrue_actApplyFirmware_assertStateCorrect()
-      throws InterruptedException, FileNotFoundException {
+      throws InterruptedException, IOException {
 
     // Assign
     Signal<FirmwareUpdateState> signal = Signal.create();
     Component component = FakeComponent.getGearComponent(/* componentId= */1);
-    RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
+        RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
         dfuStatus, downloadUrl.toString(), component.vendor().id(), component.product().id(),
         "");
     DFUInfo dfuInfo = DFUInfo.create(remoteDfuInfo);
@@ -502,7 +518,7 @@ public class DfuManagerImplTest {
         .createDownloadManager(file);
     FirmwareUpdateStateMachine fwStateMachine = new FirmwareUpdateStateMachine();
     DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
-        fwStateMachine);
+        fwStateMachine, signal);
 
     /* Fake Connected Tag*/
     fakeJacquardManager.setState(ConnectionState
@@ -512,7 +528,6 @@ public class DfuManagerImplTest {
     List<FirmwareUpdateState> list = new ArrayList<>();
     CountDownLatch countDownLatch = new CountDownLatch(1);
     fwStateMachine.getState().distinctUntilChanged().onNext(state -> {
-      System.out.println("state: " + state);
       list.add(state);
       if (state.getType().equals(FirmwareUpdateState.Type.TRANSFER_PROGRESS)) {
         fakeTransport.setDfuWriteResponse(getDfuWriteResponse(43062, 4));
@@ -530,7 +545,7 @@ public class DfuManagerImplTest {
 
     // Act
     fwStateMachine.getState().next(FirmwareUpdateState.ofIdle());
-    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), true).forward(signal);
+    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), true);
     countDownLatch.await(5, TimeUnit.SECONDS);
 
     // Assert
@@ -542,17 +557,16 @@ public class DfuManagerImplTest {
     assertThat(list.get(4).getType()).isEqualTo(FirmwareUpdateState.Type.TRANSFERRED);
     assertThat(list.get(5).getType()).isEqualTo(FirmwareUpdateState.Type.EXECUTING);
     assertThat(list.get(6).getType()).isEqualTo(FirmwareUpdateState.Type.COMPLETED);
-    assertThat(signal.isComplete()).isTrue();
   }
 
   @Test
   public void assignApplyModuleUpdates_actApplyFirmware_assertStateCorrect()
-      throws InterruptedException, FileNotFoundException {
+      throws InterruptedException, IOException {
 
     // Assign
     Signal<FirmwareUpdateState> signal = Signal.create();
     Component component = FakeComponent.getGearComponent(/* componentId= */1);
-    RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
+        RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
         dfuStatus, downloadUrl.toString(), component.vendor().id(), component.product().id(),
         moduleId);
     DFUInfo dfuInfo = DFUInfo.create(remoteDfuInfo);
@@ -572,7 +586,7 @@ public class DfuManagerImplTest {
         .createDownloadManager(file);
     FirmwareUpdateStateMachine fwStateMachine = new FirmwareUpdateStateMachine();
     DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
-        fwStateMachine);
+        fwStateMachine, signal);
 
     // Fake Connected Tag
     fakeJacquardManager.setState(ConnectionState
@@ -582,7 +596,6 @@ public class DfuManagerImplTest {
     List<FirmwareUpdateState> list = new ArrayList<>();
     CountDownLatch countDownLatch = new CountDownLatch(1);
     fwStateMachine.getState().distinctUntilChanged().onNext(state -> {
-      System.out.println("state: " + state);
       list.add(state);
       if (state.getType().equals(FirmwareUpdateState.Type.TRANSFER_PROGRESS)) {
         fakeTransport.setDfuWriteResponse(getDfuWriteResponse(43062, 4));
@@ -596,7 +609,7 @@ public class DfuManagerImplTest {
 
     // Act
     fwStateMachine.getState().next(FirmwareUpdateState.ofIdle());
-    dfuManager.applyModuleUpdate(dfuInfo).forward(signal);
+    dfuManager.applyModuleUpdate(dfuInfo);
     countDownLatch.await(5, TimeUnit.SECONDS);
 
     // Assert
@@ -607,17 +620,16 @@ public class DfuManagerImplTest {
     assertThat(list.get(3).getType()).isEqualTo(FirmwareUpdateState.Type.TRANSFER_PROGRESS);
     assertThat(list.get(4).getType()).isEqualTo(FirmwareUpdateState.Type.TRANSFERRED);
     assertThat(list.get(5).getType()).isEqualTo(FirmwareUpdateState.Type.COMPLETED);
-    assertThat(signal.isComplete()).isTrue();
   }
 
   @Test
   public void assignApplyUpdatesAutoExecuteFalse_actApplyFirmware_fileNotFound()
-      throws InterruptedException, FileNotFoundException {
+      throws InterruptedException, IOException {
 
     // Assign
     Signal<FirmwareUpdateState> signal = Signal.create();
     Component component = FakeComponent.getGearComponent(/* componentId= */1);
-    RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
+        RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
         dfuStatus, downloadUrl.toString(), component.vendor().id(), component.product().id(),
         "");
     DFUInfo dfuInfo = DFUInfo.create(remoteDfuInfo);
@@ -637,7 +649,7 @@ public class DfuManagerImplTest {
         .createDownloadManager(file);
     FirmwareUpdateStateMachine fwStateMachine = new FirmwareUpdateStateMachine();
     DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
-        fwStateMachine);
+        fwStateMachine, signal);
 
     // Fake Connected Tag
     fakeJacquardManager.setState(ConnectionState
@@ -656,7 +668,7 @@ public class DfuManagerImplTest {
 
     // Act
     fwStateMachine.getState().next(FirmwareUpdateState.ofIdle());
-    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false).forward(signal);
+    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false);
     countDownLatch.await(5, TimeUnit.SECONDS);
 
     // Assert
@@ -669,7 +681,7 @@ public class DfuManagerImplTest {
 
   @Test
   public void assignExecuteFirmwareTag_actExecuteFirmware_assertCorrect()
-      throws FileNotFoundException, InterruptedException {
+      throws IOException, InterruptedException {
 
     // Assign
     CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -692,18 +704,18 @@ public class DfuManagerImplTest {
     fakeTransport.setDfuWriteResponse(getDfuWriteResponse(43062, 4));
 
     // DfuManager
+    Signal<FirmwareUpdateState> signal = Signal.create();
     DFUChecker dfuChecker = new DummyDFUChecker<>(remoteDfuInfo, /* success= */true)
         .createDownloadManager(file);
     FirmwareUpdateStateMachine fwStateMachine = new FirmwareUpdateStateMachine();
     DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
-        fwStateMachine);
+        fwStateMachine, signal);
 
     // Fake Connected Tag
     fakeJacquardManager.setState(ConnectionState
         .ofConnected(ConnectedJacquardTagInitialization.createConnectedJacquardTag(fakeTransport,
             getDeviceInfo(), dfuManager)));
 
-    Signal<FirmwareUpdateState> signal = Signal.create();
     List<FirmwareUpdateState> list = new ArrayList<>();
     fwStateMachine.getState().distinctUntilChanged().filter(
         state -> state.getType().equals(FirmwareUpdateState.Type.EXECUTING) || state.getType()
@@ -719,8 +731,13 @@ public class DfuManagerImplTest {
 
     // Act
     fwStateMachine.getState().next(FirmwareUpdateState.ofIdle());
-    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false)
-        .flatMap(state -> dfuManager.executeUpdates()).forward(signal);
+    signal.first().onNext(state -> {
+      if (state.getType().equals(FirmwareUpdateState.Type.TRANSFERRED)) {
+        dfuManager.executeUpdates();
+      }
+    });
+    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false);
+
 
     countDownLatch.await(/* timeout= */5, TimeUnit.SECONDS);
 
@@ -732,12 +749,12 @@ public class DfuManagerImplTest {
 
   @Test
   public void assignExecuteFirmware_actNonTransferredState_assertError()
-      throws FileNotFoundException, InterruptedException {
+      throws IOException, InterruptedException {
 
     // Assign
     CountDownLatch countDownLatch = new CountDownLatch(1);
     Component component = FakeComponent.getGearComponent(/* componentId= */1);
-    RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
+        RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
         dfuStatus, downloadUrl.toString(), component.vendor().id(), component.product().id(),
         "");
     DFUInfo dfuInfo = DFUInfo.create(remoteDfuInfo);
@@ -748,21 +765,22 @@ public class DfuManagerImplTest {
     File file = createFile("abcd", cacheRepository, dfuInfo);
 
     // DfuManager
+    Signal<FirmwareUpdateState> signal = Signal.create();
     DFUChecker dfuChecker = new DummyDFUChecker<>(remoteDfuInfo, /* success= */true)
         .createDownloadManager(file);
     FirmwareUpdateStateMachine fwStateMachine = new FirmwareUpdateStateMachine();
     DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
-        fwStateMachine);
+        fwStateMachine, signal);
     AtomicReference<Throwable> atomicReference = new AtomicReference<>();
-    Signal<FirmwareUpdateState> signal = Signal.create();
-    signal.onError(error -> {
-      countDownLatch.countDown();
-      atomicReference.set(error);
-    });
+    signal.filter(state -> state.getType().equals(FirmwareUpdateState.Type.ERROR))
+        .onNext(state -> {
+          countDownLatch.countDown();
+          atomicReference.set(state.error());
+        });
 
     // Act
     fwStateMachine.getState().next(FirmwareUpdateState.ofIdle());
-    dfuManager.executeUpdates().forward(signal);
+    dfuManager.executeUpdates();
     countDownLatch.await(2, TimeUnit.SECONDS);
 
     // Assert
@@ -771,13 +789,13 @@ public class DfuManagerImplTest {
 
   @Test
   public void assignApplyFirmware_actUpdateNotAvailable_assertStopStateMachine()
-      throws FileNotFoundException {
+      throws IOException {
 
     // Assign
     AtomicReference<Throwable> atomicReference = new AtomicReference<>();
     Signal<FirmwareUpdateState> signal = Signal.create();
     Component component = FakeComponent.getGearComponent(/* componentId= */1);
-    RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
+        RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
         UpgradeStatus.NOT_AVAILABLE.toString(), downloadUrl.toString(), component.vendor().id(),
         component.product().id(),
         "");
@@ -798,7 +816,7 @@ public class DfuManagerImplTest {
         .createDownloadManager(file);
     FirmwareUpdateStateMachine fwStateMachine = new FirmwareUpdateStateMachine();
     DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
-        fwStateMachine);
+        fwStateMachine, signal);
     fwStateMachine.getState().filter(state -> state.getType() == FirmwareUpdateState.Type.ERROR)
         .onNext(state -> atomicReference.set(state.error()));
 
@@ -809,7 +827,7 @@ public class DfuManagerImplTest {
 
     // Act
     fwStateMachine.getState().next(FirmwareUpdateState.ofIdle());
-    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false).forward(signal);
+    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false);
 
     // Assert
     assertThat(atomicReference.get()).isInstanceOf(UpdatedFirmwareNotFoundException.class);
@@ -818,14 +836,14 @@ public class DfuManagerImplTest {
 
   @Test
   public void assignApplyFirmware_actIsufficientBattery_assertError()
-      throws FileNotFoundException {
+      throws IOException {
 
     // Assign
     AtomicReference<Throwable> atomicReference = new AtomicReference<>();
     Signal<FirmwareUpdateState> signal = Signal.create();
     final PlatformSettings SETTINGS = new PlatformSettings();
     Component component = FakeComponent.getGearComponent(/* componentId= */1);
-    RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
+        RemoteDfuInfo remoteDfuInfo = RemoteDfuInfo.create(version,
         dfuStatus, downloadUrl.toString(), component.vendor().id(),
         component.product().id(),
         "");
@@ -846,7 +864,7 @@ public class DfuManagerImplTest {
         .createDownloadManager(file);
     FirmwareUpdateStateMachine fwStateMachine = new FirmwareUpdateStateMachine();
     DfuManagerImpl dfuManager = new DfuManagerImpl(PERIPHERAL_IDENTIFIER, dfuChecker,
-        fwStateMachine);
+        fwStateMachine, signal);
     fwStateMachine.getState().filter(state -> state.getType() == FirmwareUpdateState.Type.ERROR)
         .onNext(state -> atomicReference.set(state.error()));
 
@@ -857,7 +875,7 @@ public class DfuManagerImplTest {
 
     // Act
     fwStateMachine.getState().next(FirmwareUpdateState.ofIdle());
-    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false).forward(signal);
+    dfuManager.applyUpdates(Collections.singletonList(dfuInfo), false);
 
     // Assert
     assertThat(atomicReference.get()).isInstanceOf(InsufficientBatteryException.class);
@@ -867,14 +885,15 @@ public class DfuManagerImplTest {
 
   }
 
-  private File createFile(String data, CacheRepository cacheRepository, DFUInfo dfuInfo) {
+  private File createFile(String data, CacheRepository cacheRepository, DFUInfo dfuInfo)
+      throws IOException {
     byte[] outBytes = data.getBytes(StandardCharsets.UTF_8);
     InputStream in = new ByteArrayInputStream(outBytes);
     File file = new File(/* pathname= */
         cacheRepository.createParentDir(context.getFilesDir() + File.separator + "DfuImages")
             + File.separator +
             cacheRepository.descriptorFileName(dfuInfo));
-    DfuUtil.inputStreamToFile(in, file).consume();
+    DfuUtil.inputStreamToFile(in, file, in.available()).consume();
     return file;
   }
 
@@ -888,19 +907,11 @@ public class DfuManagerImplTest {
         ProtocolSpec.VERSION_2.getMtuSize());
     FakeTransportState transportState = new FakeTransportState(commandFragmenter,
         notificationFragmenter, dataFragmenter);
-    RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics(
-        null, null, null, null, null);
+    RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics();
     FakeTransportImpl transport = new FakeTransportImpl(peripheral, requiredCharacteristics,
         transportState);
     transport.setBatteryLevel(batteryLevel);
     return transport;
-  }
-
-  private DFUStatusResponse getDfuStatusResponse(int currentCrc, int currentSize, int finalCrc,
-      int finalSize) {
-    return DFUStatusResponse.newBuilder().setFinalSize(finalSize)
-        .setFinalCrc(finalCrc).setCurrentSize(currentSize).setComponent(Component.TAG_ID)
-        .setCurrentCrc(currentCrc).build();
   }
 
   private DFUWriteResponse getDfuWriteResponse(int crc, int offSet) {

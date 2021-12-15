@@ -18,7 +18,6 @@ package com.google.android.jacquard.sdk.pairing;
 import static com.google.android.jacquard.sdk.pairing.TagPairingState.Type.BLUETOOTH_CONNECTED;
 import static com.google.android.jacquard.sdk.pairing.TagPairingState.Type.DISCONNECTED;
 
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import com.google.android.jacquard.sdk.ConnectState;
 import com.google.android.jacquard.sdk.StateMachine;
@@ -119,8 +118,8 @@ public class TagPairingStateMachine implements StateMachine<TagPairingState, Con
     if (state.getType() != TagPairingState.Type.AWAITING_NOTIFICATION_UPDATES) {
       return;
     }
+    
     PrintLogger.d(TAG, "onNotificationStateUpdatedEvent enter");
-
     // Wait until we have callbacks for all the characteristic.
     if (--stateMachineContext.expectedCharacteristicUpdates > 0) {
       PrintLogger.d(TAG,
@@ -129,15 +128,8 @@ public class TagPairingStateMachine implements StateMachine<TagPairingState, Con
     }
     PrintLogger.d(TAG, "onNotificationStateUpdatedEvent: complete");
 
-    RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics(
-        stateMachineContext.commandCharacteristic,
-        stateMachineContext.responseCharacteristic,
-        stateMachineContext.notifyCharacteristic,
-        stateMachineContext.batteryCharacteristic,
-        stateMachineContext.rawCharacteristic);
-
     updateState(TagPairingState.ofTagPaired(event.notificationStateUpdated().peripheral(),
-        requiredCharacteristics));
+        stateMachineContext.requiredCharacteristics));
   }
 
   /**
@@ -178,35 +170,43 @@ public class TagPairingStateMachine implements StateMachine<TagPairingState, Con
       UUID uuid = service.getUuid();
       if (BluetoothSig.SERVICE_BATTERY_SERVICE.equals(uuid)) {
         stateMachineContext.batteryService = service;
-        stateMachineContext.batteryCharacteristic = stateMachineContext.batteryService
+        stateMachineContext.requiredCharacteristics.batteryCharacteristic = stateMachineContext.batteryService
             .getCharacteristic(BluetoothSig.CHARACTERISTIC_BATTERY_LEVEL);
-        peripheral.readCharacteristic(stateMachineContext.batteryCharacteristic);
-        peripheral.enableNotification(stateMachineContext.batteryCharacteristic, true);
+        peripheral
+            .readCharacteristic(stateMachineContext.requiredCharacteristics.batteryCharacteristic);
+        peripheral
+            .enableNotification(stateMachineContext.requiredCharacteristics.batteryCharacteristic,
+                true);
       }
       if (BluetoothSig.SERVICE_GENERIC_ACCESS.equals(uuid)) {
         stateMachineContext.genericAccess = service;
-        stateMachineContext.deviceNameCharacteristic = stateMachineContext.genericAccess
+        stateMachineContext.requiredCharacteristics.deviceNameCharacteristic = stateMachineContext.genericAccess
             .getCharacteristic(BluetoothSig.CHARACTERISTIC_GAP_DEVICE_NAME);
-        peripheral.readCharacteristic(stateMachineContext.deviceNameCharacteristic);
+        peripheral.readCharacteristic(stateMachineContext.requiredCharacteristics.deviceNameCharacteristic);
       }
     }
 
     // Negotiate JQ Device
     BluetoothGattService jqService = event.servicesDiscovered().peripheral().getJacquardService();
 
-    stateMachineContext.responseCharacteristic = jqService
+    stateMachineContext.requiredCharacteristics.responseCharacteristic = jqService
         .getCharacteristic(BluetoothSig.JQ_CHARACTERISTIC_RESPONSE);
-    peripheral.enableNotification(stateMachineContext.responseCharacteristic, true);
+    peripheral
+        .enableNotification(stateMachineContext.requiredCharacteristics.responseCharacteristic,
+            true);
 
-    stateMachineContext.notifyCharacteristic = jqService
+    stateMachineContext.requiredCharacteristics.notifyCharacteristic = jqService
         .getCharacteristic(BluetoothSig.JQ_CHARACTERISTIC_NOTIFICATION);
-    peripheral.enableNotification(stateMachineContext.notifyCharacteristic, true);
+    peripheral
+        .enableNotification(stateMachineContext.requiredCharacteristics.notifyCharacteristic, true);
 
-    stateMachineContext.commandCharacteristic = jqService
+    stateMachineContext.requiredCharacteristics.commandCharacteristic = jqService
         .getCharacteristic(BluetoothSig.JQ_CHARACTERISTIC_COMMAND);
 
-    stateMachineContext.rawCharacteristic = jqService.getCharacteristic(BluetoothSig.JQ_RAW_CHARACTERISTIC);
-    peripheral.enableNotification(stateMachineContext.rawCharacteristic, true);
+    stateMachineContext.requiredCharacteristics.rawCharacteristic = jqService
+        .getCharacteristic(BluetoothSig.JQ_RAW_CHARACTERISTIC);
+    peripheral
+        .enableNotification(stateMachineContext.requiredCharacteristics.rawCharacteristic, true);
   }
 
   /**
@@ -243,16 +243,10 @@ public class TagPairingStateMachine implements StateMachine<TagPairingState, Con
   /** Class holding the inner state of the state machine. */
   private static class StateMachineContext {
 
-    // TODO(b/201270651): Keep track of the callback required until we can proceed. Can we find a better way?
-    int expectedCharacteristicUpdates = 6;
+    int expectedCharacteristicUpdates = RequiredCharacteristics.class.getDeclaredFields().length;
 
     BluetoothGattService batteryService;
     BluetoothGattService genericAccess;
-    BluetoothGattCharacteristic deviceNameCharacteristic;
-    BluetoothGattCharacteristic commandCharacteristic;
-    BluetoothGattCharacteristic responseCharacteristic;
-    BluetoothGattCharacteristic notifyCharacteristic;
-    BluetoothGattCharacteristic batteryCharacteristic;
-    BluetoothGattCharacteristic rawCharacteristic;
+    RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics();
   }
 }

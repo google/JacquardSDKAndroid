@@ -30,12 +30,8 @@ import com.google.android.jacquard.sdk.ConnectState.Type;
 import com.google.android.jacquard.sdk.FakeConnectState;
 import com.google.android.jacquard.sdk.JacquardManager;
 import com.google.android.jacquard.sdk.JacquardManagerInitialization;
-import com.google.android.jacquard.sdk.command.DeviceInfo;
-import com.google.android.jacquard.sdk.command.FakeComponent;
 import com.google.android.jacquard.sdk.datastore.DataProvider;
 import com.google.android.jacquard.sdk.initialization.FakeProtocolInitializationStateMachine;
-import com.google.android.jacquard.sdk.initialization.FakeTransportImpl;
-import com.google.android.jacquard.sdk.initialization.FakeTransportState;
 import com.google.android.jacquard.sdk.initialization.InitializationState;
 import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.model.CharacteristicUpdate;
@@ -43,8 +39,6 @@ import com.google.android.jacquard.sdk.model.FakePeripheral;
 import com.google.android.jacquard.sdk.model.JacquardError;
 import com.google.android.jacquard.sdk.model.Product;
 import com.google.android.jacquard.sdk.model.Product.Capability;
-import com.google.android.jacquard.sdk.model.Progress;
-import com.google.android.jacquard.sdk.model.ProtocolSpec;
 import com.google.android.jacquard.sdk.model.SdkConfig;
 import com.google.android.jacquard.sdk.model.Vendor;
 import com.google.android.jacquard.sdk.pairing.FakeTagPairingStateMachine;
@@ -52,9 +46,6 @@ import com.google.android.jacquard.sdk.pairing.RequiredCharacteristics;
 import com.google.android.jacquard.sdk.pairing.TagPairingState;
 import com.google.android.jacquard.sdk.tag.ConnectedJacquardTag;
 import com.google.android.jacquard.sdk.tag.JacquardTagFactory;
-import com.google.android.jacquard.sdk.util.FakeFragmenter;
-import com.google.android.jacquard.sdk.util.StringUtils;
-import com.google.atap.jacquard.protocol.JacquardProtocol.DeviceInfoResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +79,7 @@ public final class TagConnectionStateMachineTest {
   public void setup() {
     PrintLogger.initialize(ApplicationProvider.getApplicationContext());
     JacquardManagerInitialization.initJacquardManager();
-    DataProvider.create(getVendors(), StringUtils.getInstance());
+    DataProvider.create(getVendors());
     connectionStateMachine = new TagConnectionStateMachine(/* device= */null, this::doConnect);
     connectionStateMachine.getState().onNext(state -> connectionState = state);
   }
@@ -121,7 +112,7 @@ public final class TagConnectionStateMachineTest {
     connectionStateMachine.connect();
     // Assert
     assertThat(connectionState.getType())
-        .isEqualTo(ConnectionState.ofConnecting(Progress.of(TOTAL_STEPS)).getType());
+        .isEqualTo(ConnectionState.ofConnecting().getType());
   }
 
   @Test
@@ -134,7 +125,7 @@ public final class TagConnectionStateMachineTest {
     connectionStateMachine.connect();
     // Assert
     assertThat(connectionState.getType())
-        .isEqualTo(ConnectionState.ofConnecting(Progress.of(TOTAL_STEPS)).getType());
+        .isEqualTo(ConnectionState.ofConnecting().getType());
   }
 
   @Test
@@ -147,7 +138,7 @@ public final class TagConnectionStateMachineTest {
     connectionStateMachine.connect(tagPairingStateMachine);
     // Assert
     assertThat(connectionState.getType())
-        .isEqualTo(ConnectionState.ofInitializing(Progress.of(TOTAL_STEPS)).getType());
+        .isEqualTo(ConnectionState.ofInitializing().getType());
   }
 
   @Test
@@ -181,7 +172,7 @@ public final class TagConnectionStateMachineTest {
     connectionStateMachine.connect(tagPairingStateMachine);
     // Assert
     assertThat(connectionState.getType())
-        .isEqualTo(ConnectionState.Type.PREPARING_TO_CONNECT);
+        .isEqualTo(ConnectionState.Type.CONNECTED);
   }
 
   @Test
@@ -191,7 +182,8 @@ public final class TagConnectionStateMachineTest {
     final String CLIENT_ID = "aa-aa-aa-aa";
     final String API_KEY = "api key";
     JacquardManagerInitialization.initJacquardManager();
-    JacquardManager.getInstance().init(SdkConfig.of(CLIENT_ID, API_KEY));
+    JacquardManager.getInstance()
+        .init(SdkConfig.of(CLIENT_ID, API_KEY, /* cloudEndpointUrl= */ null));
     onTagPairingStateServiceDiscovered();
     connectionStateMachine.connect(tagPairingStateMachine);
     onTagPairingStateCharacteristicUpdated();
@@ -285,9 +277,7 @@ public final class TagConnectionStateMachineTest {
     connectState.setType(Type.CHARACTERISTIC_UPDATED);
     connectState.setCharacteristicUpdate(characteristicUpdate);
     tagPairingStateMachine.setTagPairingState(TagPairingState
-        .ofTagPaired(peripheral, new RequiredCharacteristics(/* commandCharacteristic= */
-            null, /* responseCharacteristic= */null,  /* notifyCharacteristic= */
-            null,  /* batteryCharacteristic= */null, /* rawCharacteristic= */null)));
+        .ofTagPaired(peripheral, new RequiredCharacteristics()));
   }
 
   /**

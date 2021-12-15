@@ -29,11 +29,11 @@ public class FakeImuModule {
   private static final String IMU_MODULE_ID = "3d-0b-e7-53";
   private static StringUtils stringUtils = StringUtils.getInstance();
 
-  public static ModuleDescriptor getModuleDescriptor() {
+  public static ModuleDescriptor getModuleDescriptor(boolean isActive) {
     return ModuleDescriptor.newBuilder().setVendorId(stringUtils.hexStringToInteger(IMU_VENDOR_ID))
         .setProductId(stringUtils.hexStringToInteger(IMU_PRODUCT_ID))
         .setModuleId(stringUtils.hexStringToInteger(IMU_MODULE_ID))
-        .setIsEnabled(false)
+        .setIsEnabled(isActive)
         .setName("IMU Loadable Module")
         .build();
   }

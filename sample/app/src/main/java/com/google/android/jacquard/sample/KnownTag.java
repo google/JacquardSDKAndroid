@@ -17,26 +17,24 @@
 package com.google.android.jacquard.sample;
 
 import androidx.annotation.Nullable;
-
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.tag.AdvertisedJacquardTag;
 import com.google.android.jacquard.sdk.tag.JacquardTag;
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
-
 import io.sweers.autotransient.AutoTransient;
 
 /** Class representing a known tag. */
 @AutoValue
 public abstract class KnownTag implements JacquardTag {
 
-  public static AutoValue_KnownTag of(String identifier, String displayName, String pairingSerialNumber, Signal<Integer> rssiValue) {
+  public static KnownTag of(String identifier, String displayName, String pairingSerialNumber, Signal<Integer> rssiValue) {
     return new AutoValue_KnownTag(identifier, displayName, pairingSerialNumber, rssiValue);
   }
 
   public static KnownTag of(AdvertisedJacquardTag tag) {
-    return of(tag.identifier(), tag.displayName(), tag.pairingSerialNumber(), tag.rssiSignal());
+    return of(tag.address(), tag.displayName(), tag.pairingSerialNumber(), tag.rssiSignal());
   }
 
   public static TypeAdapter<KnownTag> typeAdapter(Gson gson) {
@@ -44,7 +42,7 @@ public abstract class KnownTag implements JacquardTag {
   }
 
   @Override
-  public abstract String identifier();
+  public abstract String address();
 
   @Override
   public abstract String displayName();

@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
 import com.google.android.jacquard.sample.ConnectivityManager;
+import com.google.android.jacquard.sample.Preferences;
 import com.google.android.jacquard.sdk.connection.ConnectionState;
 import com.google.android.jacquard.sdk.dfu.DFUInfo;
 import com.google.android.jacquard.sdk.dfu.FirmwareUpdateState;
@@ -39,21 +40,24 @@ public class FirmwareUpdateViewModel extends ViewModel {
 
   private static final String TAG = FirmwareUpdateViewModel.class.getSimpleName();
 
-  private final FirmwareManager firmwareManager;
   private final NavController navController;
   private final ConnectivityManager connectivityManager;
-  private List<DFUInfo> dfuInfoList;
+  private final Preferences preferences;
   private Subscription connectionStateSub;
+  private FirmwareManager firmwareManager;
+
   /**
    * Signal State for {@link FirmwareUpdateViewModel}
    */
   public Signal<State> stateSignal = Signal.create();
 
   public FirmwareUpdateViewModel(FirmwareManager firmwareManager, NavController navController,
-      ConnectivityManager connectivityManager) {
-    this.firmwareManager = firmwareManager;
+      ConnectivityManager connectivityManager,
+      Preferences preferences) {
     this.navController = navController;
     this.connectivityManager = connectivityManager;
+    this.preferences = preferences;
+    this.firmwareManager = firmwareManager;
   }
 
   /**
@@ -146,24 +150,25 @@ public class FirmwareUpdateViewModel extends ViewModel {
 
   /** Check for firmware updated of current connect tag. */
   public Signal<List<DFUInfo>> checkFirmware(boolean forceUpdate) {
-    return firmwareManager.checkFirmware(forceUpdate)
-        .tap(dfuInfos -> {
-          PrintLogger.d(TAG, "checkFirmware result : " + dfuInfos);
-          dfuInfoList = dfuInfos;
-        })
-        .tapError(error -> PrintLogger.d(TAG, "checkFirmware error : " + error.getMessage()));
+    return firmwareManager.checkFirmware(preferences.getCurrentTag().address(), forceUpdate);
   }
 
   /** apply firmware updated of current connect tag. */
   public Signal<FirmwareUpdateState> applyFirmware(boolean autoExecute) {
-    return firmwareManager.applyFirmware(dfuInfoList, autoExecute).distinctUntilChanged()
-        .tap(status -> PrintLogger.d(TAG, "applyFirmware response = " + status))
-        .tapError(error -> PrintLogger.d(TAG, "applyFirmware error = " + error.getMessage()));
+    preferences.autoUpdateFlag(autoExecute);
+    return firmwareManager.applyFirmware(preferences.getCurrentTag().address(), autoExecute);
   }
 
   /** execute firmware updated of current connect tag. */
   public Signal<FirmwareUpdateState> executeFirmware() {
-    return firmwareManager.executeFirmware();
+    return firmwareManager.executeFirmware(preferences.getCurrentTag().address());
+  }
+
+  public Signal<FirmwareUpdateState> getState() {
+    if (preferences.getCurrentTag() == null) {
+      return Signal.empty();
+    }
+    return firmwareManager.getState(preferences.getCurrentTag().address());
   }
 
   /** Called when the back arrow in the toolbar is clicked. */
@@ -182,7 +187,8 @@ public class FirmwareUpdateViewModel extends ViewModel {
 
   private void subscribeConnectionState() {
     connectionStateSub =
-        connectivityManager.getConnectionStateSignal().distinctUntilChanged()
+        connectivityManager.getConnectionStateSignal(preferences.getCurrentTag().address())
+            .distinctUntilChanged()
             .observe(
                 new ObservesNext<ConnectionState>() {
                   @Override
@@ -215,5 +221,17 @@ public class FirmwareUpdateViewModel extends ViewModel {
    */
   public Signal<Notification> getGearNotifications(ConnectedJacquardTag tag) {
     return tag.getConnectedGearSignal().map(Notification::ofGear);
+  }
+
+  public void saveAlmostReadyShown() {
+    preferences.almostReadyDialogShown(/* isShown= */true);
+  }
+
+  public boolean isAlmostReadyShown() {
+    return preferences.isAlmostReadyDialogShown();
+  }
+
+  public boolean isAutoUpdateChecked() {
+    return preferences.isAutoUpdate();
   }
 }

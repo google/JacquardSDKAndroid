@@ -62,6 +62,7 @@ import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.rx.Signal.Subscription;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionMode;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionStatus;
 import java.io.File;
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class IMUFragment extends Fragment implements OnClickListener {
   private LinearLayout pastSessionSection;
   private Signal<Pair<Action, JqSessionInfo>> adapterActionSignal;
   private Subscription downloadSubscription;
-  private List<Subscription> subscriptions = new ArrayList<>();
+  private final List<Subscription> subscriptions = new ArrayList<>();
   private Observer<List<JqSessionInfo>> sessionListObserver;
   private TextView progressMessage;
   private TextView sessionTimer;
@@ -125,23 +126,41 @@ public class IMUFragment extends Fragment implements OnClickListener {
           setUpSessionsList(getView());
           return imuViewModel.getDataCollectionStatus();
         }).first()
-        .observe(dcstatus -> {
-          PrintLogger.d(TAG, "Module init done in fragment # " + dcstatus);
-          updateCurrentSession(dcstatus);
-          updateSessionButtons(dcstatus);
-          updateMenus();
-          if (!dcstatus.equals(DataCollectionStatus.DATA_COLLECTION_LOGGING)) {
-            observeUjtSessionList();
-          } else {
-            hideProgress();
-            populateLocalSessionList();
-          }
-        }, error -> {
-          if (error != null) {
-            onFatalError(error instanceof TimeoutException ? getString(R.string.tag_disconnected)
+        .observe(dcstatus -> populateUi(dcstatus),
+            error -> {
+              if (error != null) {
+                onFatalError(
+                    error instanceof TimeoutException ? getString(R.string.tag_disconnected)
+                        : error.getMessage());
+              }
+            }));
+  }
+
+  private void populateUi(DataCollectionStatus dcstatus) {
+    PrintLogger.d(TAG, "Module init done in fragment # " + dcstatus);
+    imuViewModel.getDataCollectionMode().observe(dcMode -> {
+      PrintLogger.d(TAG, "DataCollection Mode # " + dcMode);
+      if (dcMode == null || DataCollectionMode.DATA_COLLECTION_MODE_STORE
+          .equals(dcMode) || !dcstatus.equals(DataCollectionStatus.DATA_COLLECTION_LOGGING)) {
+        updateCurrentSession(dcstatus);
+        updateSessionButtons(dcstatus);
+        updateMenus();
+        if (!dcstatus.equals(DataCollectionStatus.DATA_COLLECTION_LOGGING)) {
+          observeUjtSessionList();
+        } else {
+          hideProgress();
+          populateLocalSessionList();
+        }
+      } else {
+        onFatalError("Ujt is collecting IMU Samples in " + dcMode);
+      }
+    }, error -> {
+      if (error != null) {
+        onFatalError(
+            error instanceof TimeoutException ? getString(R.string.tag_disconnected)
                 : error.getMessage());
-          }
-        }));
+      }
+    });
   }
 
   private void observeUjtSessionList() {
@@ -246,17 +265,18 @@ public class IMUFragment extends Fragment implements OnClickListener {
     currentSessionView.setVisibility(View.VISIBLE);
     TextView sessionId = currentSessionView.findViewById(R.id.session_id);
     sessionTimer = currentSessionView.findViewById(R.id.session_timer);
-    String session = imuViewModel.getCurrentSessionId();
-    PrintLogger.d(TAG, "Current Session Id # " + session);
-    sessionId.setText(session);
-    currentSessionTimer = new Timer();
-    currentSessionTimer.scheduleAtFixedRate(new TimerTask() {
-      @Override
-      public void run() {
-        sessionTimer.setText(DateUtils.formatElapsedTime(
-            System.currentTimeMillis() / 1000 - Long.parseLong(session)));
-      }
-    }, 0, 1000);
+    imuViewModel.getCurrentSessionId().onNext(session -> {
+      PrintLogger.d(TAG, "Current Session Id # " + session);
+      sessionId.setText(session);
+      currentSessionTimer = new Timer();
+      currentSessionTimer.scheduleAtFixedRate(new TimerTask() {
+        @Override
+        public void run() {
+          sessionTimer.setText(DateUtils.formatElapsedTime(
+              System.currentTimeMillis() / 1000 - Long.parseLong(session)));
+        }
+      }, 0, 1000);
+    });
   }
 
   private void stopCurrentSessionTimer() {
@@ -571,7 +591,7 @@ public class IMUFragment extends Fragment implements OnClickListener {
 
   private void onFatalError(String message) {
     Util.showSnackBar(getView(), message);
-    Signal.from(1).delay(1000).onNext(ignore -> imuViewModel.backKeyPressed());
+    subscriptions.add(Signal.from(1).delay(1000).onNext(ignore -> imuViewModel.backKeyPressed()));
   }
 
   private void handleError(Throwable error) {
@@ -616,9 +636,11 @@ public class IMUFragment extends Fragment implements OnClickListener {
   }
 
   private void showProgress() {
-    updateProgressMessage(getString(R.string.please_wait));
-    changeStatusBarColor(R.color.progress_overlay);
-    progressLayout.setVisibility(View.VISIBLE);
+    if (isAdded()) {
+      updateProgressMessage(getString(R.string.please_wait));
+      changeStatusBarColor(R.color.progress_overlay);
+      progressLayout.setVisibility(View.VISIBLE);
+    }
   }
 
   private void updateProgressMessage(String message) {
@@ -627,8 +649,10 @@ public class IMUFragment extends Fragment implements OnClickListener {
 
   private void hideProgress() {
     PrintLogger.d(TAG, "Hide Progress # ");
-    changeStatusBarColor(R.color.white);
-    progressLayout.setVisibility(View.GONE);
+    if (isAdded()) {
+      changeStatusBarColor(R.color.white);
+      progressLayout.setVisibility(View.GONE);
+    }
   }
 
   private void showDownloadSnackbar(String sessionId) {

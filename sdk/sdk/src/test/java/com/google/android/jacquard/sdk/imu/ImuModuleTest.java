@@ -32,7 +32,9 @@ import com.google.android.jacquard.sdk.imu.parser.ImuSessionData.ImuSampleCollec
 import com.google.android.jacquard.sdk.model.FakeDCTrialListNotification;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.rx.Signal.Subscription;
+import com.google.android.jacquard.sdk.tag.ConnectedJacquardTag;
 import com.google.android.jacquard.sdk.tag.JacquardTagFactory;
+import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionMode;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionStatus;
 import com.google.atap.jacquard.protocol.JacquardProtocol.ImuSample;
 import java.io.File;
@@ -45,6 +47,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,29 +64,54 @@ public class ImuModuleTest {
   private static final int TARGET_IMU_SESSION_SIZE = 2900;
 
   private ImuModule imuModule;
+  private Subscription subscription;
+  private ConnectedJacquardTag jacquardTag;
 
   @Before
   public void setup() {
     JacquardManagerInitialization.initJacquardManager(new FakeJacquardManagerImpl(
         ApplicationProvider.getApplicationContext()));
-    imuModule = new ImuModule(JacquardTagFactory.createConnectedJacquardTag());
+    jacquardTag = JacquardTagFactory.createConnectedJacquardTag();
+    imuModule = new ImuModule(jacquardTag);
+  }
+
+  @After
+  public void release() {
+    stop();
+    if (subscription != null) {
+      subscription.unsubscribe();
+    }
   }
 
   @Test
   public void testInitialize() throws InterruptedException {
     CountDownLatch latch = new CountDownLatch(1);
-    initialize().onNext(initDone -> latch.countDown());
+    subscription = initialize().onNext(initDone -> latch.countDown());
     boolean countReached = latch.await(2, TimeUnit.SECONDS);
     assertThat(countReached).isTrue();
   }
 
   @Test
+  public void testInitializeActiveModule() {
+    JacquardManagerInitialization.initJacquardManager(new FakeJacquardManagerImpl(
+        ApplicationProvider.getApplicationContext(), true, true));
+    ImuModule imuModule = new ImuModule(JacquardTagFactory.createConnectedJacquardTag(true, true));
+    List<InitState> states = new ArrayList<>();
+    subscription = imuModule.initialize().onNext(state -> states.add(state));
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
+    assertThat(states.size()).isEqualTo(2);
+    assertThat(states.get(0).getType()).isEqualTo(Type.INIT);
+    assertThat(states.get(1).getType()).isEqualTo(Type.INITIALIZED);
+  }
+
+  @Test
   public void testInitializeDfu() {
     JacquardManagerInitialization.initJacquardManager(new FakeJacquardManagerImpl(
-        ApplicationProvider.getApplicationContext(), false));
-    ImuModule imuModule = new ImuModule(JacquardTagFactory.createConnectedJacquardTag(false));
+        ApplicationProvider.getApplicationContext(), false, false));
+    ImuModule imuModule = new ImuModule(
+        JacquardTagFactory.createConnectedJacquardTag(false, false));
     List<InitState> states = new ArrayList<>();
-    imuModule.initialize().onNext(state -> states.add(state));
+    subscription = imuModule.initialize().onNext(state -> states.add(state));
     shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(3));
     assertThat(states.size()).isEqualTo(7);
     assertThat(states.get(0).getType()).isEqualTo(Type.INIT);
@@ -98,7 +126,7 @@ public class ImuModuleTest {
   @Test
   public void testStartImuSession() throws InterruptedException {
     CountDownLatch latch = new CountDownLatch(1);
-    initialize().flatMap(ignore -> imuModule.startImuSession())
+    subscription = initialize().flatMap(ignore -> imuModule.startImuSession())
         .filter(id -> !TextUtils.isEmpty(id))
         .onNext(initDone -> latch.countDown());
     boolean countReached = latch.await(2, TimeUnit.SECONDS);
@@ -108,7 +136,7 @@ public class ImuModuleTest {
   @Test
   public void testStopImuSession() {
     AtomicBoolean result = new AtomicBoolean();
-    initialize().flatMap(ignore -> imuModule.stopImuSession())
+    subscription = initialize().flatMap(ignore -> imuModule.stopImuSession())
         .filter(stopped -> stopped)
         .onNext(initDone -> result.set(true));
     shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
@@ -116,9 +144,21 @@ public class ImuModuleTest {
   }
 
   @Test
+  public void testGetImuSessionId() throws InterruptedException {
+    CountDownLatch latch = new CountDownLatch(1);
+    subscription = initialize().flatMap(ignore -> imuModule.startImuSession())
+        .filter(id -> !TextUtils.isEmpty(id))
+        .flatMap(sessionId -> imuModule.getCurrentSessionId()
+            .filter(savedId -> sessionId.equals(savedId)))
+        .onNext(sessionId -> latch.countDown());
+    boolean countReached = latch.await(2, TimeUnit.SECONDS);
+    assertThat(countReached).isTrue();
+  }
+
+  @Test
   public void testGetDataCollectionStatus() throws InterruptedException {
     CountDownLatch latch = new CountDownLatch(1);
-    initialize().flatMap(ignore -> imuModule.getDataCollectionStatus())
+    subscription = initialize().flatMap(ignore -> imuModule.getDataCollectionStatus())
         .filter(status -> status.equals(DataCollectionStatus.DATA_COLLECTION_IDLE))
         .onNext(initDone -> latch.countDown());
     boolean countReached = latch.await(2, TimeUnit.SECONDS);
@@ -132,7 +172,7 @@ public class ImuModuleTest {
     File imuSession = new File(this.getClass().getClassLoader()
         .getResource("1627344030.bin").toURI());
     List<ImuSample> samplesList = new ArrayList<>();
-    ImuModule.parseImuData(imuSession.getAbsolutePath())
+    subscription = ImuModule.parseImuData(imuSession.getAbsolutePath())
         .onNext(imuTrialData -> {
           List<ImuSampleCollection> samples = imuTrialData.getImuSampleCollections();
           for (ImuSampleCollection g : samples) {
@@ -153,7 +193,7 @@ public class ImuModuleTest {
   public void testDownloadImuSession() {
     AtomicInteger received = new AtomicInteger();
     AtomicInteger expectedBytes = new AtomicInteger();
-    initialize().flatMap(ignore -> imuModule.getImuSessionsList())
+    subscription = initialize().flatMap(ignore -> imuModule.getImuSessionsList())
         .map(list -> list.get(0))
         .tap(sessionInfo -> expectedBytes.set(sessionInfo.imuSize()))
         .flatMap(sessionInfo -> imuModule.downloadImuData(sessionInfo))
@@ -167,9 +207,30 @@ public class ImuModuleTest {
   }
 
   @Test
+  public void testDownloadInvalidImuSession() {
+    AtomicBoolean errorReceived = new AtomicBoolean();
+    subscription = initialize()
+        .flatMap(sessionInfo -> imuModule.downloadImuData("invalid-session-id"))
+        .onError(error -> errorReceived.set(error instanceof IllegalStateException));
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(5));
+    assertThat(errorReceived.get()).isTrue();
+  }
+
+  @Test
+  public void testDownloadDuringActiveImuSession() {
+    AtomicBoolean errorReceived = new AtomicBoolean();
+    subscription = initialize()
+        .flatMap(ignore -> imuModule.startImuSession())
+        .flatMap(ignore -> imuModule.downloadImuData(TARGET_IMU_SESSION_ID))
+        .onError(error -> errorReceived.set(error instanceof IllegalStateException));
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(5));
+    assertThat(errorReceived.get()).isTrue();
+  }
+
+  @Test
   public void testDownloadImuSessionFromId() {
     AtomicInteger received = new AtomicInteger();
-    initialize().flatMap(sessionInfo -> imuModule.downloadImuData(TARGET_IMU_SESSION_ID))
+    subscription = initialize().flatMap(ignore -> imuModule.downloadImuData(TARGET_IMU_SESSION_ID))
         .onNext(progress -> {
           if (progress.first == 100) {
             received.set((int) progress.second.length());
@@ -185,7 +246,7 @@ public class ImuModuleTest {
     AtomicInteger progress = new AtomicInteger();
     AtomicReference<Subscription> subscription = new AtomicReference<>();
     subscription.set(initialize().flatMap(sessionInfo -> imuModule.downloadImuData(
-            ImuSessionInfo.of(FakeDCTrialListNotification.getDCTrialListNotification())))
+        ImuSessionInfo.of(FakeDCTrialListNotification.getDCTrialListNotification())))
         .onNext(data -> {
           progress.set(data.first);
           received.set((int) data.second.length());
@@ -201,7 +262,7 @@ public class ImuModuleTest {
   @Test
   public void testEraseSessionBySessionId() {
     AtomicBoolean result = new AtomicBoolean();
-    initialize().flatMap(sessionInfo -> imuModule.erase(TARGET_IMU_SESSION_ID))
+    subscription = initialize().flatMap(sessionInfo -> imuModule.erase(TARGET_IMU_SESSION_ID))
         .filter(erased -> erased)
         .onNext(erased -> result.set(true));
     shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
@@ -209,9 +270,31 @@ public class ImuModuleTest {
   }
 
   @Test
+  public void testEraseDuringActiveImuSession() {
+    AtomicBoolean errorReceived = new AtomicBoolean();
+    subscription = initialize()
+        .flatMap(ignore -> imuModule.startImuSession())
+        .flatMap(ignore -> imuModule.erase(TARGET_IMU_SESSION_ID))
+        .onError(error -> errorReceived.set(error instanceof IllegalStateException));
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(5));
+    assertThat(errorReceived.get()).isTrue();
+  }
+
+  @Test
+  public void testEraseallDuringActiveImuSession() {
+    AtomicBoolean errorReceived = new AtomicBoolean();
+    subscription = initialize()
+        .flatMap(ignore -> imuModule.startImuSession())
+        .flatMap(ignore -> imuModule.eraseAll())
+        .onError(error -> errorReceived.set(error instanceof IllegalStateException));
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(5));
+    assertThat(errorReceived.get()).isTrue();
+  }
+
+  @Test
   public void testEraseSessionByInvalidSessionId() {
     AtomicBoolean errorThrown = new AtomicBoolean();
-    initialize().flatMap(sessionInfo -> imuModule.erase("random-session-id"))
+    subscription = initialize().flatMap(sessionInfo -> imuModule.erase("random-session-id"))
         .filter(erased -> erased)
         .onError(error -> errorThrown.set(true));
     shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
@@ -221,7 +304,7 @@ public class ImuModuleTest {
   @Test
   public void testUnloadModule() {
     AtomicBoolean result = new AtomicBoolean();
-    initialize().flatMap(sessionInfo -> imuModule.unloadModule())
+    subscription = initialize().flatMap(sessionInfo -> imuModule.unloadModule())
         .filter(erased -> erased)
         .onNext(erased -> result.set(true));
     shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
@@ -231,7 +314,7 @@ public class ImuModuleTest {
   @Test
   public void testGetImuSessionList() throws InterruptedException {
     CountDownLatch latch = new CountDownLatch(1);
-    initialize().flatMap(ignore -> imuModule.getImuSessionsList())
+    subscription = initialize().flatMap(ignore -> imuModule.getImuSessionsList())
         .filter(list -> list.size() == 1)
         .onNext(list -> {
           ImuSessionInfo info = list.get(0);
@@ -245,9 +328,61 @@ public class ImuModuleTest {
   }
 
   @Test
+  public void testGetCurrentDcModeStoreDownload() {
+    AtomicBoolean result = new AtomicBoolean();
+    subscription = initialize().flatMap(ignore -> imuModule.startImuSession())
+        .filter(sessionId -> !TextUtils.isEmpty(sessionId))
+        .flatMap(ignore -> imuModule.getCurrentDataCollectionMode())
+        .onNext(mode -> result.set(DataCollectionMode.DATA_COLLECTION_MODE_STORE.equals(mode)));
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
+    assertThat(result.get()).isTrue();
+  }
+
+  @Test
+  public void testGetCurrentDcModeStreaming() {
+    AtomicBoolean result = new AtomicBoolean();
+    subscription = initialize().flatMap(ignore -> imuModule.startImuStreaming())
+        .flatMap(ignore -> imuModule.getCurrentDataCollectionMode())
+        .onNext(mode -> result.set(DataCollectionMode.DATA_COLLECTION_MODE_STREAMING.equals(mode)));
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
+    assertThat(result.get()).isTrue();
+  }
+
+  @Test
+  public void testGetDCStatusStoreDownload() {
+    AtomicBoolean result = new AtomicBoolean();
+    subscription = initialize().flatMap(ignore -> imuModule.startImuSession())
+        .filter(sessionId -> !TextUtils.isEmpty(sessionId))
+        .flatMap(ignore -> imuModule.getDataCollectionStatus())
+        .onNext(status -> result.set(DataCollectionStatus.DATA_COLLECTION_LOGGING.equals(status)));
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
+    assertThat(result.get()).isTrue();
+  }
+
+  @Test
+  public void testGetDCStatusStreaming() {
+    AtomicBoolean result = new AtomicBoolean();
+    subscription = initialize().flatMap(ignore -> imuModule.startImuStreaming())
+        .flatMap(ignore -> imuModule.getDataCollectionStatus())
+        .onNext(status -> result.set(DataCollectionStatus.DATA_COLLECTION_LOGGING.equals(status)));
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
+    assertThat(result.get()).isTrue();
+  }
+
+  @Test
+  public void testImuStreamingInProgress() {
+    AtomicBoolean result = new AtomicBoolean();
+    subscription = initialize().flatMap(ignore -> imuModule.startImuStreaming())
+        .flatMap(ignore -> isImuStreamingInProgress())
+        .onNext(inProgress -> result.set(inProgress));
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
+    assertThat(result.get()).isTrue();
+  }
+
+  @Test
   public void testEraseAllImuSessions() {
     AtomicBoolean result = new AtomicBoolean();
-    initialize().flatMap(ignore -> imuModule.eraseAll())
+    subscription = initialize().flatMap(ignore -> imuModule.eraseAll())
         .filter(erased -> erased)
         .onNext(erased -> result.set(true));
     shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
@@ -257,12 +392,36 @@ public class ImuModuleTest {
   @Test
   public void testEraseImuSession() {
     AtomicBoolean result = new AtomicBoolean();
-    initialize().flatMap(ignore -> imuModule.erase(ImuSessionInfo.of(
+    subscription = initialize().flatMap(ignore -> imuModule.erase(ImuSessionInfo.of(
         FakeDCTrialListNotification.getDCTrialListNotification())))
         .filter(erased -> erased)
         .onNext(erased -> result.set(true));
     shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
     assertThat(result.get()).isTrue();
+  }
+
+  @Test
+  public void testImuStreaming() {
+    AtomicBoolean result = new AtomicBoolean();
+    subscription = initialize().flatMap(ignore -> imuModule.startImuStreaming())
+        .onNext(imu -> result.set(imu.imuSample() != null));
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(2));
+    assertThat(result.get()).isTrue();
+  }
+
+  private Signal<Boolean> isImuStreamingInProgress() {
+    return imuModule.getDataCollectionStatus().flatMap(status -> {
+      if (!DataCollectionStatus.DATA_COLLECTION_LOGGING.equals(status)) {
+        return Signal.from(false);
+      } else {
+        return imuModule.getCurrentDataCollectionMode()
+            .map(mode -> DataCollectionMode.DATA_COLLECTION_MODE_STREAMING.equals(mode));
+      }
+    });
+  }
+
+  private void stop() {
+    imuModule.stopImuStreaming().consume();
   }
 
   private Signal<InitState> initialize() {

@@ -58,7 +58,7 @@ public class DeviceInfoCommandTest {
   @Before
   public void setup() {
     PrintLogger.initialize(ApplicationProvider.getApplicationContext());
-    DataProvider.create(getVendors(), StringUtils.getInstance());
+    DataProvider.create(getVendors());
     command = new DeviceInfoCommand(component.componentId());
   }
 
@@ -140,11 +140,11 @@ public class DeviceInfoCommandTest {
     capabilities.add(Product.Capability.GESTURE);
     capabilities.add(Product.Capability.LED);
     List<Product> products1 = new ArrayList<>();
-    Product product = Product.of("2", "Product 1", "jq_image", capabilities);
+    Product product = Product.of("00-00-00-02", "Product 1", "jq_image", capabilities);
     products1.add(product);
     Map<String, Vendor> vendors = new HashMap<>();
-    Vendor vendor = Vendor.of("1", "Vendor 1", products1);
-    vendors.put("1", vendor);
+    Vendor vendor = Vendor.of("00-00-00-01", "Vendor 1", products1);
+    vendors.put("00-00-00-01", vendor);
     component = Component
         .of(/* componentId= */ 123, vendor, product, capabilities, /* revision= */
             null, /* serialNumber= */ null);

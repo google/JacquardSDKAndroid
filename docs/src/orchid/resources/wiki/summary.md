@@ -2,6 +2,7 @@
 - [CodeLabs](codelabs.md)
 - [Integration](integration.md)
 - [API overview](apis.md)
+- [Generate docs](generate-docs.md)
 - [Releases](releases.md)
 - [License](license.md)
 - [Cloud API Terms](cloud-api-terms.md)

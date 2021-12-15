@@ -16,12 +16,11 @@ package com.google.android.jacquard.sdk.model;
  */
 
 import com.google.auto.value.AutoValue;
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
-
+import com.ryanharter.auto.value.gson.GenerateTypeAdapter;
 import java.util.List;
 
 /** Defines Vendor type of the Gear. */
+@GenerateTypeAdapter
 @AutoValue
 public abstract class Vendor {
 
@@ -38,9 +37,5 @@ public abstract class Vendor {
 
   public static Vendor of(String id, String name, List<Product> products) {
     return new AutoValue_Vendor(id, name, products);
-  }
-
-  public static TypeAdapter<Vendor> typeAdapter(Gson gson) {
-    return new AutoValue_Vendor.GsonTypeAdapter(gson);
   }
 }

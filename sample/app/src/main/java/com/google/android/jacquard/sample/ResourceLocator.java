@@ -31,12 +31,13 @@ import com.google.android.jacquard.sample.firmwareupdate.FirmwareManager;
 import com.google.android.jacquard.sample.musicalthreads.audio.Fader;
 import com.google.android.jacquard.sample.musicalthreads.audio.SoundPlayer.Note;
 import com.google.android.jacquard.sample.musicalthreads.audio.SoundPoolPlayer;
-import com.google.android.jacquard.sample.musicalthreads.player.PluckTreadsPlayerImpl;
+import com.google.android.jacquard.sample.musicalthreads.player.PluckThreadsPlayerImpl;
 import com.google.android.jacquard.sample.musicalthreads.player.ThreadsPlayer;
 import com.google.android.jacquard.sample.utilities.RecipeManager;
 import com.google.android.jacquard.sdk.JacquardManager;
 import com.google.android.jacquard.sdk.log.LogLevel;
 import com.google.android.jacquard.sdk.log.PrintLogger;
+import com.google.android.jacquard.sdk.util.JQUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -101,7 +102,7 @@ public class ResourceLocator {
     SoundPool soundPool = getSoundPool();
     Fader fader = new Fader(soundPool, NOTE_FADE_DURATION_IN_MILLIS);
     SoundPoolPlayer player = new SoundPoolPlayer(context, soundPool, fader);
-    return new PluckTreadsPlayerImpl(player);
+    return new PluckThreadsPlayerImpl(player);
   }
 
   public String getImuSessionDownloadDirectory() {
@@ -137,8 +138,17 @@ public class ResourceLocator {
    * Configures {@link PrintLogger} with log levels {@link LogLevel}.
    */
   private void configurePrintLogger() {
-    ImmutableList<LogLevel> logLevels = ImmutableList.of(DEBUG, INFO, WARNING, ERROR, ASSERT);
+    ImmutableList<LogLevel> logLevels;
+    if (JQUtils.isValidUrl(BuildConfig.CLOUD_ENDPOINT)) {
+      // Non-Production
+      logLevels = ImmutableList.of(DEBUG, INFO, WARNING, ERROR, ASSERT);
+    } else {
+      // Production. Default
+      logLevels = ImmutableList.of(INFO, WARNING, ERROR, ASSERT);
+    }
     PrintLogger.initialize(logLevels, context);
-    PrintLogger.d(TAG, "PrintLogger is configured with " + logLevels);
+    // ignoring spam logs for rssi.
+    PrintLogger.ignore("rssi");
+    PrintLogger.i(TAG, "PrintLogger is configured with " + logLevels);
   }
 }

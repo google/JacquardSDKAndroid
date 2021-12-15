@@ -17,19 +17,14 @@ package com.google.android.jacquard.sdk.remote;
 
 import com.google.android.jacquard.sdk.model.Vendor;
 import com.google.auto.value.AutoValue;
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
+import com.ryanharter.auto.value.gson.GenerateTypeAdapter;
 import java.util.List;
 
 /** Class to parse meta data of the component from json. */
+@GenerateTypeAdapter
 @AutoValue
 public abstract class MetaDataModel {
 
   /** List of all the Vendors. */
   public abstract List<Vendor> vendors();
-
-  /** TypeAdapter to parse using Gson. */
-  public static TypeAdapter<MetaDataModel> typeAdapter(Gson gson) {
-    return new AutoValue_MetaDataModel.GsonTypeAdapter(gson);
-  }
 }

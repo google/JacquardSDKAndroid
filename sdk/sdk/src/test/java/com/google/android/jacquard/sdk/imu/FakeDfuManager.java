@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.google.android.jacquard.sdk.imu;
 
 import android.text.TextUtils;
@@ -39,6 +38,12 @@ public class FakeDfuManager implements DfuManager {
   private static final String LM_PID = "ef-3e-5b-88";
   private static final String LM_MID = "3d-0b-e7-53";
 
+  private final Signal<FirmwareUpdateState> stateSignal;
+
+  public FakeDfuManager() {
+    stateSignal = Signal.<FirmwareUpdateState>create().sticky();
+  }
+
   @Override
   public Signal<List<DFUInfo>> checkFirmware(List<Component> components, boolean forceUpdate) {
     return Signal.just(ImmutableList.of(getTagDfuInfo()));
@@ -55,20 +60,27 @@ public class FakeDfuManager implements DfuManager {
 
   @Override
   public Signal<FirmwareUpdateState> applyUpdates(List<DFUInfo> dfuInfos, boolean autoExecute) {
-    return Signal.just(FirmwareUpdateState.ofCompleted());
+    stateSignal.next(FirmwareUpdateState.ofCompleted());
+    return getCurrentState();
   }
 
   /**
    * execute the firmware updated.
    */
   @Override
-  public Signal<FirmwareUpdateState> executeUpdates() {
-    return null;
+  public void executeUpdates() {
+    stateSignal.next(FirmwareUpdateState.ofExecuting());
   }
 
   @Override
   public Signal<FirmwareUpdateState> applyModuleUpdate(DFUInfo dfuInfo) {
-    return Signal.just(FirmwareUpdateState.ofCompleted());
+    stateSignal.next(FirmwareUpdateState.ofCompleted());
+    return getCurrentState();
+  }
+
+  @Override
+  public Signal<FirmwareUpdateState> getCurrentState() {
+    return stateSignal.distinctUntilChanged();
   }
 
   private boolean isTag(Component component) {

@@ -34,6 +34,7 @@ import com.google.android.jacquard.sdk.rx.Executors;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.rx.Signal.Subscription;
 import com.google.android.jacquard.sdk.tag.ConnectedJacquardTag;
+import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionMode;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionStatus;
 import java.io.File;
 import java.util.List;
@@ -45,18 +46,19 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ImuViewModel extends ViewModel {
 
   private static final String TAG = ImuViewModel.class.getSimpleName();
-  private final Signal<ConnectedJacquardTag> connectedJacquardTag;
+  private final ConnectivityManager connectivityManager;
   private final NavController navController;
   private final ImuSessionsRepository repository;
   private final Preferences preferences;
-  private File downloadDirectory;
+  private final File downloadDirectory;
+  private Signal<ConnectedJacquardTag> connectedJacquardTag;
   private ImuModule imuModule = null;
 
   public ImuViewModel(
       ConnectivityManager connectivityManager, NavController navController,
       String downloadDirectory,
       ImuSessionsRepository repository, Preferences preferences) {
-    this.connectedJacquardTag = connectivityManager.getConnectedJacquardTag();
+    this.connectivityManager = connectivityManager;
     this.navController = navController;
     this.downloadDirectory = new File(downloadDirectory);
     this.repository = repository;
@@ -67,6 +69,8 @@ public class ImuViewModel extends ViewModel {
    * Initialize {@link ImuModule}
    */
   public Signal<InitState> init() {
+    connectedJacquardTag = connectivityManager
+        .getConnectedJacquardTag(preferences.getCurrentTag().address());
     final AtomicReference<Subscription> inner = new AtomicReference<>();
     return Signal.<InitState>create(signal -> {
       Subscription outer = connectedJacquardTag.first().onNext(tag -> {
@@ -88,8 +92,8 @@ public class ImuViewModel extends ViewModel {
     }).observeOn(Executors.mainThreadExecutor());
   }
 
-  public String getCurrentSessionId() {
-    return preferences.getCurrentImuSessionId(imuModule.tagSerialNumber());
+  public Signal<String> getCurrentSessionId() {
+    return imuModule.getCurrentSessionId();
   }
 
   /**
@@ -99,12 +103,15 @@ public class ImuViewModel extends ViewModel {
     return imuModule.getDataCollectionStatus();
   }
 
+  public Signal<DataCollectionMode> getDataCollectionMode() {
+    return imuModule.getCurrentDataCollectionMode();
+  }
+
   /**
    * Starts imu session.
    */
   public Signal<String> startSession() {
-    return imuModule.startImuSession()
-        .tap(id -> preferences.setCurrentImuSession(id, imuModule.tagSerialNumber()));
+    return imuModule.startImuSession();
   }
 
   /**
@@ -113,8 +120,6 @@ public class ImuViewModel extends ViewModel {
   public Signal<Boolean> stopSession() {
     return imuModule.stopImuSession().flatMap(stopped -> {
       if (stopped) {
-        // reset current imu session id
-        preferences.setCurrentImuSession("0", imuModule.tagSerialNumber());
         return getUjtSessionList().map(ignore -> stopped);
       }
       return Signal.from(stopped);

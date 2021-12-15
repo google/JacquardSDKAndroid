@@ -16,7 +16,6 @@
 package com.google.android.jacquard.sdk.connection;
 
 import com.google.android.jacquard.sdk.model.JacquardError;
-import com.google.android.jacquard.sdk.model.Progress;
 import com.google.android.jacquard.sdk.tag.ConnectedJacquardTag;
 import com.google.auto.value.AutoOneOf;
 import java.io.Serializable;
@@ -49,9 +48,8 @@ public abstract class ConnectionState implements Serializable {
 
   /**
    * Connecting with approximate progress.
-   * @return progress object with current step and total steps (including initializing).
    */
-  public abstract Progress connecting();
+  public abstract void connecting();
 
   // Initializing with approximate progress.
   // First Int is the current step, second Int is total number of steps. This continues on from the progress reported by the
@@ -60,16 +58,14 @@ public abstract class ConnectionState implements Serializable {
   /**
    * Initializing with approximate progress.
    * The progress continues on from the progress reported by the `connecting` state.
-   * @return progress object with current step and total steps.
    */
-  public abstract Progress initializing();
+  public abstract void initializing();
 
   /**
    * Configuring with approximate progress.
    * The progress continues on from the progress reported by the `initializing` state.
-   * @return progress object with current step and total steps.
    */
-  public abstract Progress configuring();
+  public abstract void configuring();
 
   // Note this is not a terminal state - the stream may bo back to disconnected, and then subsequently reconnect again.
 
@@ -88,16 +84,16 @@ public abstract class ConnectionState implements Serializable {
     return AutoOneOf_ConnectionState.preparingToConnect();
   }
 
-  public static ConnectionState ofConnecting(Progress progress) {
-    return AutoOneOf_ConnectionState.connecting(progress);
+  public static ConnectionState ofConnecting() {
+    return AutoOneOf_ConnectionState.connecting();
   }
 
-  public static ConnectionState ofInitializing(Progress progress) {
-    return AutoOneOf_ConnectionState.initializing(progress);
+  public static ConnectionState ofInitializing() {
+    return AutoOneOf_ConnectionState.initializing();
   }
 
-  public static ConnectionState ofConfiguring(Progress progress) {
-    return AutoOneOf_ConnectionState.configuring(progress);
+  public static ConnectionState ofConfiguring() {
+    return AutoOneOf_ConnectionState.configuring();
   }
 
   public static ConnectionState ofConnected(ConnectedJacquardTag tag) {

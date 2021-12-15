@@ -51,7 +51,7 @@ class InnerAttachedNotificationSubscription
     }
 
     return GearState.ofAttached(dataProvider
-        .getComponent(notification.getComponentId(), notification.getVendorId(),
+        .getGearComponent(notification.getComponentId(), notification.getVendorId(),
             notification.getProductId(), /* version= */ null,/* serialNumber= */ null));
   }
 }

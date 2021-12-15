@@ -18,6 +18,7 @@ package com.google.android.jacquard.sdk.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapterFactory;
+import com.ryanharter.auto.value.gson.GenerateTypeAdapter;
 import com.ryanharter.auto.value.gson.GsonTypeAdapterFactory;
 
 /** TypeFactory for all serializable auto values. */
@@ -30,5 +31,10 @@ public abstract class SdkTypeAdapterFactory  implements TypeAdapterFactory {
 
   public static Gson gson() {
     return new GsonBuilder().disableHtmlEscaping().registerTypeAdapterFactory(SdkTypeAdapterFactory.create()).create();
+  }
+
+  public static Gson runtimeGsonTypeAdapterFactory() {
+    return new GsonBuilder().disableHtmlEscaping()
+        .registerTypeAdapterFactory(GenerateTypeAdapter.FACTORY).create();
   }
 }

@@ -28,6 +28,7 @@ import androidx.navigation.NavController;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.jacquard.sample.ConnectivityManager;
+import com.google.android.jacquard.sample.Preferences;
 import com.google.android.jacquard.sample.R;
 import com.google.android.jacquard.sample.places.PlacesItem.Type;
 import com.google.android.jacquard.sample.places.PlacesListAdapter.ItemClickListener;
@@ -70,6 +71,7 @@ public class PlacesListViewModel extends ViewModel implements ItemClickListener 
   private final NavController navController;
   private final Geocoder geocoder;
   private final PlacesRepository repository;
+  private final Preferences preferences;
   private final List<Subscription> subscriptions = new ArrayList<>();
   private LiveData<List<PlaceItem>> listLiveData;
   private Observer<List<PlaceItem>> observer;
@@ -80,11 +82,12 @@ public class PlacesListViewModel extends ViewModel implements ItemClickListener 
       ConnectivityManager connectivityManager,
       NavController navController,
       Geocoder geocoder,
-      PlacesRepository repository) {
+      PlacesRepository repository, Preferences preferences) {
     this.connectivityManager = connectivityManager;
     this.navController = navController;
     this.geocoder = geocoder;
     this.repository = repository;
+    this.preferences = preferences;
   }
 
 
@@ -124,7 +127,8 @@ public class PlacesListViewModel extends ViewModel implements ItemClickListener 
    * Listens to gesture to trigger places ability.
    */
   public Subscription listenToGesture(int gestureAssigned) {
-    return connectivityManager.getConnectedJacquardTag().distinctUntilChanged()
+    return connectivityManager.getConnectedJacquardTag(preferences.getCurrentTag().address())
+        .distinctUntilChanged()
         .switchMap(
             (Fn<ConnectedJacquardTag, Signal<Gesture>>)
                 tag -> tag.subscribe(new GestureNotificationSubscription()))

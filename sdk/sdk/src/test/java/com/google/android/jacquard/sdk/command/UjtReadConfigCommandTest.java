@@ -69,7 +69,7 @@ public class UjtReadConfigCommandTest {
     Response response = Response.newBuilder().setComponentId(Component.TAG_ID).setId(0)
         .setStatus(Status.STATUS_OK).build();
     // Act
-    Result<BleConfiguration> bleConfigurationResponse = command.parseResponse(response);
+    Result<UJTConfigResponse> bleConfigurationResponse = command.parseResponse(response);
     // Assert
     assertThat(bleConfigurationResponse.failure()).isInstanceOf(IllegalStateException.class);
   }
@@ -83,7 +83,7 @@ public class UjtReadConfigCommandTest {
         .setStatus(Status.ERROR_APP_UNKNOWN)
         .build();
     // Act
-    Result<BleConfiguration> result = command.parseResponse(response);
+    Result<UJTConfigResponse> result = command.parseResponse(response);
     // Assert
     assertThat(result.failure()).isInstanceOf(Throwable.class);
   }
@@ -104,11 +104,11 @@ public class UjtReadConfigCommandTest {
         .setExtension(UJTConfigResponse.configResponse, ujtConfigResponse)
         .setId(1).setComponentId(1).setStatus(Status.STATUS_OK).build();
     // Act
-    Result<BleConfiguration> result = command.parseResponse(response);
+    Result<UJTConfigResponse> result = command.parseResponse(response);
     // Assert
-    assertThat(result.success().getCustomAdvName()).isEqualTo(TAG_NAME);
-    assertThat(result.success().getMaxConnInterval()).isEqualTo(1000);
-    assertThat(result.success().getMinConnInterval()).isEqualTo(500);
-    assertThat(result.success().getCustomAdvNameBytes().size()).isEqualTo(10);
+    assertThat(result.success().getBleConfig().getCustomAdvName()).isEqualTo(TAG_NAME);
+    assertThat(result.success().getBleConfig().getMaxConnInterval()).isEqualTo(1000);
+    assertThat(result.success().getBleConfig().getMinConnInterval()).isEqualTo(500);
+    assertThat(result.success().getBleConfig().getCustomAdvNameBytes().size()).isEqualTo(10);
   }
 }

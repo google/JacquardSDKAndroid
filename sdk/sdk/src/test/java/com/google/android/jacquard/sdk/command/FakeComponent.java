@@ -32,8 +32,8 @@ import java.util.List;
  */
 public class FakeComponent extends Component {
 
-  private final static String VID = "74-a8-ce-54";
-  private final static String PID = "8a-66-50-f4";
+  public final static String VID = "74-a8-ce-54";
+  public final static String PID = "8a-66-50-f4";
   public static final String UUID = "0-07-9A16FLHBN005JM-1910";
   public static final String SERIAL_NUMBER = "9A16FLHBN005JM";
   public static final String GEAR_SERIAL_NUMBER = "Gear_9A16FLHBN005JM";

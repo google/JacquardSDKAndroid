@@ -70,8 +70,7 @@ public final class TransportTest {
       notificationFragmenter, dataFragmenter);
 
   private final FakePeripheral peripheral = new FakePeripheral(null);
-  private final RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics(
-      null, null, null, null, /* rawCharacteristic= */null);
+  private final RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics();
 
   private JacquardProtocol.Notification notification;
   private CharacteristicUpdate characteristic;

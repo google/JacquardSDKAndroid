@@ -33,8 +33,6 @@ import com.google.android.jacquard.sdk.rx.Signal.Subscription;
 import com.google.android.jacquard.sdk.tag.AdvertisedJacquardTag;
 import com.google.android.jacquard.sdk.tag.ConnectedJacquardTag;
 import com.google.android.jacquard.sdk.util.BluetoothUtils;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -54,18 +52,9 @@ public class ConnectivityManager {
   }
 
   private final JacquardManager jacquardManager;
-
-  private final Signal<ConnectionState> connectionStateSignal =
-      Signal.<ConnectionState>create().sticky();
-
-  private final Signal<ConnectedJacquardTag> connectedJacquardTag =
-      connectionStateSignal
-          .filter(state -> state.isType(CONNECTED))
-          .map(ConnectionState::connected);
-
-  private final Signal<Events> eventsSignal = Signal.<Events>create();
+  private final Map<String, Signal<ConnectionState>> connectionStateSignalMap = new ConcurrentHashMap<>();
   // For now, it will have max one entry at any point of time.
-  private final Map<String, List<Subscription>> subscriptions = new ConcurrentHashMap<>();
+  private final Map<String, Subscription> subscriptions = new ConcurrentHashMap<>();
 
   public ConnectivityManager(JacquardManager jacquardManager) {
     this.jacquardManager = jacquardManager;
@@ -94,34 +83,46 @@ public class ConnectivityManager {
       return Signal.empty(new BluetoothUnavailableException());
     }
     clearSubscriptions(address);
-    List<Subscription> subscriptionList = new ArrayList<>();
-    subscriptionList.add(createBond(activityContext, address, senderHandler));
-    subscriptionList.add(observeEvents());
-    subscriptions.put(address, subscriptionList);
+    Signal<ConnectionState> connectionStateSignal = getConnectionStateSignal(address);
+    subscriptions
+        .put(address, createBond(activityContext, address, senderHandler, connectionStateSignal));
     return connectionStateSignal;
   }
 
   /**
-   * Emits connection state of current tag. Due to the nature of sticky it will emit every time the
+   * Emits connection state for provided address. Due to the nature of sticky it will emit every time the
    * signal is subscribed so use distinctUntilChange().
    */
-  public Signal<ConnectionState> getConnectionStateSignal() {
-    return connectionStateSignal;
+  public Signal<ConnectionState> getConnectionStateSignal(String address) {
+    Signal<ConnectionState> connectionState = connectionStateSignalMap.get(address);
+    if (connectionState == null) {
+      connectionState = Signal.<ConnectionState>create().sticky();
+      connectionStateSignalMap.put(address, connectionState);
+    }
+    return connectionState;
   }
 
   /**
-   * Emits a connected tag and may emit multiple values so for one-off operations use first() or
-   * distinctUntilChange().
+   * Emits a provided address connectedTag and may emit multiple values so for one-off operations
+   * use first() or distinctUntilChange().
    */
-  public Signal<ConnectedJacquardTag> getConnectedJacquardTag() {
-    return connectedJacquardTag;
+  public Signal<ConnectedJacquardTag> getConnectedJacquardTag(String address) {
+    return getConnectionStateSignal(address)
+        .filter(state -> state.isType(CONNECTED))
+        .map(ConnectionState::connected);
   }
 
   /**
-   * Emits {@link Events} for tag paired/unpaired, attached/detached events.
+   * Emits {@link Events} for provided address tag paired/unpaired, attached/detached events.
    */
-  public Signal<Events> getEventsSignal() {
-    return eventsSignal;
+  public Signal<Events> getEventsSignal(String address) {
+    return Signal
+        .merge(getConnectionStateSignal(address)
+                .map(state -> state.isType(CONNECTED) ? Events.TAG_CONNECTED
+                    : Events.TAG_DISCONNECTED),
+            getGearNotification(address)
+                .map(state -> state.getType() == Type.ATTACHED ? Events.TAG_ATTACHED
+                    : Events.TAG_DETACHED));
   }
 
   /**
@@ -130,6 +131,7 @@ public class ConnectivityManager {
    */
   public void forget(String address) {
     clearSubscriptions(address);
+    closeConnectionSignal(address);
     jacquardManager.forget(address);
   }
 
@@ -138,29 +140,34 @@ public class ConnectivityManager {
    */
   public void destroy() {
     clearAllSubscriptions();
+    closeAllConnectionSignal();
     jacquardManager.destroy();
   }
 
+  private void closeAllConnectionSignal() {
+    for (Signal<ConnectionState> connectionStateSignal : connectionStateSignalMap.values()) {
+      connectionStateSignal.complete();
+    }
+    connectionStateSignalMap.clear();
+  }
+
+  private void closeConnectionSignal(String address) {
+    Signal<ConnectionState> connectionStateSignal = connectionStateSignalMap.remove(address);
+    if (connectionStateSignal != null) {
+      connectionStateSignal.complete();
+    }
+  }
+
   private Subscription createBond(Context activityContext, String address,
-      Fn<IntentSender, Signal<Boolean>> senderHandler) {
+      Fn<IntentSender, Signal<Boolean>> senderHandler,
+      Signal<ConnectionState> connectionStateSignal) {
     return jacquardManager.connect(activityContext, address, senderHandler)
         .tap(state -> PrintLogger.d(TAG, "createBond: " + state))
         .forward(connectionStateSignal);
   }
 
-  private Subscription observeEvents() {
-    return Signal
-        .merge(connectionStateSignal
-                .map(state -> state.isType(CONNECTED) ? Events.TAG_CONNECTED
-                    : Events.TAG_DISCONNECTED),
-            getGearNotification()
-                .map(state -> state.getType() == Type.ATTACHED ? Events.TAG_ATTACHED
-                    : Events.TAG_DETACHED))
-        .forward(eventsSignal);
-  }
-
-  private Signal<GearState> getGearNotification() {
-    return connectedJacquardTag
+  private Signal<GearState> getGearNotification(String address) {
+    return getConnectedJacquardTag(address)
         .distinctUntilChanged()
         .switchMap(
             (Fn<ConnectedJacquardTag, Signal<GearState>>)
@@ -168,10 +175,8 @@ public class ConnectivityManager {
   }
 
   private void clearAllSubscriptions() {
-    for (List<Subscription> list : subscriptions.values()) {
-      for (Subscription subscription : list) {
-        subscription.unsubscribe();
-      }
+    for (Subscription subscription : subscriptions.values()) {
+      subscription.unsubscribe();
     }
     subscriptions.clear();
   }
@@ -180,13 +185,10 @@ public class ConnectivityManager {
    * Remove connectivityManager subscription.
    */
   private void clearSubscriptions(String address) {
-    List<Subscription> subscriptionsList = subscriptions.remove(address);
-    if (subscriptionsList == null) {
+    Subscription subscription = subscriptions.remove(address);
+    if (subscription == null) {
       return;
     }
-    for (Subscription subscription : subscriptionsList) {
-      subscription.unsubscribe();
-    }
-    subscriptionsList.clear();
+    subscription.unsubscribe();
   }
 }

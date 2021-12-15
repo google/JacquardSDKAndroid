@@ -1,5 +1,5 @@
 ---
-title: 'Jacquard SDK'
+title: 'Jacquard Android SDK'
 components:
   - type: 'pageContent'
 ---

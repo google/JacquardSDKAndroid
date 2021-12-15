@@ -77,6 +77,15 @@ public class PrintLogger {
   }
 
   /**
+   * Ignores the logs containing the provided text.
+   *
+   * @param text     the string to filter the logs.
+   */
+  public static void ignore(String text) {
+    logger.addToIgnoreList(text);
+  }
+
+  /**
    * Sends a {@link LogLevel#VERBOSE} log message.
    *
    * @param tag     the source of a log message, the class or activity where the log call occurs

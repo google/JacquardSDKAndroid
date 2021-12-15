@@ -116,7 +116,7 @@ public abstract class AdvertisedJacquardTagImpl implements AdvertisedJacquardTag
   public abstract String pairingSerialNumber();
 
   @Override
-  public abstract String identifier();
+  public abstract String address();
 
   @Override
   public abstract String displayName();
@@ -128,7 +128,7 @@ public abstract class AdvertisedJacquardTagImpl implements AdvertisedJacquardTag
     AdvertisedJacquardTagImpl that = (AdvertisedJacquardTagImpl) o;
     return bluetoothDevice().equals(that.bluetoothDevice()) &&
             pairingSerialNumber().equals(that.pairingSerialNumber()) &&
-            identifier().equals(that.identifier()) &&
+            address().equals(that.address()) &&
             displayName().equals(that.displayName());
   }
 }

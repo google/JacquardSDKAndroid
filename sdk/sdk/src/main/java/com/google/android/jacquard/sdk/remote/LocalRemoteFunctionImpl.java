@@ -49,7 +49,8 @@ class LocalRemoteFunctionImpl implements RemoteFunction {
    */
   Signal<ComponentMetaData> getComponentMetaData(InputStream inputStream) {
     String jsonString = localParser.parse(inputStream);
-    MetaDataModel model = SdkTypeAdapterFactory.gson().fromJson(jsonString, MetaDataModel.class);
+    MetaDataModel model = SdkTypeAdapterFactory.runtimeGsonTypeAdapterFactory()
+        .fromJson(jsonString, MetaDataModel.class);
     Map<String, Vendor> vendorMap = getVendorsMap(model);
     return Signal.just(ComponentMetaData.of(vendorMap));
   }

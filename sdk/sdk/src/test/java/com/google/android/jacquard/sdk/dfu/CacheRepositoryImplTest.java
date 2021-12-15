@@ -15,7 +15,9 @@
  */
 package com.google.android.jacquard.sdk.dfu;
 
+import static android.os.Looper.getMainLooper;
 import static com.google.common.truth.Truth.assertThat;
+import static org.robolectric.Shadows.shadowOf;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -34,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,13 +73,13 @@ public class CacheRepositoryImplTest {
 
     byte[] outBytes = "abcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.UTF_8);
     InputStream in = new ByteArrayInputStream(outBytes);
-    File file = new File(/* pathname= */context.getFilesDir() + File.separator + "DfuImages");
-    DfuUtil.inputStreamToFile(in, file);
 
     DFUInfo dfuInfo = DFUInfo
         .create(version, dfuStatus, downloadUrl, vendorId, productId, moduleId);
     CacheRepository cacheRepository = new CacheRepositoryImpl(context);
-    getFirmwareFile(cacheRepository, context).createNewFile();
+    File file = getFirmwareFile(cacheRepository, context);
+    DfuUtil.inputStreamToFile(in, file, in.available()).consume();
+    shadowOf(getMainLooper()).idleFor(Duration.ofSeconds(1));
 
     // Act
     boolean hasDescriptor = cacheRepository.hasDescriptor(dfuInfo);
@@ -258,7 +261,7 @@ public class CacheRepositoryImplTest {
     InputStream in = new ByteArrayInputStream(outBytes);
     File file = new File(dir, fileName);
     file.createNewFile();
-    DfuUtil.inputStreamToFile(in, file);
+    DfuUtil.inputStreamToFile(in, file, in.available()).consume();
 
     Pair<InputStream, Long> pair = Pair.create(in, file.length());
     return pair;

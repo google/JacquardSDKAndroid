@@ -20,6 +20,7 @@ import com.google.android.jacquard.sdk.connection.CommandResponseStatus;
 import com.google.android.jacquard.sdk.connection.Result;
 import com.google.android.jacquard.sdk.imu.Sensors;
 import com.google.android.jacquard.sdk.imu.exception.DCException;
+import com.google.android.jacquard.sdk.imu.exception.InvalidStateDCException;
 import com.google.android.jacquard.sdk.model.Component;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionMetadata;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionMode;
@@ -58,7 +59,7 @@ public class StartImuSessionCommand implements CommandRequest<String> {
         .getExtension(DataCollectionStartResponse.start);
     if (dcResponse.getDcStatus().equals(DataCollectionStatus.DATA_COLLECTION_LOW_BATTERY)
         || dcResponse.getDcStatus().equals(DataCollectionStatus.DATA_COLLECTION_LOW_STORAGE)) {
-      return Result.ofFailure(new DCException(dcResponse.getDcStatus()));
+      return Result.ofFailure(new InvalidStateDCException(dcResponse.getDcStatus()));
     }
     if (response.getStatus() != Status.STATUS_OK) {
       Throwable error = CommandResponseStatus.from(response.getStatus().getNumber());

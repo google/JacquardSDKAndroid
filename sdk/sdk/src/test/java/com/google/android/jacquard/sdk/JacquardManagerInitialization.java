@@ -28,6 +28,7 @@ public class JacquardManagerInitialization {
 
   public static void initJacquardManager(JacquardManagerImpl manager) {
     JacquardManagerImpl.instance = manager;
-    JacquardManagerImpl.instance.init(SdkConfig.of("clientId", "apiKey"));
+    JacquardManagerImpl.instance
+        .init(SdkConfig.of("clientId", "apiKey", /* cloudEndpointUrl= */ null));
   }
 }

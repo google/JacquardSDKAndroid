@@ -60,7 +60,7 @@ public class HapticCommandTest {
   @Before
   public void setup() {
     PrintLogger.initialize(ApplicationProvider.getApplicationContext());
-    DataProvider.create(getVendors(), StringUtils.getInstance());
+    DataProvider.create(getVendors());
     Frame frame = Frame.builder()
         .setOnMs(10)
         .setOffMs(5)
@@ -126,11 +126,11 @@ public class HapticCommandTest {
     capabilities.add(Capability.GESTURE);
     capabilities.add(Capability.LED);
     List<Product> products1 = new ArrayList<>();
-    Product product = Product.of("2", "Product 1", "jq_image", capabilities);
+    Product product = Product.of("00-00-00-02", "Product 1", "jq_image", capabilities);
     products1.add(product);
     Map<String, Vendor> vendors = new HashMap<>();
-    Vendor vendor = Vendor.of("1", "Vendor 1", products1);
-    vendors.put("1", vendor);
+    Vendor vendor = Vendor.of("00-00-00-01", "Vendor 1", products1);
+    vendors.put("00-00-00-01", vendor);
     component = Component
         .of(/* componentId= */ 123, vendor, product, capabilities, /* revision= */
             null, /* serialNumber= */ null);

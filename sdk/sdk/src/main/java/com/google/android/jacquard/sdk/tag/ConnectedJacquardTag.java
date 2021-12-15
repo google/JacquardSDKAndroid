@@ -17,7 +17,6 @@ package com.google.android.jacquard.sdk.tag;
 
 import android.bluetooth.BluetoothGatt;
 import android.util.Pair;
-import androidx.annotation.Nullable;
 import com.google.android.jacquard.sdk.JacquardManager;
 import com.google.android.jacquard.sdk.command.CommandRequest;
 import com.google.android.jacquard.sdk.command.NotificationSubscription;
@@ -59,20 +58,12 @@ public interface ConnectedJacquardTag extends JacquardTag {
   /**
    * Sets the tag in the specified {@link TouchMode} mode. For this command, tag should be
    * attached to the gear.
-   *
-   * @return True if command is successful. False otherwise.
-   */
-  Signal<Boolean> setTouchMode(TouchMode touchMode);
-
-  /**
-   * Sets the tag in the specified {@link TouchMode} mode. For this command, tag should be
-   * attached to the gear.
-   * @param component the attached gear component
+   * @param gearComponent the attached gear component
    * @param touchMode the mode need to be set
    *
    * @return True if command is successful. False otherwise.
    */
-  Signal<Boolean> setTouchMode(Component component, TouchMode touchMode);
+  Signal<Boolean> setTouchMode(Component gearComponent, TouchMode touchMode);
 
   /**
    * Sends a request to the tag.
@@ -115,6 +106,8 @@ public interface ConnectedJacquardTag extends JacquardTag {
   <Res> Signal<Res> subscribe(NotificationSubscription<Res> notificationSubscription);
 
   Signal<Pair<Integer, byte[]>> getDataTransport();
+
+  Signal<byte[]> getRawData();
 
   /**
    * This function will send a connection parameter update request to the remote device.

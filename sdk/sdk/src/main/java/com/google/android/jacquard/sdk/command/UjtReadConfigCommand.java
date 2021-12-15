@@ -31,10 +31,10 @@ import com.google.atap.jacquard.protocol.JacquardProtocol.UJTConfigResponse;
 /**
  * Command to read {@link BleConfiguration} from {@link com.google.android.jacquard.sdk.tag.ConnectedJacquardTag}.
  */
-public class UjtReadConfigCommand implements CommandRequest<BleConfiguration> {
+public class UjtReadConfigCommand implements CommandRequest<UJTConfigResponse> {
 
   @Override
-  public Result<BleConfiguration> parseResponse(Response response) {
+  public Result<UJTConfigResponse> parseResponse(Response response) {
     if (response.getStatus() != Status.STATUS_OK) {
       Throwable error = CommandResponseStatus.from(response.getStatus().getNumber());
       return Result.ofFailure(error);
@@ -45,13 +45,14 @@ public class UjtReadConfigCommand implements CommandRequest<BleConfiguration> {
               new IllegalStateException("Response does not contain ble config"));
     }
     UJTConfigResponse ujtConfigResponse = response.getExtension(UJTConfigResponse.configResponse);
-    return Result.ofSuccess(ujtConfigResponse.getBleConfig());
+    return Result.ofSuccess(ujtConfigResponse);
   }
 
   @Override
   public Request getRequest() {
     UJTConfigReadRequest ujtConfigWriteRequest = UJTConfigReadRequest.newBuilder()
         .setBleConfig(true)
+        .setImuConfig(true)
         .build();
     return Request
         .newBuilder()

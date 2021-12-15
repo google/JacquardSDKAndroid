@@ -36,6 +36,7 @@ import com.google.android.jacquard.sdk.rx.Fn;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.rx.Signal.Subscription;
 import com.google.android.jacquard.sdk.tag.AdvertisedJacquardTag;
+import com.google.android.jacquard.sdk.util.JQUtils;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -127,7 +128,12 @@ class JacquardManagerImpl implements JacquardManager {
 
   @Override
   public void init(SdkConfig config) {
-    this.config = config;
+    if (!JQUtils.isValidUrl(config.cloudEndpointUrl())) {
+      this.config = SdkConfig
+          .of(config.clientId(), config.apiKey(), BuildConfig.CLOUD_ENDPOINT_PRODUCTION);
+    } else {
+      this.config = config;
+    }
   }
 
   /**
@@ -174,6 +180,17 @@ class JacquardManagerImpl implements JacquardManager {
     PrintLogger.d(TAG,"connect to # " + device.getAddress());
     if (!isBluetoothEnabled()) {
       return Signal.empty(new BluetoothUnavailableException());
+    }
+
+    if (stateMachines.containsKey(device.getAddress())) {
+      PrintLogger.d(TAG, "reusing connection for device # " + device.getAddress());
+      TagConnectionStateMachine tagConnectionStateMachine = stateMachines.get(device.getAddress());
+      return tagConnectionStateMachine.getState().first().flatMap(state -> {
+        if (state.isType(ConnectionState.Type.DISCONNECTED)) {
+          tagConnectionStateMachine.connect();
+        }
+        return tagConnectionStateMachine.getState();
+      });
     }
 
     return remoteFunction.getComponents()
@@ -235,43 +252,16 @@ class JacquardManagerImpl implements JacquardManager {
     unsubscribeStateMachine(device.getAddress());
     Subscription subscription = bleAdapter.connect(activityContext, device, senderHandler)
         .onNext(connectState -> {
-          String deviceAddress = getDeviceAddress(connectState);
-          if (!deviceAddress.equals(lastConnectedDeviceAddress)) {
-            PrintLogger.d(TAG, "deviceAddress: " + deviceAddress + " lastConnectedDeviceAddress: "
-                + lastConnectedDeviceAddress);
-            return;
-          }
-          PrintLogger.d(TAG, "ConnectState: " + connectState + " deviceAddress: " + deviceAddress);
-          TagConnectionStateMachine stateMachine = stateMachines.get(deviceAddress);
-
+          PrintLogger
+              .d(TAG, "ConnectState: " + connectState + " deviceAddress: " + device.getAddress());
+          TagConnectionStateMachine stateMachine = stateMachines.get(device.getAddress());
           if (stateMachine == null) {
-            PrintLogger.e(TAG, "No state machine found for: " + deviceAddress);
+            PrintLogger.e(TAG, "No state machine found for: " + device.getAddress());
             return;
           }
-
           stateMachine.onStateEvent(connectState);
         });
     stateMachineSubscription.put(device.getAddress(), subscription);
-  }
-
-  private String getDeviceAddress(ConnectState connectState) {
-    switch (connectState.getType()) {
-      case CONNECTED:
-        return connectState.connected().getTagIdentifier();
-      case FAILED_TO_CONNECT:
-        return connectState.failedToConnect().peripheral().getTagIdentifier();
-      case DISCONNECTED:
-        return connectState.disconnected().peripheral().getTagIdentifier();
-      case SERVICES_DISCOVERED:
-        return connectState.servicesDiscovered().peripheral().getTagIdentifier();
-      case CHARACTERISTIC_UPDATED:
-        return connectState.characteristicUpdated().peripheral().getTagIdentifier();
-      case VALUE_WRITTEN:
-        return connectState.valueWritten().peripheral().getTagIdentifier();
-      case VALUE_RSSI:
-        return connectState.valueRssi().peripheral().getTagIdentifier();
-    }
-    return "";
   }
 
   @Override

@@ -50,7 +50,7 @@ public class InnerAttachedNotificationSubscriptionTest {
     @Before
     public void setUp() {
         PrintLogger.initialize(ApplicationProvider.getApplicationContext());
-        DataProvider.create(getVendors(), StringUtils.getInstance());
+        DataProvider.create(getVendors());
         notificationSubscription = new InnerAttachedNotificationSubscription();
     }
 
@@ -99,9 +99,9 @@ public class InnerAttachedNotificationSubscriptionTest {
         capabilities.add(Product.Capability.GESTURE);
         capabilities.add(Product.Capability.LED);
         List<Product> products = new ArrayList<>();
-        products.add(Product.of("2", "Product 2", "jq_image", capabilities));
+        products.add(Product.of("00-00-00-02", "Product 2", "jq_image", capabilities));
         Map<String, Vendor> vendors = new HashMap<>();
-        vendors.put("1", Vendor.of("1", "Vendor 1", products));
+        vendors.put("00-00-00-01", Vendor.of("00-00-00-01", "Vendor 1", products));
         return vendors;
     }
 }

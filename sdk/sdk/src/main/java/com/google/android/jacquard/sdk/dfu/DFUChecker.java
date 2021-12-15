@@ -47,13 +47,13 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 
 class DFUChecker {
 
-  static final String ENDPOINTBASE = BuildConfig.BASE_URL;
   private static final String TAG = DFUChecker.class.getSimpleName();
 
   CloudManager cloudManager;
   DownloadManager downloadManager;
   private final CacheRepository cacheRepository;
   private final String countryCode;
+  private final String cloudEndpointUrl;
   private String apiKey;
   private String clientId;
 
@@ -61,13 +61,12 @@ class DFUChecker {
     JacquardManager jacquardManager = JacquardManager.getInstance();
     downloadManager = new DownloadManagerImpl();
     cacheRepository = new CacheRepositoryImpl(jacquardManager.getApplicationContext());
+    SdkConfig sdkConfig = jacquardManager.getSdkConfig();
+    cloudEndpointUrl = sdkConfig.cloudEndpointUrl();
     cloudManager = createRetrofit().create(CloudManager.class);
     countryCode = getCountryCode(jacquardManager.getApplicationContext());
-    SdkConfig sdkConfig = jacquardManager.getSdkConfig();
-    if (sdkConfig != null) {
-      apiKey = sdkConfig.apiKey();
-      clientId = sdkConfig.clientId();
-    }
+    apiKey = sdkConfig.apiKey();
+    clientId = sdkConfig.clientId();
   }
 
   /**
@@ -175,10 +174,14 @@ class DFUChecker {
     return cacheRepository.getDescriptor(dfuInfo);
   }
 
-  void removeFirmware(DFUInfo dfuInfo, String componentSerialNumber) {
+  void removeFirmwareCacheInfo(DFUInfo dfuInfo, String componentSerialNumber) {
     cacheRepository
         .removeUpdateInformation(dfuInfo.vendorId(), dfuInfo.productId(), dfuInfo.moduleId(),
             componentSerialNumber);
+  }
+
+  void removeFirmwareFile(DFUInfo dfuInfo) {
+    cacheRepository.removeCacheDescription(dfuInfo);
   }
 
   private Signal<Boolean> downloadFirmware(DFUInfo dfu) {
@@ -247,7 +250,7 @@ class DFUChecker {
 
     Moshi moshi = new com.squareup.moshi.Moshi.Builder().build();
     return new Retrofit.Builder()
-        .baseUrl(ENDPOINTBASE)
+        .baseUrl(cloudEndpointUrl)
         .client(httpClient.build())
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build();

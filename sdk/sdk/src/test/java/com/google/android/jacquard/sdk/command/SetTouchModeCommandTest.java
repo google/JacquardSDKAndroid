@@ -28,7 +28,6 @@ import com.google.android.jacquard.sdk.model.Product;
 import com.google.android.jacquard.sdk.model.Product.Capability;
 import com.google.android.jacquard.sdk.model.TouchMode;
 import com.google.android.jacquard.sdk.model.Vendor;
-import com.google.android.jacquard.sdk.util.StringUtils;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataChannelRequest;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataStreamState;
 import com.google.atap.jacquard.protocol.JacquardProtocol.Domain;
@@ -59,7 +58,7 @@ public class SetTouchModeCommandTest {
   @Before
   public void setup() {
     PrintLogger.initialize(ApplicationProvider.getApplicationContext());
-    DataProvider.create(getVendors(), StringUtils.getInstance());
+    DataProvider.create(getVendors());
     command = new SetTouchModeCommand(component, touchMode);
   }
 
@@ -136,11 +135,11 @@ public class SetTouchModeCommandTest {
     capabilities.add(Product.Capability.GESTURE);
     capabilities.add(Product.Capability.LED);
     List<Product> products = new ArrayList<>();
-    Product product = Product.of("2", "Product 2", "jq_image", capabilities);
+    Product product = Product.of("00-00-00-02", "Product 2", "jq_image", capabilities);
     products.add(product);
     Map<String, Vendor> vendors = new HashMap<>();
-    Vendor vendor = Vendor.of("1", "Vendor 1", products);
-    vendors.put("1", vendor);
+    Vendor vendor = Vendor.of("00-00-00-01", "Vendor 1", products);
+    vendors.put("00-00-00-01", vendor);
     component = Component
         .of(/* componentId= */ 0, vendor, product, capabilities, /* revision= */
             null, /* serialNumber= */ null);

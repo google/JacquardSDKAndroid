@@ -1,15 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2021 Google LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <resources>
   <string name="app_name">Jacquard SDK Sample App</string>
-  <string name="preference_file_key">com.google.android.jacquard.sample.preferences</string>
   <string name="scan_adapter_section_title_previously_connected_tags">Previously connected tags</string>
   <string name="musical_threads_subtitle">Touch the threads to hear different sounds</string>
   <string name="musical_threads_title">Musical Threads</string>
-  <string name="musical_threads_speaker_icon_description">Speaker icon</string>
   <string name="firmware_update_subtitle">Install the latest firmware updates</string>
 
   <string name="thread_visualizer_title">Capacitive Visualizer</string>
   <string name="thread_visualizer_description">View the capacitive values of each touch sensor line</string>
-  <string name="tag_name_save_button_txt">Save</string>
 
   <string name="gesture_feed_title">Feed</string>
   <string name="gesture_info_tooltip">Learn more about gestures</string>
@@ -26,7 +39,6 @@
   <string name="gesture_info_cover_subtitle">Cover the touch area </string>
 
   <!-- Scan Module -->
-  <string name="scan_adapter_section_title_nearby_tags">TAGS</string>
   <string name="scan_page_scanning_button">Scanning...</string>
   <string name="scan_page_try_again_button">Try Again</string>
   <string name="scan_page_stop_scanning_button">Stop Scanning</string>
@@ -37,12 +49,13 @@
   <string name="scan_page_pair_button">Pair</string>
   <string name="scan_page_pairing_progress">Pairing</string>
   <string name="scan_page_paired_button">Paired</string>
-    <string name="scan_page_nearby_tags_header">Nearby tags</string>
+  <string name="scan_page_nearby_tags_header">Nearby tags</string>
+  <string name="scan_page_location_permission_msg">"Please grant location permission for scanning bluetooth devices."</string>
+  <string name="scan_page_pairing_issue_msg">"Getting issue to tag pairing, Please retry."</string>
 
   <!-- Home Page Tile-->
   <string description="Title of the section" name="section_api">APIs</string>
   <string description="Title of the section" name="section_sample_use_cases">Samples</string>
-  <string description="Title of the Tile from recyclerview" name="tile_common_subtitle">Make something for your Jacquard product.</string>
   <string description="Title of the Tile from recyclerview" name="tile_gesture_title">Gestures</string>
   <string description="Subtitle of the Tile from recyclerview" name="tile_gesture_subtitle">Learn how to perform gestures with your product</string>
   <string description="Title of the Tile from recyclerview" name="tile_haptics_title">Haptics</string>
@@ -55,11 +68,7 @@
   <string name="tile_cap_visualizer_subtitle">View capacitive values of touch sensor lines</string>
   <string name="tile_rename_tag_title">Rename Tag</string>
   <string name="tile_rename_tag_subtitle">Give the current active tag a custom name</string>
-  <string description="Title of the Tile from recyclerview" name="tile_ping_phone_title">Ping Phone</string>
-  <string description="Title of the Tile from recyclerview" name="tile_timer_title">Timer</string>
   <string description="Title of the Tile from recyclerview" name="tile_musical_threads_title">Musical Threads</string>
-  <string description="Title of the Tile from recyclerview" name="tile_notifications_title">Notifications</string>
-  <string description="Title of the Tile from recyclerview" name="tile_others_title">Other</string>
   <string description="Title of the Tile from recyclerview" name="tile_firmware_updates_title">Firmware Updates</string>
   <string name="tile_firmware_updates_subtitle">Install the latest updates</string>
   <string name="imu_tile_title">Motion Capture</string>
@@ -68,7 +77,6 @@
   <string description="Not attached state text" name="state_not_attached">Not attached</string>
   <string name="tag_name" translatable="false">Jacquard Tag</string>
   <string description="Disconnected state text" name="state_disconnected">Disconnected</string>
-  <string description="Attached state text" name="state_attached">Attached</string>
   <string description="Battery Info" name="home_page_battery_info">Battery: %s%%, %s</string>
   <string description="RSSI Info" name="home_page_rssi_info">RSSI: %s</string>
   <string description="RSSI Info" name="scan_page_rssi_info">(RSSI: %s)</string>
@@ -92,12 +100,10 @@
 
   <!--  Error messages-->
   <string description="Error message for tag not set as current tag" name="tag_details_tag_not_current">All details can\'t be shown as the tag is not set as the current tag.</string>
-  <string description="Error message for unsupported gear for LED" name="gear_led_not_supported">Component does not support the LED capability.</string>
   <string description="Error message tag not connected" name="tag_not_connected">Tag is disconnected.</string>
   <string description="Error message gear not attached" name="gear_detached">Tag is detached from the gear.</string>
 
   <!-- Haptics -->
-  <string name="haptics_gear_detached">Tag is not attached to the gear.</string>
   <string name="haptics_fragment_title">Haptics</string>
   <string name="haptics_fragment_subtitle">Your Jacquard product has haptic feedback</string>
 
@@ -111,6 +117,8 @@
   <string name="tag_manager_fragment_subtitle" description="Subtitle for the tag manager">TAGS</string>
   <string name="tag_manager" description="Title for the tag manager">Tag Manager</string>
   <string name="selected_as_current_tag">Tag %s Selected As Current Tag</string>
+  <string name="gear_attached_no">No</string>
+  <string name="current_tag">Current Tag</string>
 
   <!-- Tag Detail -->
   <string name="tag_detail_serial_number" description="Text for Serial Number Label">Serial Number</string>
@@ -121,10 +129,6 @@
   <string name="tag_detail_select_as_current_tag" description="Text for select Label">Select As Current Tag</string>
   <string name="tag_detail_forget_tag" description="Text for forget tag Label">Forget This Tag</string>
 
-  <!-- Battery View -->
-  <string name="battery_view_charging_text" description="Battery charging text">CHARGING</string>
-  <string name="battery_view_percentage_text" description="Battery percentage text">70%</string>
-
   <!-- Fragment Splash-->
   <string name="fragment_splash_title" description="Splash screen title">Jacquard SDK</string>
 
@@ -134,14 +138,8 @@
   <!-- Haptic Item -->
   <string name="haptic_item_gesture_pattern" description="Title for Haptic Item">Gesture Pattern</string>
 
-  <!-- Snack_bar -->
-  <string name="snack_bar_message_device_disconnected">Tag disconnected.</string>
-  <string name="snack_bar_message_device_connected">Tag connected.</string>
-
   <!-- Firmware Update Module-->
   <string name="check_firmware_update_btn">Check firmware update</string>
-  <string name="apply_firmware_btn">Apply Firmware</string>
-  <string name="execute_firmware_btn">Execute Firmware</string>
   <string name="firmware_updates_title">Firmware Updates</string>
   <string name="checking_for_updates_progress">Checking for Updates</string>
   <string name="execute_updates_progress">Finishing</string>
@@ -153,11 +151,11 @@
   <string name="auto_update_title">Auto update</string>
   <string name="auto_update_desc">After downloading firmware it will update automatically</string>
 
-  <string name="led_duration_hint">0</string>
-  <string name="led_duration_default_value">5</string>
+  <string name="default_led_duration">5</string>
   <string name="led_duration_text">Duration in seconds</string>
 
   <!-- Custom dialog-->
+  <string name="zero_dfu_progress">0%</string>
   <string name="optional_update_dialog_title">New Jacquard update available</string>
   <string name="optional_update_dialog_subtitle">We’ve made an important update to the Jacquard technology.</string>
   <string name="optional_update_dialog_positive_btn">Update</string>
@@ -201,7 +199,6 @@
   <string name="places_permission_dialog_subtitle">Jacquard requires location access in order to use places.</string>
   <string name="places_permission_dialog_positive_btn">Change Settings</string>
   <string name="places_permission_dialog_negative_btn">Cancel</string>
-  <string name="grant_permission">Please grant location permission for assigning this ability.</string>
   <string name="cancel">Cancel</string>
   <string name="got_it">Got It</string>
   <string name="ok_caps">OK</string>
@@ -244,8 +241,12 @@
   <string name="imu_dfu_error_message">Error occurred during firmware updates.</string>
   <string name="imu_initialize_complete_message">Init done. Please wait...</string>
   <string name="tag_disconnected">Tag disconnected.</string>
+  <string name="imu_rtstream_title">Imu Stream</string>
+  <string name="imu_start_stream">Start</string>
+  <string name="imu_stop_stream">Stop</string>
+  <string name="accelerometer">Accelerometer</string>
+  <string name="gyroscope">Gyroscope</string>
 
-  <string name="grant_permission_for_use">Please grant location permission for using this ability.</string>
   <string name="locations">%1d Locations</string>
   <string name="use_gesture">Use the %s gesture to drop pins</string>
   <string name="location_disabled">Location access is disabled in settings.</string>
@@ -265,4 +266,12 @@
   <string name="getting_location_please_wait">Getting location please wait...</string>
   <string name="places_time_out">Dropped pin will be delayed. Make sure you’re connected to Wi-Fi or mobile network.</string>
   <string name="location_details_error">Unable to find location details, please check your network.</string>
+
+  <string name="unknown" translatable="false">- -</string>
+  <string name="touch_mode_error">Failed to enable continuous touch mode</string>
+  <string name="download_firmware">Downloading Firmware</string>
+  <string name="firmware_upload_complete">Firmware Upload Completed</string>
+  <string name="continue_execute">Visit Firmware Update Screen to continue update</string>
+  <string name="tag_reboot">Tag is rebooting</string>
+  <string name="feature_will_not_work">This feature will not work because firmware update is in progress</string>
 </resources>

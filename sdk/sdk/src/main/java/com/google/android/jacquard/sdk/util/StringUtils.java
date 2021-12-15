@@ -49,6 +49,8 @@ public final class StringUtils {
     public String integerToHexString(int integer) {
         String hex = Integer.toHexString(integer);
         StringBuilder builder = new StringBuilder();
+        // Want 4 x two digit hex numbers, may need to pad with zeros.
+        hex = String.format("%8s", hex).replace(" ", "0");
         int index = 0;
         for (char c : hex.toCharArray()) {
             if (index > 0 && index % 2 == 0) {

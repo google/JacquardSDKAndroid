@@ -46,28 +46,29 @@ public class JacquardTagFactory {
       notificationFragmenter, dataFragmenter);
 
   private final FakePeripheral peripheral = new FakePeripheral(null);
-  private final RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics(
-      null, null, null, null, /* rawCharacteristic= */null);
+  private final RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics();
   private static final JacquardTagFactory instance = new JacquardTagFactory();
 
   private ConnectedJacquardTagImpl tag;
   private FakeTransportImpl transport;
 
   public static ConnectedJacquardTag createConnectedJacquardTag() {
-    return createConnectedJacquardTag(true);
+    return createConnectedJacquardTag(/* isModulePresent= */ true, /* isActive= */false);
   }
 
-  public static ConnectedJacquardTag createConnectedJacquardTag(boolean isModulePresent) {
-    return instance.createFakeConnectedTag(isModulePresent);
+  public static ConnectedJacquardTag createConnectedJacquardTag(boolean isModulePresent,
+      boolean isActive) {
+    return instance.createFakeConnectedTag(isModulePresent, isActive);
   }
 
-  private ConnectedJacquardTag createFakeConnectedTag(boolean isModulePresent) {
+  private ConnectedJacquardTag createFakeConnectedTag(boolean isModulePresent, boolean isActive) {
     if (tag == null) {
       transport = new FakeTransportImpl(peripheral, requiredCharacteristics,
           transportState);
       tag = new ConnectedJacquardTagImpl(transport, getDeviceInfo(), new FakeDfuManager());
     }
     transport.setModulePresent(isModulePresent);
+    transport.setModuleActive(isActive);
     return tag;
   }
 

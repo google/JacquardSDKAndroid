@@ -16,9 +16,9 @@
 
 package com.google.android.jacquard.sdk.imu.exception;
 
-import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionMode;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionStatus;
 
 /**
@@ -26,19 +26,28 @@ import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionStatus;
  */
 public class DCException extends IllegalStateException {
 
-  private DataCollectionStatus dataCollectionStatus;
+  protected DataCollectionStatus dataCollectionStatus;
+  protected DataCollectionMode dataCollectionMode;
 
-  public DCException(String message) {
-    super(message);
-    dataCollectionStatus = DataCollectionStatus.DATA_COLLECTION_UNKNOWN;
+  public DCException(@NonNull DataCollectionStatus status, @Nullable DataCollectionMode mode) {
+    super("DataCollectionStatus: " + status + ", DataCollectionMode: " + mode);
+    dataCollectionStatus = status;
+    dataCollectionMode = mode;
   }
 
-  public DCException(@NonNull DataCollectionStatus status) {
-    super(status.name());
-    this.dataCollectionStatus = status;
-  }
-
-  public DataCollectionStatus getDataCollectionStatus() {
+  public final DataCollectionStatus getDataCollectionStatus() {
     return dataCollectionStatus;
+  }
+
+  public final DataCollectionMode getDataCollectionMode() {
+    return dataCollectionMode;
+  }
+
+  @Override
+  public String toString() {
+    return "{" +
+        "dataCollectionStatus=" + dataCollectionStatus +
+        ", dataCollectionMode=" + dataCollectionMode +
+        '}';
   }
 }

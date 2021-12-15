@@ -83,10 +83,6 @@ public abstract class InternalComponent implements Comparable<InternalComponent>
     return componentId() == 0;
   }
 
-  public boolean isLegacyLeviSnapTag() {
-    return "Google Inc.".equals(vendorName()) && "Tag".equals(modelName());
-  }
-
   public static InternalComponent of(int componentId, DeviceInfoResponse deviceInfoResponse,
       Domain domain) {
 

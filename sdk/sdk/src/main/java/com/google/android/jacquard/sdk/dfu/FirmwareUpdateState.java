@@ -15,6 +15,7 @@
  */
 package com.google.android.jacquard.sdk.dfu;
 
+import androidx.annotation.NonNull;
 import com.google.auto.value.AutoOneOf;
 
 /** The states of {@link FirmwareUpdateStateMachine}. */
@@ -49,6 +50,7 @@ public abstract class FirmwareUpdateState {
     return AutoOneOf_FirmwareUpdateState.error(error);
   }
 
+  @NonNull
   public abstract Type getType();
 
   public abstract void idle();

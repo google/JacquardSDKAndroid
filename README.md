@@ -1,19 +1,3 @@
-<!-- 
-Copyright 2021-present Google LLC. All Rights Reserved.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License. 
--->
-
 ## Getting started
 Jacquard&#8482; by Google weaves new digital experiences into the things you
 love, wear, and use every day to give you the power to do more and be
@@ -35,15 +19,15 @@ You can find links to purchase these products on the [Google Jacquard website](h
 ## Sample App
 To run the example project, 
 - Clone the git repo
-- Open sample app `build.gradle` file and update your keys as below. 
+- To enable firmware updating, you should obtain a Jacquard API Key:
+  - Obtain a Jacquard API Key ([here](https://google.github.io/JacquardSDKAndroid/wiki/cloud-api-terms/))
+  - Edit `sample/gradle.properties` and enter your API Key in the appropriate place:
     ```
-    buildConfigField "String", "API_KEY", "\"<Your-api-key>\""
-    buildConfigField "String", "MAPS_API_KEY", "\"<Maps-api-key>\""
-    resValue("string", "maps_api_key", "\"<Maps-api-key>\"")
+    ApiKey=
     ```
-  You can obtain `API_KEY` on [Google Jacquard website](https://google.github.io/JacquardSDKAndroid/wiki/cloud-api-terms/)
-  whereas `MAPS_API_KEY` can be obtained from [Google Maps Platform](https://developers.google.com/maps/documentation/places/android-sdk/get-api-key).
-- You are now all set to run the sample app.
+  (You may also notice a placeholder for a Google Maps API Key - you may want one later to enable the Places demo feature in the sample app)
+- Launch Android Studio and open the `sample` directory in your checkout of the repository
+- You can now build and run the Jacquard sample app on your device
 
 ## Next Steps
 The best way to get started with the Jacquard SDK is to follow our tutorial.

@@ -16,19 +16,33 @@
 package com.google.android.jacquard.sdk.model;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.google.auto.value.AutoValue;
 
-/** Data class for sdk initialization. */
+/**
+ * Data class for sdk initialization.
+ */
 @AutoValue
 public abstract class SdkConfig {
 
-  public static SdkConfig of(@NonNull String clientId, @NonNull String apiKey) {
-    return new AutoValue_SdkConfig(clientId, apiKey);
+  public static SdkConfig of(@NonNull String clientId, @NonNull String apiKey,
+      @Nullable String cloudEndpointUrl) {
+    return new AutoValue_SdkConfig(clientId, apiKey, cloudEndpointUrl);
   }
 
-  /** The client id. */
+  /**
+   * The client id.
+   */
   public abstract String clientId();
 
-  /** The api key. */
+  /**
+   * The api key.
+   */
   public abstract String apiKey();
+
+  /**
+   * Cloud endpoint url. Defaults to production cloud endpoint.
+   */
+  @Nullable
+  public abstract String cloudEndpointUrl();
 }

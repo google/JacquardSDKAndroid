@@ -68,7 +68,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="24dp"
-    android:text="- -"
+    android:text="@string/unknown"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/serialNumberTxt" />
 
@@ -99,7 +99,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="24dp"
-    android:text="- -"
+    android:text="@string/unknown"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/versionNumberTxt" />
 
@@ -130,7 +130,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="24dp"
-    android:text="- -"
+    android:text="@string/unknown"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/batteryTxt" />
 
@@ -162,7 +162,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="24dp"
-    android:text="- -"
+    android:text="@string/unknown"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/attachTxt" />
 

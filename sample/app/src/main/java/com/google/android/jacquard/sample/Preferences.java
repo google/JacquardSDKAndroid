@@ -16,8 +16,10 @@
 
 package com.google.android.jacquard.sample;
 
-import static com.google.android.jacquard.sample.Preferences.KEY.CURRENT_IMU_SESSION;
+import static com.google.android.jacquard.sample.Preferences.KEY.ALMOST_READY_SHOWN;
+import static com.google.android.jacquard.sample.Preferences.KEY.AUTO_UPDATE;
 import static com.google.android.jacquard.sample.Preferences.KEY.CURRENT_TAG;
+import static com.google.android.jacquard.sample.Preferences.KEY.DFU_IN_PROGRESS;
 import static com.google.android.jacquard.sample.Preferences.KEY.FIRST_RUN;
 import static com.google.android.jacquard.sample.Preferences.KEY.GEAR_LED_STATE;
 import static com.google.android.jacquard.sample.Preferences.KEY.IS_GESTURE_LOADED;
@@ -52,7 +54,10 @@ public class Preferences {
     IS_GESTURE_LOADED,
     TAG_LED_STATE,
     GEAR_LED_STATE,
-    CURRENT_IMU_SESSION
+    DFU_STATE,
+    ALMOST_READY_SHOWN,
+    AUTO_UPDATE,
+    DFU_IN_PROGRESS
   }
 
   private static final String EMPTY_JSON_LIST = "[]";
@@ -175,17 +180,35 @@ public class Preferences {
     return sharedPref.getBoolean(GEAR_LED_STATE.toString(), false);
   }
 
-  /**
-   * Saves current Imu session id.
-   */
-  public void setCurrentImuSession(String id, String serial) {
-    sharedPref.edit().putString(CURRENT_IMU_SESSION.name() + serial, id).commit();
+  public void almostReadyDialogShown(boolean isShown) {
+    sharedPref.edit().putBoolean(ALMOST_READY_SHOWN.toString(), isShown).apply();
   }
 
-  /**
-   * Returns current imu session id.
-   */
-  public String getCurrentImuSessionId(String serial) {
-    return sharedPref.getString(CURRENT_IMU_SESSION.name() + serial, "0");
+  public boolean isAlmostReadyDialogShown() {
+    return sharedPref.getBoolean(ALMOST_READY_SHOWN.toString(), false);
+  }
+
+  public void autoUpdateFlag(boolean autoUpdate) {
+    sharedPref.edit().putBoolean(AUTO_UPDATE.toString(), autoUpdate).apply();
+  }
+
+  public boolean isAutoUpdate() {
+    return sharedPref.getBoolean(AUTO_UPDATE.toString(), false);
+  }
+
+  public void removeAutoUpdateFlag() {
+    sharedPref.edit().remove(AUTO_UPDATE.toString()).apply();
+  }
+
+  public void flagDfuInProgress() {
+    sharedPref.edit().putBoolean(DFU_IN_PROGRESS.toString(), true).apply();
+  }
+
+  public boolean isDfuInProgress() {
+    return sharedPref.getBoolean(DFU_IN_PROGRESS.toString(), false);
+  }
+
+  public void removeFlagDfuInProgress() {
+    sharedPref.edit().remove(DFU_IN_PROGRESS.toString()).apply();
   }
 }

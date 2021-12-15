@@ -36,7 +36,6 @@ import com.google.android.jacquard.sdk.model.Vendor;
 import com.google.android.jacquard.sdk.pairing.RequiredCharacteristics;
 import com.google.android.jacquard.sdk.tag.ConnectedJacquardTagImpl;
 import com.google.android.jacquard.sdk.util.FakeFragmenter;
-import com.google.android.jacquard.sdk.util.StringUtils;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DFUStatusResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DeviceInfoResponse;
 import java.io.ByteArrayInputStream;
@@ -66,7 +65,7 @@ public final class FirmwareImageWriterStateMachineTest {
   @Before
   public void setup() {
     PrintLogger.initialize(ApplicationProvider.getApplicationContext());
-    DataProvider.create(getVendors(), StringUtils.getInstance());
+    DataProvider.create(getVendors());
     JacquardManagerInitialization.initJacquardManager();
     firmwareImageWriter = new FirmwareImageWriterStateMachine(VENDOR_ID, PRODUCT_ID,
         Component.TAG_ID);
@@ -253,8 +252,7 @@ public final class FirmwareImageWriterStateMachineTest {
         ProtocolSpec.VERSION_2.getMtuSize());
     FakeTransportState transportState = new FakeTransportState(commandFragmenter,
         notificationFragmenter, dataFragmenter);
-    RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics(
-        null, null, null, null, null);
+    RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics();
     FakeTransportImpl transport = new FakeTransportImpl(peripheral, requiredCharacteristics,
         transportState);
     return transport;

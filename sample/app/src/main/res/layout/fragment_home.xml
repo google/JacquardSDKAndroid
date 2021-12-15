@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright 2021-present Google LLC. All Rights Reserved.
+  ~ Copyright 2021 Google LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
 <com.google.android.jacquard.sample.utilities.JacquardRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -86,4 +87,12 @@
       android:layout_below="@id/relTop"
       android:paddingStart="@dimen/padding_15dp"
       android:paddingEnd="@dimen/padding_15dp"/>
+
+  <com.google.android.jacquard.sample.utilities.CustomBottomProgress
+      android:id="@+id/customBottomProgress"
+      layout="@layout/item_dfu_progress"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:visibility="gone" />
   </com.google.android.jacquard.sample.utilities.JacquardRelativeLayout>

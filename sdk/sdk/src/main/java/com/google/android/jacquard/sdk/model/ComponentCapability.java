@@ -16,11 +16,11 @@
 package com.google.android.jacquard.sdk.model;
 
 import com.google.auto.value.AutoValue;
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
+import com.ryanharter.auto.value.gson.GenerateTypeAdapter;
 import java.util.List;
 
 /** Defines Capabilities assign to specific component from cloud. */
+@GenerateTypeAdapter
 @AutoValue
 public abstract class ComponentCapability {
 
@@ -32,9 +32,4 @@ public abstract class ComponentCapability {
 
     /** Returns list of capability ids for the Component. */
     public abstract List<Long> capabilityIds();
-
-    /** Returns TypeAdapter to parse ComponentCapability with Gson. */
-    public static TypeAdapter<ComponentCapability> typeAdapter(Gson gson) {
-        return new AutoValue_ComponentCapability.GsonTypeAdapter(gson);
-    }
 }

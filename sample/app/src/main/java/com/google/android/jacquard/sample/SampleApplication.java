@@ -17,6 +17,7 @@
 package com.google.android.jacquard.sample;
 
 import android.app.Application;
+import android.text.TextUtils;
 import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.model.SdkConfig;
 
@@ -29,8 +30,16 @@ public class SampleApplication extends Application {
   public void onCreate() {
     super.onCreate();
     resourceLocator = new ResourceLocator(this);
+    if (TextUtils.isEmpty(BuildConfig.API_KEY)) {
+        PrintLogger.w(TAG, "******************************");
+        PrintLogger.w(TAG, "* Invalid API Key.");
+        PrintLogger.w(TAG, "* Cloud functions will not work (eg. firmware updating)");
+        PrintLogger.w(TAG, "* Information on obtaining an API key is at");
+        PrintLogger.w(TAG, "* https://google.github.io/JacquardSDKAndroid/wiki/cloud-api-terms/");
+        PrintLogger.w(TAG, "******************************");
+    }
     resourceLocator.getConnectivityManager()
-        .init(SdkConfig.of(getPackageName(), BuildConfig.API_KEY));
+        .init(SdkConfig.of(getPackageName(), BuildConfig.API_KEY, BuildConfig.CLOUD_ENDPOINT));
     PrintLogger.d(TAG,
         "App created # " + getString(R.string.app_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
   }

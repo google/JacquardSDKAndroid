@@ -149,6 +149,14 @@
       app:popExitAnim="@anim/exit_to_right"
       app:popUpTo="@id/homeFragment" />
     <action
+      android:id="@+id/action_homeFragment_to_imuStreamingFragment"
+      app:destination="@id/imuStreamingFragment"
+      app:enterAnim="@anim/enter_from_right"
+      app:exitAnim="@anim/exit_to_left"
+      app:popEnterAnim="@anim/enter_from_left"
+      app:popExitAnim="@anim/exit_to_right"
+      app:popUpTo="@id/homeFragment" />
+    <action
       android:id="@+id/action_homeFragment_to_placesListFragment"
       app:destination="@id/placesListFragment"
       app:enterAnim="@anim/enter_from_right"
@@ -294,6 +302,11 @@
     android:name="com.google.android.jacquard.sample.imu.ImuSamplesListFragment"
     android:label="IMUSamplesListFragment" >
     <argument android:name="sessionDataFilePath" app:argType="java.lang.String"/>
+  </fragment>
+  <fragment
+    android:id="@+id/imuStreamingFragment"
+    android:name="com.google.android.jacquard.sample.imu.ImuStreamingFragment"
+    android:label="ImuStreamingFragment" >
   </fragment>
   <fragment
     android:id="@+id/placesDetailsFragment"

@@ -21,6 +21,7 @@ import static com.google.android.jacquard.sdk.connection.ConnectionState.Type.CO
 import com.google.android.jacquard.sample.ConnectivityManager;
 import com.google.android.jacquard.sdk.dfu.DFUInfo;
 import com.google.android.jacquard.sdk.dfu.FirmwareUpdateState;
+import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.rx.Signal;
 import com.google.android.jacquard.sdk.tag.ConnectedJacquardTag;
 import java.util.List;
@@ -30,40 +31,61 @@ public class FirmwareManager {
 
   private static final String TAG = FirmwareManager.class.getSimpleName();
   private ConnectivityManager connectivityManager;
+  private List<DFUInfo> dfuInfoList;
 
   public FirmwareManager(ConnectivityManager connectivityManager) {
     this.connectivityManager = connectivityManager;
   }
 
   /** Check for firmware updated of all components. */
-  public Signal<List<DFUInfo>> checkFirmware(boolean forceUpdate) {
-    return getConnectedJacquardTag()
-        .flatMap(tag -> tag.dfuManager().checkFirmware(tag.getComponents(), forceUpdate));
+  public Signal<List<DFUInfo>> checkFirmware(String address, boolean forceUpdate) {
+    return getConnectedJacquardTag(address)
+        .flatMap(tag -> tag.dfuManager().checkFirmware(tag.getComponents(), forceUpdate))
+        .tap(dfuInfos -> {
+          PrintLogger.d(TAG, "checkFirmware result : " + dfuInfos);
+          dfuInfoList = dfuInfos;
+        })
+        .tapError(error -> PrintLogger.d(TAG, "checkFirmware error : " + error.getMessage()));
   }
 
   /** Apply the firmware updated of provided DfuManager. */
-  public Signal<FirmwareUpdateState> applyFirmware(List<DFUInfo> dfuInfos, boolean autoExecute) {
-    return getConnectedJacquardTag()
-        .flatMap(tag -> tag.dfuManager().applyUpdates(dfuInfos, autoExecute));
+  public Signal<FirmwareUpdateState> applyFirmware(String address, boolean autoExecute) {
+    return getConnectedJacquardTag(address)
+        .flatMap(tag -> {
+          tag.dfuManager().applyUpdates(dfuInfoList, autoExecute);
+          return tag.dfuManager().getCurrentState();
+        })
+        .distinctUntilChanged()
+        .tap(status -> PrintLogger.d(TAG, "applyFirmware response = " + status))
+        .tapError(error -> PrintLogger.d(TAG, "applyFirmware error = " + error.getMessage()));
   }
 
   /** execute the firmware updated of provided DfuManager. */
-  public Signal<FirmwareUpdateState> executeFirmware() {
-    return getConnectedJacquardTag().flatMap(tag -> tag.dfuManager().executeUpdates());
+  public Signal<FirmwareUpdateState> executeFirmware(String address) {
+    return getConnectedJacquardTag(address)
+        .flatMap(tag -> {
+          tag.dfuManager().executeUpdates();
+          return tag.dfuManager().getCurrentState();
+        });
   }
 
   /** Stops the dfu process. If the dfu process is going on and also reset the dfu process. */
-  public void stop() {
-    getConnectedJacquardTag().onNext(tag -> tag.dfuManager().stop());
+  public void stop(String address) {
+    getConnectedJacquardTag(address).onNext(tag -> tag.dfuManager().stop());
   }
 
-  private Signal<ConnectedJacquardTag> getConnectedJacquardTag() {
-    return connectivityManager.getConnectionStateSignal().first().flatMap(connectionState -> {
-      if (!connectionState.isType(CONNECTED)) {
-        return Signal.empty(
-            new IllegalStateException("Device is not connected."));
-      }
-      return Signal.from(connectionState.connected());
-    });
+  public Signal<FirmwareUpdateState> getState(String address) {
+    return getConnectedJacquardTag(address).flatMap(tag -> tag.dfuManager().getCurrentState());
+  }
+
+  private Signal<ConnectedJacquardTag> getConnectedJacquardTag(String address) {
+    return connectivityManager.getConnectionStateSignal(address).first()
+        .flatMap(connectionState -> {
+          if (!connectionState.isType(CONNECTED)) {
+            return Signal.empty(
+                new IllegalStateException("Device is not connected."));
+          }
+          return Signal.from(connectionState.connected());
+        });
   }
 }

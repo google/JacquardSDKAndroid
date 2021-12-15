@@ -42,6 +42,7 @@ import com.google.android.jacquard.sdk.imu.parser.ImuSessionData.ImuSampleCollec
 import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.rx.Executors;
 import com.google.android.jacquard.sdk.rx.Signal;
+import com.google.android.jacquard.sdk.rx.Signal.Subscription;
 import com.google.atap.jacquard.protocol.JacquardProtocol.ImuSample;
 import java.io.File;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class ImuSamplesListFragment extends Fragment {
   private ImuDataListAdapter imuDataListAdapter;
   private TextView title;
   private LinearLayout progressLayout;
+  private List<Subscription> subscriptions = new ArrayList<>();
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -92,6 +94,17 @@ public class ImuSamplesListFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     path = ImuSamplesListFragmentArgs.fromBundle(getArguments()).getSessionDataFilePath();
+  }
+
+  @Override
+  public void onDestroyView() {
+    for (Subscription subscription : subscriptions) {
+      if (subscription != null) {
+        subscription.unsubscribe();
+      }
+    }
+    subscriptions.clear();
+    super.onDestroyView();
   }
 
   private void initRecyclerView(@NonNull View view) {
@@ -134,13 +147,17 @@ public class ImuSamplesListFragment extends Fragment {
   }
 
   private void showProgress() {
-    changeStatusBarColor(R.color.progress_overlay);
-    progressLayout.setVisibility(View.VISIBLE);
+    if (isAdded()) {
+      changeStatusBarColor(R.color.progress_overlay);
+      progressLayout.setVisibility(View.VISIBLE);
+    }
   }
 
   private void hideProgress() {
-    changeStatusBarColor(R.color.white);
-    progressLayout.setVisibility(View.GONE);
+    if (isAdded()) {
+      changeStatusBarColor(R.color.white);
+      progressLayout.setVisibility(View.GONE);
+    }
   }
 
   private void changeStatusBarColor(@ColorRes int color) {
@@ -150,7 +167,7 @@ public class ImuSamplesListFragment extends Fragment {
 
   private void navigateBack(int message) {
     Util.showSnackBar(getView(), getString(message), 1000);
-    Signal.from(1).delay(1000).onNext(ignore -> viewModel.backKeyPressed());
+    subscriptions.add(Signal.from(1).delay(1000).onNext(ignore -> viewModel.backKeyPressed()));
   }
 
   private void initToolbar() {

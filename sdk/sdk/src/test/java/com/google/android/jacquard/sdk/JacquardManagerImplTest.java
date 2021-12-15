@@ -124,6 +124,20 @@ public class JacquardManagerImplTest {
   }
 
   @Test
+  public void testConnectByAddress_stateReused() {
+    // Assign
+    AtomicReference<ConnectionState> connectionStateReference = new AtomicReference<>();
+    AtomicReference<ConnectionState> connectionStateReference2 = new AtomicReference<>();
+    BluetoothAdapter.getDefaultAdapter().enable();
+    jacquardManager.connect(context, FAKE_ADDRESS, consumer).onNext(connectionStateReference::set);
+    // Act
+    jacquardManager.connect(context, FAKE_ADDRESS, consumer).onNext(connectionStateReference2::set);
+    // Assert
+    assertThat(connectionStateReference.get()).isEqualTo(connectionStateReference2.get());
+    assertThat(connectionStateReference2.get()).isEqualTo(ConnectionState.ofPreparingToConnect());
+  }
+
+  @Test
   public void testConnectByAddress_preparingToConnect() {
     // Assign
     AtomicReference<ConnectionState> connectionStateReference = new AtomicReference<>();
@@ -171,11 +185,12 @@ public class JacquardManagerImplTest {
   @Test
   public void init() {
     // Assign
-    SdkConfig config = SdkConfig.of("clientId", "apiKey");
+    SdkConfig config = SdkConfig.of("clientId", "apiKey", /* cloudEndpointUrl= */ null);
     // Act
     jacquardManager.init(config);
     // Assert
-    assertThat(jacquardManager.getSdkConfig()).isEqualTo(config);
+    assertThat(jacquardManager.getSdkConfig().cloudEndpointUrl())
+        .isEqualTo(BuildConfig.CLOUD_ENDPOINT_PRODUCTION);
   }
 
   @Test

@@ -15,23 +15,33 @@ package com.google.android.jacquard.sdk.datastore;
  * limitations under the License.
  */
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.google.android.jacquard.sdk.command.DeviceInfo;
-import com.google.android.jacquard.sdk.log.PrintLogger;
 import com.google.android.jacquard.sdk.model.Component;
 import com.google.android.jacquard.sdk.model.Product;
+import com.google.android.jacquard.sdk.model.Product.Capability;
 import com.google.android.jacquard.sdk.model.Revision;
 import com.google.android.jacquard.sdk.model.Vendor;
 import com.google.android.jacquard.sdk.util.StringUtils;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Stores and provides all meta data from cloud json
  */
 public final class DataProvider {
-  private static final String TAG = DataProvider.class.getSimpleName();
   private static DataProvider dataProvider;
-  private static StringUtils stringUtils;
+  private final StringUtils stringUtils = StringUtils.getInstance();
+  private final Map<String, Vendor> vendors;
 
+  /**
+   * Returns existing instance of {@link DataProvider}.<br/> Do not forget to call {@link
+   * DataProvider#create(Map)} before calling this api.
+   *
+   * @return {@link DataProvider}
+   */
   public static DataProvider getDataProvider() {
     if (dataProvider == null) {
       throw new IllegalStateException("Store is not created. Please call create() first");
@@ -43,65 +53,71 @@ public final class DataProvider {
    * Creates an Object of {@link DataProvider} with all the data.
    *
    * @param vendors All the vendors Mapped with its unique id.
-   * @param stringUtilsInstance stringUtils {@link StringUtils} class instance.
    */
-  public static void create(Map<String, Vendor> vendors, StringUtils stringUtilsInstance) {
+  public static void create(Map<String, Vendor> vendors) {
     dataProvider = new DataProvider(vendors);
-    stringUtils = stringUtilsInstance;
   }
 
   /**
-   * Returns the Component object correspond to vendorId, productId.
+   * Returns the gear Component object correspond to vendorId, productId.
    *
-   * @param componentId int component id.
-   * @param vendorId int vendor id.
-   * @param productId int product id.
-   * @param version Revision object.
+   * @param componentId  int component id.
+   * @param vendorId     int vendor id.
+   * @param productId    int product id.
+   * @param version      Revision object.
    * @param serialNumber String device serial number.
-   * @return Corresponding Component object.
+   * @return Corresponding {@link Component} or null if no matching component is found.
    */
-  public Component getComponent(int componentId, int vendorId, int productId, Revision version,
+  @Nullable
+  public Component getGearComponent(int componentId, int vendorId, int productId, Revision version,
       String serialNumber) {
     Vendor vendor = getVendor(stringUtils.integerToHexString(vendorId));
-    PrintLogger.d(TAG,
-        "Vendor Id int >> " + vendorId + " hex >> " + stringUtils.integerToHexString(vendorId));
+    if (vendor == null) {
+      return null;
+    }
     Product product = getProduct(stringUtils.integerToHexString(productId), vendor);
-    PrintLogger.d(TAG,
-        "Product Id int >> " + productId + " hex >> " + stringUtils.integerToHexString(productId));
+    if (product == null) {
+      return null;
+    }
     return Component
         .of(componentId, vendor, product, product.capabilities(), version, serialNumber);
   }
 
   /**
-   * Returns the Component object correspond to componentId, deviceInfo.
+   * Returns the tag Component object.
    *
-   * @param componentId int component id.
    * @param deviceInfo DeviceInfo object.
-   * @return Corresponding Component object.
    */
-  public Component getComponent(int componentId, DeviceInfo deviceInfo) {
-    return getComponent(componentId, deviceInfo.vendorId(), deviceInfo.productId(),
-        deviceInfo.version(), deviceInfo.serialNumber());
+  public Component getTagComponent(@NonNull DeviceInfo deviceInfo) {
+    List<Capability> capabilities = new ArrayList<>();
+    capabilities.add(Capability.LED);
+    Product product = Product
+        .of(stringUtils.integerToHexString(deviceInfo.productId()), "Jacquard Tag", "JQTag",
+            capabilities);
+    List<Product> products = new ArrayList<>();
+    products.add(product);
+    Vendor vendor = Vendor
+        .of(stringUtils.integerToHexString(deviceInfo.vendorId()), deviceInfo.vendor(), products);
+    return Component.of(Component.TAG_ID, vendor, product, capabilities, deviceInfo.version(),
+        deviceInfo.serialNumber());
   }
 
   private DataProvider(Map<String, Vendor> vendors) {
     this.vendors = vendors;
   }
 
-  private final Map<String, Vendor> vendors;
-
+  @Nullable
   private Vendor getVendor(String vendorId) {
-    return vendors.containsKey(vendorId) ?
-        vendors.get(vendorId) :
-        vendors.get(0);
+    return vendors.get(vendorId);
   }
 
+  @Nullable
   private Product getProduct(String productId, Vendor vendor) {
     for (Product product : vendor.products()) {
       if (productId.equals(product.id())) {
         return product;
       }
     }
-    return vendor.products().get(0);
+    return null;
   }
 }

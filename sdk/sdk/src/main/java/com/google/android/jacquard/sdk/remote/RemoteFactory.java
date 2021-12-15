@@ -46,6 +46,6 @@ public final class RemoteFactory {
   }
 
   public static void createDataProvider(ComponentMetaData componentMetaData) {
-    DataProvider.create(componentMetaData.vendors(), StringUtils.getInstance());
+    DataProvider.create(componentMetaData.vendors());
   }
 }

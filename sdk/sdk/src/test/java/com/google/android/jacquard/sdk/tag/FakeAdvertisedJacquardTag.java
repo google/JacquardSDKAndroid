@@ -54,7 +54,7 @@ public class FakeAdvertisedJacquardTag implements AdvertisedJacquardTag {
   }
 
   @Override
-  public String identifier() {
+  public String address() {
     return null;
   }
 

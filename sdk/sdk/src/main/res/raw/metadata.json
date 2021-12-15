@@ -69,11 +69,24 @@
       "name": "Google",
       "products": [
         {
-          "id": "28-3b-e7-a0",
-          "name": "Jacquard Tag",
-          "image": "jq_tag",
+          "id": "15-29-c7-5b",
+          "name": "Patch A0",
+          "image": "protokit_a0",
           "capabilities": [
-            1
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "09-2f-41-ab",
+          "name": "Patch B0",
+          "image": "protokit_b0",
+          "capabilities": [
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]

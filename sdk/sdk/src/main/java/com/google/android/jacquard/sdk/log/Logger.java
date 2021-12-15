@@ -127,4 +127,10 @@ public interface Logger {
    */
   File getLogFile(Context context);
 
+  /**
+   * Ignores (does not print) the logs containing provided ignoreText.
+   *
+   * @param ignoreText is the text to ignore.
+   */
+  void addToIgnoreList(String ignoreText);
 }

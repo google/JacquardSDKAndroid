@@ -63,20 +63,6 @@
           ]
         }
       ]
-    },
-    {
-      "id": "11-78-30-c8",
-      "name": "Google",
-      "products": [
-        {
-          "id": "28-3b-e7-a0",
-          "name": "Jacquard Tag",
-          "image": "jq_tag",
-          "capabilities": [
-            1
-          ]
-        }
-      ]
     }
   ]
 }

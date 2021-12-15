@@ -63,7 +63,7 @@
         android:id="@+id/txtProgressPercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0%"
+        android:text="@string/zero_dfu_progress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <ProgressBar

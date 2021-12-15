@@ -56,6 +56,7 @@ class TransportImpl implements Transport {
   private boolean shouldCacheAttachNotification = true;
   final Signal<Notification> notificationSignal = Signal.create();
   final Signal<Pair<Integer, byte[]>> dataTransport = Signal.create();
+  final Signal<byte[]> rawData = Signal.create();
   private Signal<Integer> valueRssiSignal;
   private Timer rssiTimer;
 
@@ -186,6 +187,11 @@ class TransportImpl implements Transport {
         .filter(x -> x.second.length > 0);
   }
 
+  @Override
+  public Signal<byte[]> getRawData() {
+    return rawData;
+  }
+
   private void stopRSSITimer() {
     PrintLogger.d(TAG, "stopRSSITimer");
     if (rssiTimer != null) {
@@ -215,9 +221,9 @@ class TransportImpl implements Transport {
       return;
     }
     PrintLogger.d(TAG, "sending pending notification");
+    shouldCacheAttachNotification = false;
     signal.next(pendingAttachNotification);
     pendingAttachNotification = null;
-    shouldCacheAttachNotification = false;
   }
 
   private synchronized void sendNextRequest() {
@@ -271,6 +277,10 @@ class TransportImpl implements Transport {
       }
       return new Subscription();
     }).flatMap(ignore -> commandResponses.filter(response -> {
+      if (inFlight == null) {
+        PrintLogger.d(TAG, "inFlight object is null.");
+        return false;
+      }
       PrintLogger
           .d(TAG, "response id: " + response.getId() + " inFlight id: " + inFlight.getId());
       return response.getId() == inFlight.getId();
@@ -351,6 +361,14 @@ class TransportImpl implements Transport {
    */
   private void onDataReceived(byte[] data) {
     PrintLogger.d(TAG, "Data Received on raw chars # " + data.length + Arrays.toString(data));
+    if (data.length == 0) {
+      PrintLogger.e(TAG, "onDataUpdate with empty data");
+      return;
+    }
+    if (rawData.hasObservers()) {
+      PrintLogger.d(TAG, "Sending data on rawChars #");
+      rawData.next(data);
+    }
     if (!dataTransport.hasObservers()) {
       PrintLogger.d(TAG, "There is no observer for DataTransport. Ignoring #");
       return;

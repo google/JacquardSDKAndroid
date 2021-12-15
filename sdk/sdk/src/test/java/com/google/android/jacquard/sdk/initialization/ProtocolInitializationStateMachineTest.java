@@ -40,7 +40,6 @@ import com.google.android.jacquard.sdk.model.SdkConfig;
 import com.google.android.jacquard.sdk.model.Vendor;
 import com.google.android.jacquard.sdk.pairing.RequiredCharacteristics;
 import com.google.android.jacquard.sdk.util.Fragmenter;
-import com.google.android.jacquard.sdk.util.StringUtils;
 import com.google.atap.jacquard.protocol.JacquardProtocol.BeginResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.DeviceInfoResponse;
 import com.google.atap.jacquard.protocol.JacquardProtocol.HelloResponse;
@@ -69,10 +68,7 @@ public final class ProtocolInitializationStateMachineTest {
   public void setUp() {
     PrintLogger.initialize(ApplicationProvider.getApplicationContext());
     peripheral = new FakePeripheral(/* bleQueue= */null);
-    RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics(
-        /* commandCharacteristic= */null,/* responseCharacteristic= */
-        null,/* notifyCharacteristic= */ null,/* batteryCharacteristic= */
-        null, /* rawCharacteristic= */null);
+    RequiredCharacteristics requiredCharacteristics = new RequiredCharacteristics();
     protocolInitializationStateMachine = new ProtocolInitializationStateMachine(peripheral,
         requiredCharacteristics);
   }
@@ -102,9 +98,10 @@ public final class ProtocolInitializationStateMachineTest {
     // Arrange
     JacquardManagerInitialization.initJacquardManager();
     JacquardManager.getInstance()
-        .init(SdkConfig.of(/* clientId= */"aa-aa-aa-aa", /* apiKey= */"api key"));
+        .init(SdkConfig
+            .of(/* clientId= */"aa-aa-aa-aa", /* apiKey= */"api key", /* cloudEndpointUrl= */null));
     FakeConnectState tagInitializedConnectState = getBeginCommandResponse();
-    DataProvider.create(getVendors(), StringUtils.getInstance());
+    DataProvider.create(getVendors());
     // Act
     protocolInitializationStateMachine.onStateEvent(tagInitializedConnectState);
     // Assert
@@ -114,7 +111,7 @@ public final class ProtocolInitializationStateMachineTest {
     // Cases 4 - Tag initialized
     // Arrange
     List<FakeConnectState> connectStates = getDeviceInfoCommandResponse();
-    DataProvider.create(getVendors(), StringUtils.getInstance());
+    DataProvider.create(getVendors());
     // Act
     for (FakeConnectState connectState : connectStates) {
       protocolInitializationStateMachine.onStateEvent(connectState);
@@ -157,9 +154,9 @@ public final class ProtocolInitializationStateMachineTest {
     capabilities.add(Product.Capability.GESTURE);
     capabilities.add(Product.Capability.LED);
     List<Product> products = new ArrayList<>();
-    products.add(Product.of("2", "Product 2", "jq_image", capabilities));
+    products.add(Product.of("00-00-00-02", "Product 2", "jq_image", capabilities));
     Map<String, Vendor> vendors = new HashMap<>();
-    vendors.put("1", Vendor.of("1", "Vendor 1", products));
+    vendors.put("00-00-00-01", Vendor.of("00-00-00-01", "Vendor 1", products));
     return vendors;
   }
 

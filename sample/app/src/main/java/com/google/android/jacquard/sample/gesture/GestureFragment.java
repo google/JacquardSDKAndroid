@@ -62,8 +62,6 @@ public class GestureFragment extends Fragment {
         new ViewModelProvider(
             this, new ViewModelFactory(requireActivity().getApplication(), getNavController()))
             .get(GestureViewModel.class);
-    subscriptions.add(viewModel.getGestures().onNext(this::onGestures));
-    subscribeEvents();
   }
 
   public View onCreateView(
@@ -89,6 +87,9 @@ public class GestureFragment extends Fragment {
 
     Toolbar toolbar = view.findViewById(R.id.toolbar);
     toolbar.setNavigationOnClickListener(v -> viewModel.upClick());
+    viewModel.init();
+    subscriptions.add(viewModel.getGestures().onNext(this::onGestures));
+    subscribeEvents();
     initInfoButton(view);
   }
 
@@ -122,9 +123,9 @@ public class GestureFragment extends Fragment {
   }
 
   @Override
-  public void onDestroy() {
+  public void onDestroyView() {
     unSubscribeSubscription();
-    super.onDestroy();
+    super.onDestroyView();
   }
 
   private void unSubscribeSubscription() {

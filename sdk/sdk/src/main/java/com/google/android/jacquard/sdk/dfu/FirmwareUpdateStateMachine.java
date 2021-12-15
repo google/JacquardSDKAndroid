@@ -25,6 +25,7 @@ import com.google.android.jacquard.sdk.StateMachine;
 import com.google.android.jacquard.sdk.command.BatteryStatus;
 import com.google.android.jacquard.sdk.command.BatteryStatusCommand;
 import com.google.android.jacquard.sdk.command.DfuExecuteUpdateNotificationSubscription;
+import com.google.android.jacquard.sdk.connection.CommandResponseStatus;
 import com.google.android.jacquard.sdk.connection.ConnectionState;
 import com.google.android.jacquard.sdk.dfu.DFUInfo.UpgradeStatus;
 import com.google.android.jacquard.sdk.dfu.FirmwareUpdateEvents.ParamsPrepareToTransfer;
@@ -66,7 +67,7 @@ final class FirmwareUpdateStateMachine implements StateMachine<FirmwareUpdateSta
 
   @Override
   public Signal<FirmwareUpdateState> getState() {
-    return stateSignal;
+    return stateSignal.distinctUntilChanged();
   }
 
   @Override
@@ -320,7 +321,17 @@ final class FirmwareUpdateStateMachine implements StateMachine<FirmwareUpdateSta
       List<DFUInfo> dfuInfos, int indexPos, long totalTransferSize, long previousTransferSize,
       Signal<Integer> signalParent) {
     return uploadBinary(tag, dfuChecker, dfuInfos.get(indexPos))
-        .flatMap(transferState -> {
+        .tapError(error -> {
+          if (CommandResponseStatus.ERROR_UNKNOWN.name().equalsIgnoreCase(error.getMessage())) {
+            PrintLogger.e(TAG, /* message= */
+                "Corrupt firmware usecase: " + error + " Deleting the firmware file.");
+            DFUInfo dfuInfo = dfuInfos.get(indexPos);
+            Component component = getComponent(tag, dfuInfo);
+            // Remove DFU from preference and file.
+            dfuChecker.removeFirmwareCacheInfo(dfuInfo, component.serialNumber());
+            dfuChecker.removeFirmwareFile(dfuInfo);
+          }
+        }).flatMap(transferState -> {
           long transferFileSize = previousTransferSize + transferState.offset();
           int percentage = (int) (transferFileSize * 100 / totalTransferSize);
           PrintLogger.d(TAG, "transferState : " + transferState + " percentage : " + percentage);
@@ -461,7 +472,7 @@ final class FirmwareUpdateStateMachine implements StateMachine<FirmwareUpdateSta
         new DfuExecuteCommand(component.vendor().id(), component.product().id(),
             component.componentId())).flatMap(ignore -> {
       // Remove DFU from preference and file.
-      dfuChecker.removeFirmware(dfuInfo, component.serialNumber());
+      dfuChecker.removeFirmwareCacheInfo(dfuInfo, component.serialNumber());
       PrintLogger.d(TAG,
           "DfuExecuteCommand response : " + ignore + " componentId : " + component
               .componentId());
@@ -469,7 +480,7 @@ final class FirmwareUpdateStateMachine implements StateMachine<FirmwareUpdateSta
         // ConnectionStateSignal is sticky signal and it send last connectionState value.
         // Before rebooting process start we are observing the signal and getting connected state,
         // so added drop to ignore the first connectionState from this signal.
-        return JacquardManager.getInstance().getConnectionStateSignal(tag.identifier())
+        return JacquardManager.getInstance().getConnectionStateSignal(tag.address())
             .filter(connectionState -> connectionState.isType(
                 ConnectionState.Type.CONNECTED)).drop(1).first().map(ignoreState -> {
               PrintLogger.d(TAG, "UJT firmware updated");

@@ -21,6 +21,8 @@ import com.google.atap.jacquard.protocol.JacquardProtocol.DataCollectionActionHe
 import com.google.atap.jacquard.protocol.JacquardProtocol.ImuSample;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -50,7 +52,6 @@ public class ImuParserImpl implements ImuParser {
     short gy = byteBuffer.getShort();
     short gz = byteBuffer.getShort();
     int timestamp = byteBuffer.getInt();
-
     return ImuSample.newBuilder()
         .setAccX(ax)
         .setAccY(ay)
@@ -60,6 +61,25 @@ public class ImuParserImpl implements ImuParser {
         .setGyroYaw(gz)
         .setUjtSysTick(timestamp)
         .build();
+  }
+
+  @Override
+  public List<ImuSample> parseImuSamples(byte[] bytes) {
+    int expected = bytes.length / IMU_SAMPLE_LENGTH;
+    if (expected == 0) {
+      return new ArrayList<>();
+    }
+    List<ImuSample> samples = new ArrayList<>(expected);
+    for (int index = 0; index < expected; index++) {
+      samples.add(parse(bytes, index * IMU_SAMPLE_LENGTH));
+    }
+    return samples;
+  }
+
+  private ImuSample parse(byte[] bytes, int offset) {
+    byte[] sampleData = new byte[IMU_SAMPLE_LENGTH];
+    System.arraycopy(bytes, offset, sampleData, 0, IMU_SAMPLE_LENGTH);
+    return parseImuSample(sampleData);
   }
 
   @Override

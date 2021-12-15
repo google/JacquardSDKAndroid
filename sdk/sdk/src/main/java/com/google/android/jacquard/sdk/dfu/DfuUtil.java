@@ -90,7 +90,7 @@ final class DfuUtil {
    * @param inputStream {@link InputStream} to read.
    * @param file {@link File} to write to.
    */
-  static Signal<Boolean> inputStreamToFile(InputStream inputStream, File file) {
+  static Signal<Boolean> inputStreamToFile(InputStream inputStream, File file, long contentLength) {
 
     return Signal.create(signal -> {
 
@@ -108,9 +108,16 @@ final class DfuUtil {
         outputStream.flush();
         PrintLogger
             .d(TAG, /* message= */ "File: " + file.getCanonicalFile() + " created: " + newFile);
-        signal.next(true);
+
+        if (contentLength != file.length()) {
+          throw new IOException("Cached file length does not match with ContentLength");
+        } else {
+          signal.next(true);
+        }
       } catch (IOException e) {
         PrintLogger.e(TAG, /* message= */ e.getMessage());
+        boolean deleted = file.delete();
+        PrintLogger.d(TAG, /* message= */ "File deleted: " + deleted);
         signal.error(e);
       } finally {
         try {

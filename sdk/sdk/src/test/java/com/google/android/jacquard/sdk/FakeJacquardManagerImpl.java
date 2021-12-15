@@ -43,7 +43,7 @@ public final class FakeJacquardManagerImpl extends JacquardManagerImpl {
   private final static String API_KEY = "api key";
   private final static String VENDOR_ID = "74-a8-ce-54";
   private final static String PRODUCT_ID = "8a-66-50-f4";
-  private boolean isModulePresent;
+  private boolean isModulePresent, isModuleActive;
 
   private ConnectionState state;
   private boolean sendConnectedTwiceForExecute;
@@ -54,7 +54,7 @@ public final class FakeJacquardManagerImpl extends JacquardManagerImpl {
    * @param context context providing access to the {@link BluetoothAdapter}.
    */
   public FakeJacquardManagerImpl(Context context) {
-    this(context, true);
+    this(context, true, false);
   }
 
   /**
@@ -63,10 +63,11 @@ public final class FakeJacquardManagerImpl extends JacquardManagerImpl {
    * @param context         context providing access to the {@link BluetoothAdapter}.
    * @param isModulePresent If Loadable module is present
    */
-  public FakeJacquardManagerImpl(Context context, boolean isModulePresent) {
+  public FakeJacquardManagerImpl(Context context, boolean isModulePresent, boolean isModuleActive) {
     super(context);
     init(context);
     this.isModulePresent = isModulePresent;
+    this.isModuleActive = isModuleActive;
   }
 
   @Override
@@ -74,7 +75,7 @@ public final class FakeJacquardManagerImpl extends JacquardManagerImpl {
     if (state == null) {
       return Signal
           .from(ConnectionState
-              .ofConnected(JacquardTagFactory.createConnectedJacquardTag(isModulePresent)));
+              .ofConnected(JacquardTagFactory.createConnectedJacquardTag(isModulePresent, isModuleActive)));
     } else {
       return sendConnectedTwiceForExecute ? Signal.from(Lists.unmodifiableListOf(state, state))
           : Signal.from(state);
@@ -91,9 +92,10 @@ public final class FakeJacquardManagerImpl extends JacquardManagerImpl {
 
   private void init(Context context) {
     PrintLogger.initialize(context);
-    DataProvider.create(getVendors(), StringUtils.getInstance());
+    DataProvider.create(getVendors());
     JacquardManagerInitialization.initJacquardManager();
-    JacquardManager.getInstance().init(SdkConfig.of(CLIENT_ID, API_KEY));
+    JacquardManager.getInstance()
+        .init(SdkConfig.of(CLIENT_ID, API_KEY, /* cloudEndpointUrl= */ null));
   }
 
   private Map<String, Vendor> getVendors() {

@@ -105,4 +105,6 @@ public interface Transport {
 
   /** Stop fetching current tag's signal strength (i.e. rssi value). */
   void stopRSSIValue();
+
+  Signal<byte[]> getRawData();
 }

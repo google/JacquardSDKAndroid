@@ -15,22 +15,19 @@
  */
 package com.google.android.jacquard.sdk.command;
 
+import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertNull;
+
 import android.os.Build.VERSION_CODES;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.google.android.jacquard.sdk.datastore.DataProvider;
 import com.google.android.jacquard.sdk.model.Gesture;
-import com.google.android.jacquard.sdk.util.StringUtils;
 import com.google.atap.jacquard.protocol.JacquardProtocol;
-
+import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
-
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertNull;
 
 /**
  * Unit test for {@link InnerGestureNotificationSubscription} class.
@@ -42,7 +39,7 @@ public final class InnerGestureNotificationSubscriptionTest {
 
     @Before
     public void setUp() {
-        DataProvider.create(new HashMap<>(), StringUtils.getInstance());
+        DataProvider.create(new HashMap<>());
         notificationSubscription = new InnerGestureNotificationSubscription();
     }
 

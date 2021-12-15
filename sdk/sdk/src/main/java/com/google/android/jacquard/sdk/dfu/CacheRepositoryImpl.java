@@ -66,7 +66,8 @@ final class CacheRepositoryImpl implements CacheRepository{
   @Override
   public Signal<Boolean> cacheDescriptor(DFUInfo dfuInfo, FileDescriptor descriptor) {
     return DfuUtil.inputStreamToFile(descriptor.inputStream(),
-        new File(createParentDir(cacheParentDirectoryPath), descriptorFileName(dfuInfo)));
+        new File(createParentDir(cacheParentDirectoryPath), descriptorFileName(dfuInfo)),
+        descriptor.totalSize());
   }
 
   /**

@@ -23,7 +23,7 @@ import retrofit2.http.Query;
 interface CloudManager {
 
   /** Defines cloud function getDeviceFirmware. */
-  @GET("device/firmware")
+  @GET("/v1/device/firmware")
   Call<RemoteDfuInfo> getDeviceFirmware(@Query("cid") String clientId,
       @Query("vid") String vid,
       @Query("pid") String pid,

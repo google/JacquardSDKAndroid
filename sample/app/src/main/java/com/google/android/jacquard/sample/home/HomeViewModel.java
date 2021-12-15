@@ -21,6 +21,7 @@ import static com.google.android.jacquard.sdk.connection.ConnectionState.Type.PR
 
 import android.content.Context;
 import android.content.IntentSender;
+import android.content.res.Resources;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
@@ -28,6 +29,7 @@ import com.google.android.jacquard.sample.ConnectivityManager;
 import com.google.android.jacquard.sample.ConnectivityManager.Events;
 import com.google.android.jacquard.sample.Preferences;
 import com.google.android.jacquard.sample.R;
+import com.google.android.jacquard.sample.firmwareupdate.FirmwareManager;
 import com.google.android.jacquard.sample.firmwareupdate.FirmwareUpdateFragment;
 import com.google.android.jacquard.sample.gesture.GestureFragment;
 import com.google.android.jacquard.sample.haptics.HapticsFragment;
@@ -43,8 +45,8 @@ import com.google.android.jacquard.sdk.command.BatteryStatus;
 import com.google.android.jacquard.sdk.command.BatteryStatusCommand;
 import com.google.android.jacquard.sdk.command.BatteryStatusNotificationSubscription;
 import com.google.android.jacquard.sdk.connection.ConnectionState;
+import com.google.android.jacquard.sdk.dfu.FirmwareUpdateState;
 import com.google.android.jacquard.sdk.log.PrintLogger;
-import com.google.android.jacquard.sdk.model.Component;
 import com.google.android.jacquard.sdk.model.GearState;
 import com.google.android.jacquard.sdk.rx.Fn;
 import com.google.android.jacquard.sdk.rx.Signal;
@@ -225,10 +227,13 @@ public class HomeViewModel extends ViewModel implements ItemClickListener<HomeTi
   private final NavController navController;
   private final Preferences preferences;
   private final List<Subscription> subscriptions = new ArrayList<>();
-  private final Signal<ConnectionState> connectionStateSignal;
-  private final Signal<ConnectedJacquardTag> connectedJacquardTagSignal;
   private final ConnectivityManager connectivityManager;
   private final RecipeManager recipeManager;
+  private Signal<ConnectionState> connectionStateSignal;
+  private Signal<ConnectedJacquardTag> connectedJacquardTagSignal;
+  private final FirmwareManager firmwareManager;
+  private final Resources resources;
+
   /**
    * Signal State for {@link HomeViewModel}
    */
@@ -238,19 +243,26 @@ public class HomeViewModel extends ViewModel implements ItemClickListener<HomeTi
       Preferences preferences,
       NavController navController,
       ConnectivityManager connectivityManager,
-      RecipeManager recipeManager) {
+      RecipeManager recipeManager,
+      FirmwareManager firmwareManager,
+      Resources resources) {
     this.navController = navController;
     this.preferences = preferences;
-    this.connectionStateSignal = connectivityManager.getConnectionStateSignal();
-    this.connectedJacquardTagSignal = connectivityManager.getConnectedJacquardTag();
     this.connectivityManager = connectivityManager;
     this.recipeManager = recipeManager;
+    this.firmwareManager = firmwareManager;
+    this.resources = resources;
   }
 
   /**
    * Initialize view model, It should be called from onViewCreated.
    */
   public void init() {
+    onCleared();
+    connectionStateSignal = connectivityManager
+        .getConnectionStateSignal(preferences.getCurrentTag().address());
+    connectedJacquardTagSignal = connectivityManager
+        .getConnectedJacquardTag(preferences.getCurrentTag().address());
     onTagDisconnected();
     preferences.setHomeLoaded(true);
     subscribeConnectionState();
@@ -291,7 +303,7 @@ public class HomeViewModel extends ViewModel implements ItemClickListener<HomeTi
   /**
    * Triggers state signal with data for Attached Gear.
    */
-  public void onTagAttached(Component attachedComponent) {
+  public void onTagAttached() {
     stateSignal.next(
         State.ofSetAdapter(
             ParamsAdapter.of(
@@ -320,8 +332,8 @@ public class HomeViewModel extends ViewModel implements ItemClickListener<HomeTi
    */
   public void connect(Context context,
       final @NonNull Fn<IntentSender, Signal<Boolean>> senderHandler) {
-    PrintLogger.d(TAG, "Home connect: " + preferences.getCurrentTag().identifier());
-    connectivityManager.connect(context, preferences.getCurrentTag().identifier(), senderHandler)
+    PrintLogger.d(TAG, "Home connect: " + preferences.getCurrentTag().address());
+    connectivityManager.connect(context, preferences.getCurrentTag().address(), senderHandler)
         .delay(
             1000) // Added delay to accommodate some time for fragment to subscribe to stateSignal.
         .onError(t -> {
@@ -341,7 +353,15 @@ public class HomeViewModel extends ViewModel implements ItemClickListener<HomeTi
    * Emits connectivity events {@link Events}.
    */
   public Signal<Events> getConnectivityEvents() {
-    return connectivityManager.getEventsSignal().distinctUntilChanged();
+    return connectivityManager.getEventsSignal(preferences.getCurrentTag().address())
+        .distinctUntilChanged();
+  }
+
+  public Signal<FirmwareUpdateState> getState() {
+    if (preferences.getCurrentTag() == null) {
+      return Signal.empty();
+    }
+    return firmwareManager.getState(preferences.getCurrentTag().address());
   }
 
   /**
@@ -388,6 +408,10 @@ public class HomeViewModel extends ViewModel implements ItemClickListener<HomeTi
    * Navigates to {@link TagManagerFragment}.
    */
   private void tagManagerClick() {
+    if(preferences.isDfuInProgress()) {
+      onErrorState(resources.getString(R.string.feature_will_not_work));
+      return;
+    }
     navController.navigate(R.id.action_homeFragment_to_tagManagerFragment);
   }
 
@@ -402,6 +426,10 @@ public class HomeViewModel extends ViewModel implements ItemClickListener<HomeTi
    * Navigates to {@link RenameTagFragment}.
    */
   private void renameClick() {
+    if(preferences.isDfuInProgress()) {
+      onErrorState(resources.getString(R.string.feature_will_not_work));
+      return;
+    }
     navController.navigate(R.id.action_homeFragment_to_renameTagFragment);
   }
 
@@ -465,7 +493,19 @@ public class HomeViewModel extends ViewModel implements ItemClickListener<HomeTi
         break;
       }
       case R.string.imu_tile_title: {
+        if (preferences.isDfuInProgress()) {
+          onErrorState(resources.getString(R.string.feature_will_not_work));
+          return;
+        }
         navController.navigate(R.id.action_homeFragment_to_imuFragment);
+        break;
+      }
+      case R.string.imu_rtstream_title: {
+        if (preferences.isDfuInProgress()) {
+          onErrorState(resources.getString(R.string.feature_will_not_work));
+          return;
+        }
+        navController.navigate(R.id.action_homeFragment_to_imuStreamingFragment);
         break;
       }
     }
@@ -527,6 +567,11 @@ public class HomeViewModel extends ViewModel implements ItemClickListener<HomeTi
         HomeTileModel.of(
             R.string.imu_tile_title,
             /* subTitle= */ R.string.imu_title_subtitle,
+            HomeTileModel.Type.TILE_API,
+            /* enabled= */ isTagConnected),
+        HomeTileModel.of(
+            R.string.imu_rtstream_title,
+            /* subTitle= */ R.string.imu_rtstream_title,
             HomeTileModel.Type.TILE_API,
             /* enabled= */ isTagConnected),
         HomeTileModel.of(
