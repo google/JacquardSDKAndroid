@@ -1,0 +1,2320 @@
+<!DOCTYPE HTML>
+<!--
+    Editorial by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+  
+
+
+
+
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid 0.21.0"/>
+<link rel="icon" href="/JacquardSDKAndroid/favicon.ico">
+
+
+<meta name="robots" content="index, follow">
+
+
+
+<title>CodeLabs</title>
+
+
+<meta name="description" content="This is a short description of this project.">
+
+
+
+<link rel="prev" href="/JacquardSDKAndroid/wiki/tutorial">
+
+
+<link rel="next" href="/JacquardSDKAndroid/wiki/integration">
+
+
+<!-- start:inject styles -->
+<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/a51c3854/assets/css/editorial_main.css"  />
+<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/a51c3854/assets/css/editorial_orchidCustomizations.css"  />
+<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/a51c3854/assets/css/orchidSearch.css"  />
+<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/Editorial/a51c3854/assets/css/jacquard.css"  />
+<link rel="stylesheet" type="text/css" href="/JacquardSDKAndroid/assets/css/orchidSearch.css"  />
+<!-- end:inject styles -->
+
+
+
+
+
+<!-- start:debug info -->
+
+<!-- THEME -->
+<!-- Type: Editorial -->
+<!-- Class: com.eden.orchid.editorial.EditorialTheme -->
+
+<!-- PAGE -->
+<!-- Type: wiki -->
+<!-- Class: com.eden.orchid.wiki.pages.WikiPage -->
+<!-- Layout: index -->
+<!-- Resolved Layout: templates/layouts/index.peb -->
+<!-- Page Template: wiki, page -->
+<!-- Resolved Page Template: templates/pages/page.peb -->
+
+<!-- RESOURCE -->
+<!-- Class: com.eden.orchid.api.resources.resource.FileResource -->
+<!-- Source Filename: wiki/codelabs.md -->
+
+<!-- COMPLETE PAGE CONFIGURATION -->
+<script>
+    window.allData = {"reference":{"path":"wiki","baseUrl":"/JacquardSDKAndroid","fileName":"codelabs","extension":"html","usePrettyUrl":true,"link":"/JacquardSDKAndroid/wiki/codelabs"},"next":{"path":"wiki","baseUrl":"/JacquardSDKAndroid","fileName":"integration","extension":"html","usePrettyUrl":true,"link":"/JacquardSDKAndroid/wiki/integration"},"previous":{"path":"wiki","baseUrl":"/JacquardSDKAndroid","fileName":"tutorial","extension":"html","usePrettyUrl":true,"link":"/JacquardSDKAndroid/wiki/tutorial"},"description":"","title":"CodeLabs"};
+</script>
+
+<!-- end:debug info -->
+
+
+
+<script>
+    window.site = {"orchidVersion":"0.21.0","baseUrl":"/JacquardSDKAndroid","environment":"debug","version":"1.0.0"};
+</script>
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+    <!-- start:inject meta-components [head] -->
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+
+
+
+
+</head>
+
+<body class="is-loading">
+  
+
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+
+
+  <div id="jacquard_header_container">
+    <div id="jacquard_header">
+      <div id="header_content">
+        <!-- Menu -->
+        <ul id="nav_menu">
+          <li>v1.0.0</li>
+          <li><a href="https://github.com/google/JacquardSDKAndroid">View on Github</a></li>
+          <li><a id="search_button" href="javascript:JacquardDoc.toggleSearch()"></a></li>
+        </ul>
+
+        <!-- Search -->
+        <section id="search">
+          <form data-orchid-search="">
+            <input id="search_input" type="text" name="query" id="query" placeholder="Search"
+              onblur="javascript:setTimeout(() => JacquardDoc.toggleSearch(), 500)" />
+          </form>
+          <div class="box" id="search-results" data-orchid-search-results style="display: none;">
+            <div>
+              <b>Search Results</b>
+              <ul></ul>
+            </div>
+          </div>
+          <div class="box" id="search-progress" data-orchid-search-progress style="display: none;">
+            <div class="loader">Loading...</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+      <div class="inner">
+
+        <!-- Header -->
+        
+        <section id="pageContent">
+          <!-- <header class="major">
+          </header> -->
+          <article>
+            <h1>CodeLabs</h1>
+            
+    <!-- start:inject components -->
+    
+        
+            
+                
+                    
+                        <p>You have now successfully integrated the Jacquard SDK and learned how to find and connect to Jacquard
+tags. There's more to the SDK which you can explore in a few different ways.</p>
+<h2 id="table-of-contents"><a href="#table-of-contents" id="table-of-contents" class="anchor"></a>Table of contents</h2>
+<ol>
+<li><a href="#section1">Sending commands</a></li>
+<li><a href="#section2">Observing Notifications</a></li>
+<li><a href="#section3">Updating firmware</a></li>
+<li><a href="#section4">Motion Capture</a></li>
+</ol>
+<h2 id="1-sending-commands"><a href="#1-sending-commands" id="1-sending-commands" class="anchor"></a><a name="section1"></a>1. Sending commands</h2>
+<p>Now we'll explore sending commands to the tag, in this case
+<code>RenameTagCommand</code>, but commands are documented fully in the
+api documentation.</p>
+<p>When you have <code>ConnectedJacquardTag</code> available, you can enqueue commands which will be sent to
+the tag in sequential manner as below -</p>
+<pre><code class="language-java">public Signal&lt;String&gt; renameTag(String tagName) {
+  return connectedJacquardTag
+          .enqueue(new RenameTagCommand(tagName)));
+}
+</code></pre>
+<p>Note - Your app should listen for command success as well as failures both as below -</p>
+<pre><code class="language-java">updateTagName(&quot;NewTagName&quot;).observe(new Observer&lt;String&gt;() {
+  @Override
+  public void onNext(@NonNull String s) {
+    // SUCCESS
+  }
+
+  @Override
+  public void onError(@NonNull Throwable t) {
+    // FAILURE
+  }
+
+  @Override
+  public void onComplete() {
+  }
+});
+</code></pre>
+<p><code>ConnectedJacquardTag.enqueue(Request command, int retries)</code> this api will give you ability to retry
+sending same request multiple times if it fails in prior attempt.</p>
+<h2 id="2-observing-notifications"><a href="#2-observing-notifications" id="2-observing-notifications" class="anchor"></a><a name="section2"></a>2. Observing Notifications</h2>
+<p>Commands are initiated by the app and sent to the tag (possibly with a
+response). Notifications on the other hand originate from the tag at
+any time. We can ask to be notified any time a notification of
+interest occurs.</p>
+<p>To get the tag battery notifiations -</p>
+<pre><code class="language-java">private Signal&lt;BatteryStatus&gt; getBatteryNotifications(ConnectedJacquardTag tag) {
+  return tag.subscribe(new BatteryStatusNotificationSubscription());
+}
+</code></pre>
+<p>To get tag attach-detach notifications -</p>
+<pre><code class="language-java">private Signal&lt;GearState&gt; getGearNotifications(ConnectedJacquardTag tag) {
+  return tag.getConnectedGearSignal();
+}
+</code></pre>
+<p>Once you have <code>ConnectedJacquardTag</code>, you can insert tag into  Jacquard gear and
+observe for the gesture events as below -</p>
+<pre><code class="language-java">private Signal&lt;Gesture&gt; getGestures(ConnectedJacquardTag tag) {
+  return tag.subscribe(new GestureNotificationSubscription());
+}
+</code></pre>
+<p>You have now successfully integrated the Jacquard SDK and learned how
+to connect, send commands and observe notifications. There's more to
+the SDK which you can see demonstrated in the <a href="https://github.com/google/JacquardSDKAndroid">sample
+app</a> and read about in the
+SDK documentation (see the table of contents on the left side of this
+page).</p>
+<h2 id="3-updating-firmware"><a href="#3-updating-firmware" id="3-updating-firmware" class="anchor"></a><a name="section3"></a>3. Updating firmware</h2>
+<p>Before using any Jacquard SDK core api, it is always recommended to ensure that you have the latest
+available firmware. When your tag is paired, next ideal step should be to check for firmware update
+by calling Jacquard firmware apis which are backed up by Jacquard cloud.
+Updating firmware is a 3 step process -</p>
+<h4 id="1-check-if-update-available"><a href="#1-check-if-update-available" id="1-check-if-update-available" class="anchor"></a>1. Check if update available</h4>
+<p>This step would need internet connectivity as it calls Jacquard cloud api to see if any firmware
+updates are available. If update are available for your current firmware either MANDATORY or
+OPTIONAL, sdk will start downloading firmware binary implicitly. This step will be completed when
+firmware binary is downloaded successfully. You do not need to worry about downloaded binary, sdk
+will use it when you try to apply the updates.</p>
+<h4 id="2-apply-updates"><a href="#2-apply-updates" id="2-apply-updates" class="anchor"></a>2. Apply updates</h4>
+<p>Jacquard sdk will transfer downloaded firmware binary to the tag using bluetooth high priority
+connection. This step might take a while depending on the size of downloaded firmware binary.</p>
+<h4 id="3-execute-updates"><a href="#3-execute-updates" id="3-execute-updates" class="anchor"></a>3. Execute updates</h4>
+<p>In this step, Jacquard sdk will install the firmware binary on the tag. If you have send
+<code>autoExecute=true</code> in step 2, you can skip this step. For tag and interposer firmware update, this
+is a mandatory step however in case of loadable module, this step is not required.</p>
+<p>Let's start with the implementation. It's pretty much straight forward.</p>
+<ul>
+<li>
+<h4 id="update-tag--interposer-firmware"><a href="#update-tag--interposer-firmware" id="update-tag--interposer-firmware" class="anchor"></a>Update tag / interposer firmware</h4>
+</li>
+</ul>
+<h5 id="1-check-if-update-available--"><a href="#1-check-if-update-available--" id="1-check-if-update-available--" class="anchor"></a>1. Check if update available -</h5>
+<p>To check if update is available for both tag and interposer, insert your tag into your
+gear and use below piece of code -</p>
+<pre><code class="language-java">public Signal&lt;List&lt;DFUInfo&gt;&gt; checkFirmware(boolean forceUpdate) {
+  return connectedJacquardTag.dfuManager().checkFirmware(connectedJacquardTag.getComponents(), forceUpdate);
+}
+</code></pre>
+<p>This code will return list of <code>DFUInfo</code> for each input component. Check the value for
+<code>DFUInfo.dfuStatus()</code> to know what type of firmware update is available. It could be either
+<code>MANDATORY</code> or <code>OPTIONAL</code> or <code>NOT_AVAILABLE</code>. You can set <code>forceUpdate</code> as <code>true</code> to always hit the
+cloud ignoring the local cache. To get firmare updates from local cache, set <code>forceUpdate</code> as <code>false</code>.</p>
+<h5 id="2-apply-updates--"><a href="#2-apply-updates--" id="2-apply-updates--" class="anchor"></a>2. Apply updates -</h5>
+<p>Here, Jacquard sdk will transfer downloaded firmware binary from mobile to the tag. You need to use
+list of <code>DFUInfo</code> which you have received in previous step.</p>
+<pre><code class="language-java">public Signal&lt;FirmwareUpdateState&gt; applyUpdates(List&lt;DFUInfo&gt; dfuInfos, boolean autoExecute){
+  return connectedJacquardTag.dfuManager().applyUpdates(dfuInfos, autoExecute);
+}
+</code></pre>
+<p><code>FirmwareUpdateState</code> returned will give you the exact status of the operation. When Jacquard sdk
+starts transferring firmware binary to the tag i.e. state is <code>TRANSFER_PROGRESS</code>, you can track the
+transfer progress using <code>FirmwareUpdateState#transferProgress</code>. You can use <code>autoExecute=true</code> to
+install the updates automatically otherwise you need to call below <code>executeUpdates()</code> api explicitly.
+<code>FirwareUpdateState.error()</code> will give you the error occurred in this step.</p>
+<h5 id="3-execute-updates--"><a href="#3-execute-updates--" id="3-execute-updates--" class="anchor"></a>3. Execute updates -</h5>
+<p>This is the last step in firmware update in which Jacquard sdk instructs tag to install the firmware
+binary transferred in previous step. This step is not required if you are sending <code>autoExecute=true</code>
+in <code>applyUpdates()</code> api. If you are updating tag firmware, tag will reboot during this step.</p>
+<pre><code class="language-java">public Signal&lt;FirmwareUpdateState&gt; executeFirmware(){
+  return connectedJacquardTag.dfuManager().executeUpdates();
+}
+</code></pre>
+<p><code>FirmwareUpdateState</code> returned by this api can either be <code>EXECUTING</code> or <code>COMPLETED</code>.</p>
+<ul>
+<li>
+<h4 id="update-loadable-module"><a href="#update-loadable-module" id="update-loadable-module" class="anchor"></a>Update Loadable Module</h4>
+</li>
+</ul>
+<h5 id="1-check-if-update-available---1"><a href="#1-check-if-update-available---1" id="1-check-if-update-available---1" class="anchor"></a>1. Check if update available -</h5>
+<p>You can execute <code>ListModulesCommand</code> command to fetch all loadable modules present on the tag. This
+command will give you <code>List&lt;Module&gt;</code>. Similar to tag &amp; interposer firmware update, first step here
+is also to check if update is available using below api -</p>
+<pre><code class="language-java">public Signal&lt;DFUInfo&gt; checkModuleUpdate(Module module) {
+  return connectedJacquardTag.dfuManager().checkModuleUpdate(module);
+}
+</code></pre>
+<p>This code will return <code>DFUInfo</code> for <code>Module</code> used as input. Check the value for
+<code>DFUInfo.dfuStatus()</code> to know what type of update is available. It could be either
+<code>MANDATORY</code> or <code>OPTIONAL</code> or <code>NOT_AVAILABLE</code>. Please note that <code>checkModuleUpdate</code> will always fetch
+updates from cloud bypassing the local cache.</p>
+<h5 id="2-apply-module-updates--"><a href="#2-apply-module-updates--" id="2-apply-module-updates--" class="anchor"></a>2. Apply module updates -</h5>
+<p>This step is pretty much similar to step 2 of tag &amp; interposer updates. Use below piece of code to
+start sending firmware binary to the tag.</p>
+<pre><code class="language-java">public Signal&lt;FirmwareUpdateState&gt; applyModuleUpdate(DFUInfo dfuInfo){
+  return connectedJacquardTag.dfuManager().applyModuleUpdate(dfuInfo);
+}
+</code></pre>
+<p><code>FirmwareUpdateState</code> returned will give you the exact status of the operation. When Jacquard sdk
+starts transferring firmware binary to the tag i.e. state is <code>TRANSFER_PROGRESS</code>, you can track the
+transfer progress using <code>FirmwareUpdateState#transferProgress</code>. Keep watching
+<code>FirwareUpdateState.error()</code> for any errors occurred in this step.</p>
+<h5 id="3-execute-module-updates--"><a href="#3-execute-module-updates--" id="3-execute-module-updates--" class="anchor"></a>3. Execute module updates -</h5>
+<p>There is no need to install/execute lodable module firmware as such. Once loadble module binary is
+transferred to the tag, you are good to play around with it.</p>
+<ul>
+<li>
+<h4 id="interrupt-firmware-update-process"><a href="#interrupt-firmware-update-process" id="interrupt-firmware-update-process" class="anchor"></a>Interrupt firmware update process</h4>
+</li>
+</ul>
+<p>Call below api if you want to cancel firmware update process at any point.</p>
+<pre><code class="language-java">public void stop() {
+  connectedJacquardTag.dfuManager().stop();
+}
+</code></pre>
+<h2 id="4-motion-capture"><a href="#4-motion-capture" id="4-motion-capture" class="anchor"></a><a name="section4"></a>4. Motion Capture</h2>
+<p>With this feature, you can record, view and download your tag's Inertial Measurement Unit
+(IMU) motion sensor data: accelerometer (x, y, z), and gyroscope (yaw, pitch, roll) data. This section
+will guide you to record, download, parse, erase Imu session. If you want the tag should collect Imu
+samples, loadable module must be activated, but it will disable Wake on Motion(WoM) on the tag and
+you can easily notice that tag battery is draining quickly.</p>
+<h4 id="1-instantiate"><a href="#1-instantiate" id="1-instantiate" class="anchor"></a>1. Instantiate</h4>
+<p>You can create instance of <code>ImuModule</code> using <code>ConnectedJacquardTag</code> as below -</p>
+<pre><code class="language-java">    new ImuModule(connectedJacquardTag);
+</code></pre>
+<h4 id="2-initialize"><a href="#2-initialize" id="2-initialize" class="anchor"></a>2. Initialize</h4>
+<p>This is a mandatory step before you start recording IMU samples. There are multiple steps involved
+during initialize process. Initialize process will be quicker when Data Collection Loadable Module
+(DCLM) is present on the tag and its activated. If DCLM is not present on the tag, <code>ImuModule</code> will
+perform device firmware update to download DCLM binary from cloud and send it to the tag. Once DFU
+is successful, <code>ImuModule</code> will activate the DCLM to finish initialize process.</p>
+<pre><code class="language-java">    Signal&lt;InitState&gt; initialize();
+</code></pre>
+<p>This api gives you every step involved in initialize process by sending <code>InitState</code>. Below could be
+multiple initialize states <br />
+1. <strong>INIT -</strong> Sdk will fetch LM modules from ujt and checks if present and activated. <br />
+2. <strong>CHECK_FOR_UPDATES -</strong> Repeated. If LM is not present, sdk will check if Dfu is needed for
+ujt &amp; DC LM.  <br />
+3. <strong>TAG_DFU -</strong> Sdk is performing ujt firmware update. This is Imu Init state but it will have
+<code>FirmwareUpdateState</code> bundled inside so that the app could know exact progress for ujt dfu.
+<code>AutoExecute</code> will be <code>true</code> for tag dfu. <br />
+4. <strong>MODULE_DFU -</strong> Sdk will be performing dfu for DC LM to the ujt. This is Imu Init state but
+it will have <code>FirmwareUpdateState</code> bundled inside so that the app could know exact progress for
+dc lm dfu. <br />
+5. <strong>ACTIVATE -</strong> At this state, sdk will try to activate DC LM. <br />
+6. <strong>INITIALIZED -</strong> ImuModule is now ready to use.</p>
+<h4 id="3-start--stop-imu-session"><a href="#3-start--stop-imu-session" id="3-start--stop-imu-session" class="anchor"></a>3. Start &amp; stop Imu session</h4>
+<p>You can start collecting Imu samples by calling <code>Signal&lt;String&gt; startImuSession()</code> api. This api
+returns unique Imu session id which is nothing but unix timestamp in seconds. Call <code>Signal&lt;Boolean&gt; stopImuSession()</code> to end current Imu session. Important point to remember here is that - you should
+not attach/detach the tag from gear during Imu session. Which means - while starting a new Imu session
+whichever is the gear state, either attached or detached, must be same till you call <code>stopImuSession()</code>
+api.</p>
+<h4 id="4-fetch-imu-session-list"><a href="#4-fetch-imu-session-list" id="4-fetch-imu-session-list" class="anchor"></a>4. Fetch Imu session list</h4>
+<pre><code class="language-java">public Signal&lt;List&lt;ImuSessionInfo&gt;&gt; getImuSessionsList() {
+  return imuModule.getImuSessionsList();
+}
+</code></pre>
+<p>Use above code to fetch list of Imu sessions present on the tag. It will return <code>List&lt;ImuSessionInfo&gt;</code>.
+If there active Imu session on the tag, you can't call this api.</p>
+<h4 id="5-download-imu-session"><a href="#5-download-imu-session" id="5-download-imu-session" class="anchor"></a>5. Download Imu session</h4>
+<p>To download recorded Imu session data from the tag to your mobile, use below code  -</p>
+<pre><code class="language-java">public Signal&lt;Pair&lt;Integer, File&gt;&gt; downloadImuData(ImuSessionInfo info) { 
+    return imuModule.downloadImuData(info);
+}
+</code></pre>
+<p>OR</p>
+<pre><code class="language-java">public Signal&lt;Pair&lt;Integer, File&gt;&gt; downloadImuData(String imuSessionId) { 
+    return imuModule.downloadImuData(imuSessionId);
+}
+</code></pre>
+<p>Both apis gives you download progress and file handle where Imu session data will be saved. As tag has
+limited storage, to free up the space, it's highly recommended to erase Imu session from the tag
+after it's downloaded to the mobile device. If there active Imu session on the tag, you can't call
+this api. To cancel in-progress downloading, you can simply <code>unsubscribe()</code> from observable returned
+by above api.</p>
+<h4 id="6-erase-imu-sessions"><a href="#6-erase-imu-sessions" id="6-erase-imu-sessions" class="anchor"></a>6. Erase Imu session(s)</h4>
+<p>You can either choose to delete a specific Imu session or all sessions from the tag. There are
+overloaded apis available -</p>
+<pre><code class="language-java">public Signal&lt;Boolean&gt; erase(@NonNull ImuSessionInfo session) {
+  return imuModule.erase(session);
+}
+</code></pre>
+<p>OR</p>
+<pre><code class="language-java">public Signal&lt;Boolean&gt; erase(@NonNull String sessionId) {
+  return imuModule.erase(sessionId);
+}
+</code></pre>
+<p>OR</p>
+<pre><code class="language-java">public Signal&lt;Boolean&gt; eraseAll() {
+  return imuModule.eraseAll();
+}
+</code></pre>
+<h4 id="7-parse-imu-session-data"><a href="#7-parse-imu-session-data" id="7-parse-imu-session-data" class="anchor"></a>7. Parse Imu session data</h4>
+<p>Once you download the Imu session to the mobile device, now its time to parse that session data to
+view Imu samples. You can input downloaded session file to below api to parse Imu session.</p>
+<pre><code class="language-java">public Signal&lt;ImuSessionData&gt; parseImuData(@NonNull final String path) {
+  return ImuModule.parseImuData(path);
+}
+</code></pre>
+<h4 id="8-get-data-collection-status"><a href="#8-get-data-collection-status" id="8-get-data-collection-status" class="anchor"></a>8. Get Data Collection status</h4>
+<p>To know the current data collection status if the tag, use below code -</p>
+<pre><code class="language-java">  public Signal&lt;DataCollectionStatus&gt; getDataCollectionStatus() {
+    return imuModule.getDataCollectionStatus();
+  }
+</code></pre>
+<p>If <code>DataCollectionStatus</code> is <code>DATA_COLLECTION_LOGGING</code> means there is active Imu session
+on the tag and tag is recording Imu samples.</p>
+<h4 id="9-deactivate-data-collection-loadable-module"><a href="#9-deactivate-data-collection-loadable-module" id="9-deactivate-data-collection-loadable-module" class="anchor"></a>9. Deactivate Data Collection Loadable Module</h4>
+<p>When there is no active Imu session, you must deactivate/unload data collection loadable module to
+save the tag battery. When lodable module is disabled, Wake on Motion(WoM) will be activated on the
+tag and if idle for 10 mins, tag will go to sleep to preserve the battery.</p>
+<pre><code class="language-java">  public Signal&lt;Boolean&gt; unloadModule() {
+    return imuModule.unloadModule();
+  }
+</code></pre>
+
+                    
+                
+            
+        
+    
+    <!-- end:inject components -->
+
+
+          </article>
+        </section>
+        
+      </div>
+      <hr>
+
+      <!-- Page Footer -->
+      <div class="inner">
+    <footer id="footer">
+        <div class="clearfix">
+            
+                <div class="float-left">
+                    <a href="/JacquardSDKAndroid/wiki/tutorial" class="button special small pill">
+                        <span>&larr;</span> Tutorial
+                    </a>
+                </div>
+            
+            
+                <div class="float-right">
+                    <a href="/JacquardSDKAndroid/wiki/integration" class="button special small pill">
+                        Integration<span>&rarr;</span>
+                    </a>
+                </div>
+            
+        </div>
+    </footer>
+</div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+    <div class="inner" style="position:relative;">
+
+        <!-- Menu -->
+        <nav id="siteNav" class="menu">
+            <ul class="top-level">
+                
+                    
+    
+    <li>
+        <a class="subheader">Getting Started</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="/JacquardSDKAndroid/wiki/tutorial">Tutorial</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="/JacquardSDKAndroid/wiki/codelabs">CodeLabs</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="/JacquardSDKAndroid/wiki/integration">Integration</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="/JacquardSDKAndroid/wiki/apis">API overview</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="/JacquardSDKAndroid/wiki/generate-docs">Generate docs</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="/JacquardSDKAndroid/wiki/releases">Releases</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="/JacquardSDKAndroid/wiki/license">License</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="/JacquardSDKAndroid/wiki/cloud-api-terms">Cloud API Terms</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="/JacquardSDKAndroid/wiki/contributing">Contributing</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a href="/JacquardSDKAndroid/wiki/conduct">Code of Conduct</a>
+    </li>
+    
+
+                
+                    
+    
+    <li>
+        <a class="subheader">API Docs</a>
+    </li>
+    
+
+                
+                    
+    <li>
+        <span class="opener">Classes</span>
+        <ul>
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/tag/advertisedjacquardtag">AdvertisedJacquardTag</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/tag/advertisedjacquardtagimpl">AdvertisedJacquardTagImpl</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/attachednotificationsubscription">AttachedNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/batterystatus">BatteryStatus</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/batterystatus/chargingstate">BatteryStatus.ChargingState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/batterystatuscommand">BatteryStatusCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/batterystatusnotificationsubscription">BatteryStatusNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/command/begincommand">BeginCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/blequeue">BleQueue</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/blequeue/command">BleQueue.Command</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/blequeue/command/type">BleQueue.Command.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/bluetoothsig">BluetoothSig</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/bluetoothutils">BluetoothUtils</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/characteristicupdate">CharacteristicUpdate</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/component">Component</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/componentcapability">ComponentCapability</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/componentkey">ComponentKey</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/datastore/componentmetadata">ComponentMetaData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/connectstate">ConnectState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/connectstate/type">ConnectState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/tag/connectedjacquardtag">ConnectedJacquardTag</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/tag/connectedjacquardtagimpl">ConnectedJacquardTagImpl</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/connection/connectionevent">ConnectionEvent</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/connection/connectionevent/type">ConnectionEvent.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/connection/connectionstate">ConnectionState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/connection/connectionstate/type">ConnectionState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/consumer">Consumer</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/continuoustouchnotificationsubscription">ContinuousTouchNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/dcerrornotificationsubscription">DCErrorNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/exception/dcexception">DCException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/dfuinfo">DFUInfo</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/dfuinfo/upgradestatus">DFUInfo.UpgradeStatus</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/datacollectionstatuscommand">DataCollectionStatusCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/datastore/dataprovider">DataProvider</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/deviceconfigelement">DeviceConfigElement</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/deviceinfo">DeviceInfo</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/command/deviceinfocommand">DeviceInfoCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/deviceinfocommand">DeviceInfoCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/dfuexecuteupdatenotificationsubscription">DfuExecuteUpdateNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/dfumanager">DfuManager</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/dfumanagerimpl">DfuManagerImpl</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/eraseimusessioncommand">EraseImuSessionCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/executors">Executors</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/failedtoconnect">FailedToConnect</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/model/filedescriptor">FileDescriptor</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/filelogger">FileLogger</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/firmwareupdatestate">FirmwareUpdateState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/firmwareupdatestate/type">FirmwareUpdateState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/execption/firmwareupdatestoppedexception">FirmwareUpdateStoppedException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/fn">Fn</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/fn2">Fn2</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/fragmenter">Fragmenter</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/fragmenter/varint">Fragmenter.VarInt</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/function">Function</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/gearstate">GearState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/gearstate/type">GearState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/gesture">Gesture</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/gesture/gesturetype">Gesture.GestureType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/gesturenotificationsubscription">GestureNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/getconfigcommand">GetConfigCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/getimusessiondatacommand">GetImuSessionDataCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/hapticcommand">HapticCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/hapticcommand/frame">HapticCommand.Frame</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/hapticcommand/frame/builder">HapticCommand.Frame.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/hapticcommand/pattern">HapticCommand.Pattern</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/command/hellocommand">HelloCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/imumodule">ImuModule</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/imuparser">ImuParser</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/imuparserexception">ImuParserException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/imuparserimpl">ImuParserImpl</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/imusessiondata">ImuSessionData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/imusessiondata/imusamplecollection">ImuSessionData.ImuSampleCollection</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/model/imusessioninfo">ImuSessionInfo</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/model/imusessioninfo/builder">ImuSessionInfo.Builder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/imusessionlistcommand">ImuSessionListCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/imusessionlistnotification">ImuSessionListNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/model/imustream">ImuStream</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/lm/initstate">InitState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/lm/initstate/type">InitState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/initializationevent">InitializationEvent</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/initializationevent/type">InitializationEvent.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/initializationstate">InitializationState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/initializationstate/type">InitializationState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/innerbatterystatusnotificationsubscription">InnerBatteryStatusNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/innercontinuoustouchnotificationsubscription">InnerContinuousTouchNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/innerdcerrornotificationsubscription">InnerDCErrorNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/innerdfuexecuteupdatenotificationsubscription">InnerDfuExecuteUpdateNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/innergesturenotificationsubscription">InnerGestureNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/innernotification">InnerNotification</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/exception/inprogressdcexception">InprogressDCException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/execption/insufficientbatteryexception">InsufficientBatteryException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/internalcomponent">InternalComponent</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/exception/invalidstatedcexception">InvalidStateDCException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser/jqimuparser">JQImuParser</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/jqutils">JQUtils</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/jacquarderror">JacquardError</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/jacquarderror/type">JacquardError.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/jacquardmanager">JacquardManager</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/tag/jacquardtag">JacquardTag</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/jqextensionregistry">JqExtensionRegistry</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/listmodulescommand">ListModulesCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/lists">Lists</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/lists/unmodifiablelistbuilder">Lists.UnmodifiableListBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/loadmodulecommand">LoadModuleCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/loadmodulenotificationsubscription">LoadModuleNotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/lm/loadablemodule">LoadableModule</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/log/loglevel">LogLevel</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/log/logger">Logger</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/managerscanningexception">ManagerScanningException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/managerscanningexception/bluetoothdevicenotfound">ManagerScanningException.BluetoothDeviceNotFound</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/managerscanningexception/bluetoothunavailableexception">ManagerScanningException.BluetoothUnavailableException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/memorycache">MemoryCache</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/remote/metadatamodel">MetaDataModel</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/module">Module</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/notificationsubscription">NotificationSubscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/objects">Objects</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/peripheral">Peripheral</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/peripheral/writetype">Peripheral.WriteType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/model/platformsettings">PlatformSettings</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand">PlayLedPatternCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand/color">PlayLedPatternCommand.Color</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand/frame">PlayLedPatternCommand.Frame</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand/ledpatterntype">PlayLedPatternCommand.LedPatternType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand/playledpatterncommandbuilder">PlayLedPatternCommand.PlayLedPatternCommandBuilder</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/playledpatterncommand/playtype">PlayLedPatternCommand.PlayType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/pred">Pred</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/log/printlogger">PrintLogger</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/producer">Producer</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/product">Product</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/product/capability">Product.Capability</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/protocommandrequest">ProtoCommandRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/protocolinitializationstatemachine">ProtocolInitializationStateMachine</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/protocolspec">ProtocolSpec</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/remote/remotefactory">RemoteFactory</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/remote/remotefunction">RemoteFunction</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/renametagcommand">RenameTagCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/pairing/requiredcharacteristics">RequiredCharacteristics</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/connection/result">Result</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/connection/result/type">Result.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/revision">Revision</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/rssiupdate">RssiUpdate</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/sdkconfig">SdkConfig</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/sdkinitprovider">SdkInitProvider</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/sdktypeadapterfactory">SdkTypeAdapterFactory</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/sensors">Sensors</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/servicesdiscovered">ServicesDiscovered</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/setconfigcommand">SetConfigCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/setconfigcommand/settingstype">SetConfigCommand.SettingsType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/settouchmodecommand">SetTouchModeCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/signal">Signal</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/signal/forwarderobserver">Signal.ForwarderObserver</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/signal/observer">Signal.Observer</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/signal/observescomplete">Signal.ObservesComplete</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/signal/observeserror">Signal.ObservesError</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/signal/observesnext">Signal.ObservesNext</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/signal/onsubscribe">Signal.OnSubscribe</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/signal/subscription">Signal.Subscription</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx/signal/subscriptionfactory">Signal.SubscriptionFactory</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/startimusessioncommand">StartImuSessionCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/startimustreamingcommand">StartImuStreamingCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/statemachine">StateMachine</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/stopimusessioncommand">StopImuSessionCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util/stringutils">StringUtils</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/connection/tagconnectionstatemachine">TagConnectionStateMachine</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/pairing/tagpairingevent">TagPairingEvent</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/pairing/tagpairingevent/type">TagPairingEvent.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/pairing/tagpairingstate">TagPairingState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/pairing/tagpairingstate/type">TagPairingState.Type</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/pairing/tagpairingstatemachine">TagPairingStateMachine</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/touchdata">TouchData</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/touchmode">TouchMode</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/model/transferstate">TransferState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/transport">Transport</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/ujtreadconfigcommand">UjtReadConfigCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/ujtwriteconfigcommand">UjtWriteConfigCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command/unloadmodulecommand">UnloadModuleCommand</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/execption/updatemismatchexception">UpdateMismatchException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/execption/updatedfirmwarenotfoundexception">UpdatedFirmwareNotFoundException</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/vendor">Vendor</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/vidpidmid">VidPidMid</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model/vidpidmid/builder">VidPidMid.Builder</a>
+    </li>
+    
+
+        
+        </ul>
+    </li>
+
+                
+                    
+    <li>
+        <span class="opener">Packages</span>
+        <ul>
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk">com.google.android.jacquard.sdk</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/command">com.google.android.jacquard.sdk.command</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/connection">com.google.android.jacquard.sdk.connection</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/datastore">com.google.android.jacquard.sdk.datastore</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu">com.google.android.jacquard.sdk.dfu</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/execption">com.google.android.jacquard.sdk.dfu.execption</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/dfu/model">com.google.android.jacquard.sdk.dfu.model</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu">com.google.android.jacquard.sdk.imu</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/exception">com.google.android.jacquard.sdk.imu.exception</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/model">com.google.android.jacquard.sdk.imu.model</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/imu/parser">com.google.android.jacquard.sdk.imu.parser</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization">com.google.android.jacquard.sdk.initialization</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/initialization/command">com.google.android.jacquard.sdk.initialization.command</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/lm">com.google.android.jacquard.sdk.lm</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/log">com.google.android.jacquard.sdk.log</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/model">com.google.android.jacquard.sdk.model</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/pairing">com.google.android.jacquard.sdk.pairing</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/remote">com.google.android.jacquard.sdk.remote</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/rx">com.google.android.jacquard.sdk.rx</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/tag">com.google.android.jacquard.sdk.tag</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="/JacquardSDKAndroid/javadoc/com/google/android/jacquard/sdk/util">com.google.android.jacquard.sdk.util</a>
+    </li>
+    
+
+        
+        </ul>
+    </li>
+
+                
+            </ul>
+        </nav>
+        
+
+    </div>
+</div>
+
+  </div>
+
+  <div id="jacquard_footer">
+    <div class="left_panel">
+      <h1>Get updates on Jacquard</h1>
+      <div>
+        Join the
+        <a href="https://github.com/google/JacquardSDKAndroid/discussions/">
+          Jacquard Android SDK community discussion
+        </a>
+        on GitHub.
+      </div>
+      <div>
+        Learn more about Google Jaquard and sign up for Jacquard updates at the
+        <a href="https://atap.google.com/jacquard/">Jacquard by Google website</a>.
+      </div>
+    </div>
+    <div class="right_panel">
+      <table cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <th>Sitemap</th>
+            <th>Other</th>
+          </tr>
+          <tr>
+            <td>
+              <a href="/wiki/tutorial">Getting Started</a>
+              <a href="/wiki/tutorial#section7">Connecting to Tags</a>
+              <a href="/wiki/tutorial#section8">Commands</a>
+              <a href="/wiki/tutorial#section9">Notifications</a>
+            </td>
+            <td>
+              <a href="https://github.com/google/JacquardSDKAndroid/discussions/">Jacquard Android SDK Discussions</a>
+              <a href="https://atap.google.com/jacquard/">Jacquard</a>
+              <a href="https://atap.google.com">Google ATAP</a>
+              <a href="/wiki/license">License</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>Copyright 2021-present, Google LLC.</div>
+  </div>
+
+  
+
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+
+<!-- start:inject scripts -->
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
+<script  src="/JacquardSDKAndroid/Editorial/a51c3854/assets/js/editorial_util.js"></script>
+<script  src="/JacquardSDKAndroid/Editorial/a51c3854/assets/js/editorial_main.js"></script>
+<script  src="/JacquardSDKAndroid/Editorial/a51c3854/assets/js/editorial_orchidCustomizations.js"></script>
+<script  src="/JacquardSDKAndroid/Editorial/a51c3854/assets/js/jacquard.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script  src="https://unpkg.com/lunr/lunr.js"></script>
+<script  src="/JacquardSDKAndroid/assets/js/orchidSearch.js"></script>
+<!-- end:inject scripts -->
+
+
+</body>
+
+</html>
