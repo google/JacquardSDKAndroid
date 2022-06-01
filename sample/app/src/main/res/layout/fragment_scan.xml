@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2021 Google LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ https://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+  <TextView
+      android:id="@+id/title"
+      style="@style/ScanPairingTitle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="18dp"
+      android:gravity="center_horizontal"
+      android:text="@string/scan_page_title"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <View
+      android:id="@+id/divider"
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:layout_marginTop="18dp"
+      android:background="@color/scan_page_title_divider"
+      app:layout_constraintTop_toBottomOf="@id/title" />
+
+  <androidx.core.widget.NestedScrollView
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:background="@android:color/white"
+      android:fillViewport="true"
+      android:orientation="vertical"
+      android:scrollbars="vertical"
+      app:layout_constraintBottom_toBottomOf="@+id/btn_layout"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/divider">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+      <ImageView
+          android:id="@+id/tag_image_view"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="35dp"
+          android:src="@mipmap/tag_image"
+          app:layout_constraintLeft_toLeftOf="parent"
+          app:layout_constraintRight_toRightOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/description" />
+
+      <ImageView
+          android:id="@+id/tag_indicator_icon"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="4dp"
+          android:layout_marginHorizontal="36dp"
+          android:src="@drawable/tag_indicator_icon"
+          app:layout_constraintStart_toStartOf="@id/tag_image_view"
+          app:layout_constraintTop_toTopOf="@id/tag_image_view" />
+
+      <TextView
+          android:id="@+id/description"
+          style="@style/ScanPairingDesc"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="30dp"
+          android:layout_marginStart="25dp"
+          android:layout_marginEnd="25dp"
+          android:gravity="center_horizontal"
+          android:minLines="3"
+          android:text="@string/scan_page_charge_your_tag_desc"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/tag_recyclerview"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          android:paddingBottom="100dp"
+          app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+          app:layout_behavior="@string/appbar_scrolling_view_behavior"
+          app:layout_constraintTop_toBottomOf="@id/tag_image_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.core.widget.NestedScrollView>
+
+  <LinearLayout
+      android:id="@+id/btn_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/button_background_gradient"
+      android:orientation="vertical"
+      android:layout_marginBottom="24dp"
+      app:layout_constraintBottom_toBottomOf="parent">
+
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/scan_button"
+      style="@style/ScanButton"
+      android:text="@string/scan_page_scan_button" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/stop_scan_button"
+        style="@style/CancelButton"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:text="@string/scan_page_stop_scanning_button"
+        android:visibility="gone" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/pair_button"
+        style="@style/ScanButton"
+        android:text="@string/scan_page_pair_button"
+        android:visibility="gone" />
+  </LinearLayout>
+
+  <RelativeLayout
+      android:id="@+id/progress_bar_holder"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/progress_overlay"
+      android:clickable="true"
+      android:focusable="true"
+      android:visibility="gone">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="true" />
+
+    <ImageView
+        android:id="@+id/paired_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/paired_icon"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/loading_title"
+        style="@style/ScanPairingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/paired_icon"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal"
+        android:text="@string/scan_page_pairing_progress"
+        android:textColor="@color/white" />
+  </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

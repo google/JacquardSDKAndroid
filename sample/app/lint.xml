@@ -1,0 +1,45 @@
+<lint>
+    <!--  Disable the given check in this project  -->
+    <issue id="IconMissingDensityFolder" severity="ignore"/>
+    <!--  Change the severity of hardcoded strings to "error"  -->
+    <!-- Hardcoded text -->
+    <issue id="HardcodedText" severity="error"/>
+    <!-- Missing Constraints in ConstraintLayout -->
+    <issue id="MissingConstraints" severity="error"/>
+    <!-- Duplicate ids within a single layout -->
+    <issue id="DuplicateIds" severity="error"/>
+    <!-- Duplicate definitions of resources -->
+    <issue id="DuplicateDefinition" severity="error"/>
+    <!-- Invalid string escapes -->
+    <issue id="StringEscaping" severity="error"/>
+    <!-- Identical bitmaps across various configurations -->
+    <issue id="IconDuplicatesConfig" severity="error"/>
+    <!-- Duplicated icons under different names -->
+    <issue id="IconDuplicates" severity="error"/>
+    <!-- Inefficient layout weight -->
+    <issue id="InefficientWeight" severity="error"/>
+    <!-- Wrong locale name -->
+    <issue id="LocaleFolder" severity="error"/>
+    <!-- Invalid Resource Folder -->
+    <issue id="InvalidResourceFolder" severity="error"/>
+    <!-- Suspicious Language/Region Combination -->
+    <issue id="WrongRegion" severity="error"/>
+    <!-- Too Long Log Tags -->
+    <issue id="LongLogTag" severity="error"/>
+    <!-- Activity registered more than once -->
+    <issue id="DuplicateActivity" severity="error"/>
+    <!-- Feature declared more than once -->
+    <issue id="DuplicateUsesFeature" severity="error"/>
+    <!-- Multiple <uses-sdk> elements in the manifest -->
+    <issue id="MultipleUsesSdk" severity="error"/>
+    <!-- Toast created but not shown -->
+    <issue id="ShowToast" severity="error"/>
+    <issue id="MissingPermission" severity="warning"/>
+    <!--  Unused resources -->
+    <issue id="UnusedResources" severity="error">
+        <ignore path="res/drawable/product_jacket_outline.xml"/>
+        <ignore path="res/drawable/product_backpack_outline.xml"/>
+        <ignore path="res/drawable/protokit_a0.xml"/>
+        <ignore path="res/drawable/protokit_b0.xml"/>
+    </issue>
+</lint>

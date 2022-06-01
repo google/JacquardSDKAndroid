@@ -1,0 +1,5 @@
+include ':app'
+include ':sdk'
+rootProject.name = "Jacquard SDK"
+project(':sdk').projectDir = new File(settingsDir, '../sdk/sdk')
+

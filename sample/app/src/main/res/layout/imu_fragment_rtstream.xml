@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2021 Google LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     https://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:animateLayoutChanges="true">
+
+  <LinearLayout
+    android:id="@+id/button_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="24dp"
+    android:paddingBottom="24dp"
+    android:orientation="vertical"
+    app:layout_constraintBottom_toBottomOf="parent">
+    <Button
+      android:id="@+id/start_imu_streaming"
+      style="@style/RedRoundButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/imu_start_stream" />
+    <Button
+      android:id="@+id/stop_imu_streaming"
+      style="@style/RedRoundButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:drawableEnd="@drawable/stop_recording_button_drawable"
+      android:text="@string/imu_stop_stream"
+      android:visibility="gone" />
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    android:weightSum="2"
+    app:layout_constraintTop_toBottomOf="@id/page_title"
+    app:layout_constraintBottom_toTopOf="@id/button_layout">
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:orientation="vertical"
+      android:layout_weight="1">
+      <TextView
+        android:id="@+id/accel_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingStart="10dp"
+        android:textAllCaps="true"
+        android:background="@color/home_tile_grey_shade_2"
+        android:text="@string/accelerometer"/>
+      <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/accel_linechart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    </LinearLayout>
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:orientation="vertical"
+      android:layout_weight="1">
+      <TextView
+        android:id="@+id/gyro_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:background="@color/home_tile_grey_shade_2"
+        android:layout_marginTop="10dp"
+        android:paddingStart="10dp"
+        android:textAllCaps="true"
+        android:text="@string/gyroscope"/>
+      <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/gyro_linechart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    </LinearLayout>
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/page_title"
+    style="@style/PageTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="46dp"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    android:text="@string/imu_rtstream_title"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="24dp"
+    android:layout_height="24dp"
+    android:layout_marginTop="22dp"
+    android:layout_marginStart="22dp"
+    android:fitsSystemWindows="true"
+    android:theme="@style/ToolbarTheme"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:navigationIcon="@drawable/ic_chevron_left_24px" />
+
+  <LinearLayout
+    android:id="@+id/progress"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/progress_overlay"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+    <ProgressBar
+      android:id="@+id/progress_bar"
+      android:layout_width="52dp"
+      android:layout_height="52dp"
+      android:layout_centerInParent="true"
+      android:indeterminate="true" />
+
+    <TextView
+      android:id="@+id/progress_message"
+      style="@style/ProgressTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="15dp"
+      android:text="@string/please_wait"
+      android:textColor="@color/white" />
+  </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
